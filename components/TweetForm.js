@@ -15,27 +15,28 @@ const InputForm = props => {
   return (
     <Formik
       initialValues={{
-        username: ''
+        url: ''
       }}
       validateOnChange={false}
       validationSchema={object().shape({
-        username: string().required('Please provide a twitter username!')
+        url: string().required('Please provide a tweet URL!')
       })}
       onSubmit={(values, { setErrors, resetForm }) => {
         setData(false)
         setLoading(true)
         setErrors({
-          username: false,
+          url: false,
           serverError: false
         })
-        let { username } = values
-        fetch(`${server}/get-tweeter-data`, {
+        let { url } = values
+        let id = url.substring(url.lastIndexOf('/') + 1)
+
+        fetch(`${server}/get-tweet-data`, {
           method: 'POST',
-          body: JSON.stringify({ username })
+          body: JSON.stringify({ id })
         })
           .then(r => r.json())
           .then(json => {
-            console.log(json)
             setData(json)
             setLoading(false)
             resetForm()
@@ -52,7 +53,7 @@ const InputForm = props => {
             })
             setLoading(false)
           })
-        const href = `/form?username=${username}`
+        const href = `/tweet?id=${id}`
         const as = href
         router.push(href, as, { shallow: true })
       }}
@@ -65,14 +66,14 @@ const InputForm = props => {
               <Input
                 style={{ boxSizing: 'border-box' }}
                 onChange={handleChange}
-                name='username'
-                value={values.username}
-                label='Please input a username'
-                error={errors.username}
+                name='url'
+                value={values.url}
+                label='Please input a Tweet URL'
+                error={errors.url}
               />
               <Box mt={1}>
-                {touched.username && (
-                  <Error>{errors.username || errors.serverError}</Error>
+                {touched.url && (
+                  <Error>{errors.url || errors.serverError}</Error>
                 )}
               </Box>
               <Box mt={3}>

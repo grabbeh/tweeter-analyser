@@ -9,22 +9,21 @@ const client = new Twitter({
 
 // rate limiter means we can only get last 3000 tweets
 const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
-const revisedDateFormat = () => 'ddd MMM DD HH:mm:ss YYYY'
 
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
   let tweets = await getSevenDaysTweets(username)
-  console.log(tweets.length)
+
   let filtered = tweets.filter(t => {
     return checkIfWithinSevenDays(t)
   })
-  console.log(filtered.length)
 
   //let latestTweet = filtered[0]
   //  let earliestTweet = filtered.pop()
   res.statusCode = 200
   res.json({
     filtered,
+    screenName: filtered[0].user.screen_name,
     averageTweetsPerDay: Math.round(filtered.length / 7),
     totalTweets: filtered.length,
     longestStreak: reducer(filtered)
@@ -72,7 +71,7 @@ const getUser = async username => {
 const sevenDaysAgo = moment(new Date(), twitterDateFormat()).subtract(7, 'days')
 
 const checkIfWithinSevenDays = tweet => {
-  return moment(new Date(tweet.created_at), revisedDateFormat()).isAfter(
+  return moment(new Date(tweet.created_at), twitterDateFormat()).isAfter(
     sevenDaysAgo
   )
 }

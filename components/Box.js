@@ -16,7 +16,7 @@ const boxShadow = props => {
       boxShadow: props.theme.boxShadows[2]
     },
     xl: {
-      boxShhadow: props.theme.boxShadows[3]
+      boxShadow: props.theme.boxShadows[3]
     }
   }
   return boxShadows[props.boxShadowSize]

@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "NODE_ENV=development next dev -p 5000",
-    "build": "next build",
-    "start": "next start -p 5000"
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start -p 5000",
+    "start-next": "NODE_ENV=production forever start ./node_modules/.bin/next start -p 5000"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -24,6 +25,7 @@
     "react-icons": "^3.7.0",
     "react-tooltip": "^3.11.1",
     "styled-system": "^5.1.2",
+    "theme-ui": "^0.3.1",
     "twitter": "^1.7.1",
     "typescript": "^3.6.3",
     "validator": "^11.1.0",

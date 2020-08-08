@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { ThemeProvider } from 'emotion-theming'
-import theme from '../components/theme'
+import theme from '../theme-ui/theme'
 
 const Layout = props => {
   return (

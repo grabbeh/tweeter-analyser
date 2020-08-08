@@ -1,3 +1,8 @@
+const Heading = {
+  fontWeight: 'bold',
+  my: 0
+}
+
 const theme = {
   breakpoints: ['32em', '48em', '64em'],
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -98,6 +103,35 @@ const theme = {
     'washed-green': '#e8fdf5',
     'washed-yellow': '#fffceb',
     'washed-red': '#ffdfdf'
+  },
+  styles: {
+    a: {
+      color: 'black',
+      '&:hover': {
+        bg: 'light-blue'
+      },
+      transition: '0.3'
+    },
+    div: {},
+    p: {
+      fontFamily: 'sansSerif',
+      fontSize: 5
+    },
+    h1: {
+      ...Heading
+    },
+    h2: {
+      ...Heading
+    },
+    h3: {
+      ...Heading
+    },
+    code: {
+      p: 3,
+      mt: 3,
+      overflowX: 'auto',
+      fontSize: 3
+    }
   }
 }
 
