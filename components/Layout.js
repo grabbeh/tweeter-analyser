@@ -9,7 +9,7 @@ const Layout = props => {
       <Helmet>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width' />
-        <title>License checker</title>
+        <title>Tweet analyser</title>
       </Helmet>
       <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
     </div>

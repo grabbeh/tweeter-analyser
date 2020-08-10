@@ -1,5 +1,6 @@
 import Twitter from 'twitter'
 import moment from 'moment'
+import _ from 'lodash'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -10,6 +11,11 @@ const client = new Twitter({
 // rate limiter means we can only get last 3000 tweets
 const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
 
+const convertToHour = twitterDate => {
+  let hour = moment(twitterDate, twitterDateFormat()).format('H')
+  return hour
+}
+
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
   let tweets = await getSevenDaysTweets(username)
@@ -18,15 +24,31 @@ export default async (req, res) => {
     return checkIfWithinSevenDays(t)
   })
 
-  //let latestTweet = filtered[0]
-  //  let earliestTweet = filtered.pop()
+  let addedHour = filtered.map(t => {
+    return { ...t, hour: convertToHour(t.created_at) }
+  })
+
+  let timeRanges = _.groupBy(addedHour, 'hour')
+
+  let hours = [...Array(Number(24))]
+  let r = hours.map((v, i) => {
+    return { time: i, value: 0 }
+  })
+
+  let response = Object.entries(timeRanges).map(([k, v]) => {
+    return { time: Number(k), value: v.length }
+  })
+
+  let chartData = r.map(obj => response.find(o => o.time === obj.time) || obj)
+
   res.statusCode = 200
   res.json({
     filtered,
     screenName: filtered[0].user.screen_name,
     averageTweetsPerDay: Math.round(filtered.length / 7),
     totalTweets: filtered.length,
-    longestStreak: reducer(filtered)
+    longestStreak: reducer(filtered),
+    chartData
   })
 }
 
@@ -79,7 +101,6 @@ const checkIfWithinSevenDays = tweet => {
 const getSevenDaysTweets = async (username, maximumId) => {
   let fragment = await getTweetsBatch(username, maximumId)
   let earliestTweet = fragment.data.pop()
-  // if (fragment.data.length > 1) {
   if (checkIfWithinSevenDays(earliestTweet)) {
     return fragment.data.concat(
       await getSevenDaysTweets(username, fragment.nextId)

@@ -7,17 +7,21 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_SECRET
 })
 
+// recursively call for retweets until has all retweets of retweets
 export default async (req, res) => {
   console.log(req.body)
   let id = JSON.parse(req.body).id
   try {
-    let data = await client.get('statuses/show', {
+    let tweet = await client.get('statuses/show', {
       id,
       count: 200
     })
+    let retweets = await client.get('statuses/retweets', {
+      id
+    })
     //  let earliestTweet = filtered.pop()
     res.statusCode = 200
-    res.json({ data })
+    res.json({ tweet, retweets })
   } catch (e) {
     console.log(e)
   }

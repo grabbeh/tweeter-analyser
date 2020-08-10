@@ -3,11 +3,12 @@ import Form from 'components/Form'
 import Layout from 'components/Layout'
 import { Grid, Box, Flex, Text, Link } from 'theme-ui'
 import { server } from '../config/index'
+import { ResponsiveBar } from '@nivo/bar'
 
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -44,6 +45,43 @@ const MainForm = props => {
                   </Text>
                 </Box>
               </Grid>
+              <Box sx={{ height: '300px' }}>
+                <ResponsiveBar
+                  enableGridY={false}
+                  colors={{ scheme: 'category10' }}
+                  data={data.chartData}
+                  indexBy='time'
+                  margin={{ top: 50, bottom: 50, left: 50 }}
+                  padding={0.3}
+                  axisTop={null}
+                  axisRight={null}
+                  axisBottom={{
+                    tickSize: 5,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                    legend: 'times (24 hour clock)',
+                    legendPosition: 'middle',
+                    legendOffset: 32
+                  }}
+                  axisLeft={{
+                    tickSize: 5,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                    legend: 'tweet volume',
+                    legendPosition: 'middle',
+                    legendOffset: -40
+                  }}
+                  labelSkipWidth={12}
+                  labelSkipHeight={12}
+                  labelTextColor={{
+                    from: 'color',
+                    modifiers: [['darker', 1.6]]
+                  }}
+                  animate
+                  motionStiffness={90}
+                  motionDamping={15}
+                />
+              </Box>
             </Box>
           )}
         </Box>

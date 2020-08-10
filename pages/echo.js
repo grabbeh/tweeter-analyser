@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Form from 'components/TweetForm'
+import Form from 'components/EchoForm'
 import Layout from 'components/Layout'
 import { Grid, Box, Flex, Text } from 'theme-ui'
 import { server } from '../config/index'
@@ -7,8 +7,8 @@ import { server } from '../config/index'
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-  let [loading, setLoading] = useState(false)
   console.log(data)
+  let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
       setData(serverData)
@@ -24,19 +24,22 @@ const MainForm = props => {
           )}
           {data && (
             <Box>
-              <Text sx={{ fontSize: 7, fontWeight: 'bold' }}>Tweet</Text>
-              <Box sx={{ bg: 'light-yellow', p: 3 }}>
-                <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
-                  {data.tweet.text}
-                </Text>
-              </Box>
-              <Grid gap={[3, 4]} sx={{ mt: 4 }} columns={[1, 2, 2]}></Grid>
-              <Box sx={{ overflow: 'scroll', mb: 5, p: 4, bg: 'light-gray' }}>
-                <pre>{JSON.stringify(data.tweet, null, 2)}</pre>
-              </Box>
-              <Box sx={{ overflow: 'scroll', p: 4, bg: 'light-gray' }}>
-                <pre>{JSON.stringify(data.retweets, null, 2)}</pre>
-              </Box>
+              <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
+                {data.username}'s timeline
+              </Text>
+              {data.tweets.map(tweet => (
+                <Box
+                  key={tweet.id}
+                  sx={{ borderRadius: 3, my: 3, p: 3, bg: 'dark-blue' }}
+                >
+                  <Text
+                    sx={{ color: 'white', fontSize: 5, fontWeight: 'bold' }}
+                  >
+                    @{tweet.user.screen_name}
+                  </Text>
+                  <Text sx={{ fontSize: 4, color: 'white' }}>{tweet.text}</Text>
+                </Box>
+              ))}
             </Box>
           )}
         </Box>
@@ -48,10 +51,10 @@ const MainForm = props => {
 export default MainForm
 
 MainForm.getInitialProps = async props => {
-  if (props.query.id) {
-    let { id } = props.query
-    const res = await fetch(`${server}/get-tweet-data`, {
-      body: JSON.stringify({ id }),
+  if (props.query.username) {
+    let { username } = props.query
+    const res = await fetch(`${server}/get-followed-view`, {
+      body: JSON.stringify({ username }),
       method: 'POST'
     })
     const data = await res.json()

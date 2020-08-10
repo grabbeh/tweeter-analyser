@@ -108,7 +108,7 @@ const theme = {
     a: {
       color: 'black',
       '&:hover': {
-        bg: 'light-blue'
+        bg: 'light-yellow'
       },
       transition: '0.3'
     },
