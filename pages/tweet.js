@@ -8,7 +8,7 @@ const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
   let [loading, setLoading] = useState(false)
-  console.log(data)
+
   useEffect(() => {
     if (serverData) {
       setData(serverData)

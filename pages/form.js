@@ -8,7 +8,7 @@ import { ResponsiveBar } from '@nivo/bar'
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-  console.log(data)
+
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -48,7 +48,7 @@ const MainForm = props => {
               <Box sx={{ height: '300px' }}>
                 <ResponsiveBar
                   enableGridY={false}
-                  colors={{ scheme: 'category10' }}
+                  colors='#357edd'
                   data={data.chartData}
                   indexBy='time'
                   margin={{ top: 50, bottom: 50, left: 50 }}
@@ -73,10 +73,7 @@ const MainForm = props => {
                   }}
                   labelSkipWidth={12}
                   labelSkipHeight={12}
-                  labelTextColor={{
-                    from: 'color',
-                    modifiers: [['darker', 1.6]]
-                  }}
+                  labelTextColor='white'
                   animate
                   motionStiffness={90}
                   motionDamping={15}

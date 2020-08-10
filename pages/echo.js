@@ -7,7 +7,7 @@ import { server } from '../config/index'
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-  console.log(data)
+
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {

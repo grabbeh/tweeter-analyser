@@ -10,7 +10,6 @@ const client = new Twitter({
 
 // recursively call for retweets until has all retweets of retweets
 export default async (req, res) => {
-  console.log(req.body)
   let username = JSON.parse(req.body).username
   try {
     /*let user = await client.get('users/show', {
