@@ -87,7 +87,7 @@ const MainForm = props => {
                   motionDamping={15}
                 />
               </Box>
-              {data.hashTags && (
+              {data.hashTags.length > 0 && (
                 <Box>
                   <Text as='p' sx={{ fontSize: 6, fontWeight: 'bold' }}>
                     Hashtags
@@ -110,29 +110,33 @@ const MainForm = props => {
                 </Box>
               )}
               <Box sx={{ my: 5 }}>
-                <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
-                  Toxic tweets
-                </Text>
-                <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
-                  {(data.toxicityPercentage.length / 100) * 100}%
-                </Text>
-                <Box>
-                  {data.filteredToxic.map(r => {
-                    return (
-                      <Box sx={{ p: 2, bg: 'red', my: 3 }}>
-                        <Text
-                          sx={{
-                            fontSize: 4,
-                            fontWeight: 'bold',
-                            color: 'white'
-                          }}
-                        >
-                          {r.text}
-                        </Text>
-                      </Box>
-                    )
-                  })}
-                </Box>
+                {data.filteredToxic.length > 0 && (
+                  <Box>
+                    <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
+                      Toxic tweets
+                    </Text>
+                    <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
+                      {(data.toxicityPercentage.length / 100) * 100}%
+                    </Text>
+                    <Box>
+                      {data.filteredToxic.map(r => {
+                        return (
+                          <Box sx={{ p: 2, bg: 'red', my: 3 }}>
+                            <Text
+                              sx={{
+                                fontSize: 4,
+                                fontWeight: 'bold',
+                                color: 'white'
+                              }}
+                            >
+                              {r.text}
+                            </Text>
+                          </Box>
+                        )
+                      })}
+                    </Box>
+                  </Box>
+                )}
               </Box>
             </Box>
           )}
