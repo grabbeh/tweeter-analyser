@@ -37,18 +37,6 @@ export default async (req, res) => {
   let baseTweets = filtered.map(f => f.text).flat()
 
   let toxicityResults = await predict(baseTweets.slice(0, 100))
-  let toxicityPercentage = toxicityResults.filter(t => t.toxicity)
-  /*let filteredToxic = _.some(
-    toxicityResults,
-    'identity_attack',
-    'insult',
-    'obscene',
-    'severe_toxicity',
-    'sexual_explicit',
-    'threat',
-    'toxicity'
-  )*/
-
   let filteredToxic = toxicityResults.filter(t => {
     return (
       t.toxicityResults ||
@@ -62,16 +50,7 @@ export default async (req, res) => {
     )
   })
 
-  /*
-  let clone = { ...t }
-    let updated = delete clone.text
-    for (var key in updated) {
-      if (t[key] === false) return false
-    }
-    return true*/
-
-  let frequency = compromise(baseTweets)
-  let hashTags = _.uniq(frequency.map(d => d.text.replace(/,\s*$/, '')))
+  let { hashTags, emojis } = compromise(baseTweets)
 
   res.statusCode = 200
   res.json({
@@ -82,9 +61,8 @@ export default async (req, res) => {
     longestStreak: reducer(filtered),
     chartData: chartData(filtered),
     hashTags,
-    toxicityResults,
-    toxicityPercentage,
-    filteredToxic
+    filteredToxic,
+    emojis
   })
 }
 
