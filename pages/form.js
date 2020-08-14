@@ -41,7 +41,7 @@ const MainForm = props => {
               </Flex>
               <Box>
                 <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Overview</Text>
-                <Grid gap={[3, 4]} sx={{ mt: 4 }} columns={[1, 2, 2]}>
+                <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
                   <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
                     <Text
                       sx={{ color: 'white', fontSize: 4, fontWeight: 'bold' }}
@@ -68,31 +68,40 @@ const MainForm = props => {
                   </Box>
                 </Grid>
               </Box>
-              <Box sx={{ p: 3, bg: 'light-gray', mt: 3, height: '800px' }}>
+              <Box
+                sx={{
+                  p: 3,
+                  borderRadius: '30px',
+                  bg: 'light-gray',
+                  mt: 3,
+                  height: '900px'
+                }}
+              >
                 <Text as='p' sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                  Times
+                  Times of the day
                 </Text>
                 <ResponsiveBar
+                  borderWidth={10}
                   enableGridY={false}
                   colors='#357edd'
                   data={data.chartData}
                   indexBy='time'
-                  margin={{ top: 20, bottom: 50, left: 50 }}
+                  margin={{ top: 20, bottom: 150, left: 50 }}
                   padding={0.3}
                   axisTop={null}
                   axisRight={null}
                   layout='horizontal'
                   axisLeft={{
                     tickSize: 5,
-                    tickPadding: 5,
+                    tickPadding: 20,
                     tickRotation: 30,
                     legend: 'times (24 hour clock)',
                     legendPosition: 'middle',
-                    legendOffset: -32
+                    legendOffset: -50
                   }}
                   axisBottom={{
                     tickSize: 5,
-                    tickPadding: 5,
+                    tickPadding: 20,
                     tickRotation: 0,
                     legend: 'tweet volume',
                     legendPosition: 'middle',
@@ -101,9 +110,6 @@ const MainForm = props => {
                   labelSkipWidth={12}
                   labelSkipHeight={12}
                   labelTextColor='white'
-                  animate
-                  motionStiffness={90}
-                  motionDamping={15}
                 />
               </Box>
               {data.hashTags.length > 0 && (
