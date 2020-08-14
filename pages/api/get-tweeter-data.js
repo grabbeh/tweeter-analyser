@@ -1,6 +1,9 @@
 import Twitter from 'twitter'
 import moment from 'moment'
 import _ from 'lodash'
+import compromise from '../../api/compromise'
+import predict from '../../api/tensorflow'
+import chartData from '../../api/chartData'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -8,13 +11,20 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_SECRET
 })
 
+const filterArray = (array, filters) => {
+  const filterKeys = Object.keys(filters)
+  return array.filter(item => {
+    // validates all filter criteria
+    return filterKeys.every(key => {
+      // ignores non-function predicates
+      if (typeof filters[key] !== 'function') return true
+      return filters[key](item[key])
+    })
+  })
+}
+
 // rate limiter means we can only get last 3000 tweets
 const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
-
-const convertToHour = twitterDate => {
-  let hour = moment(twitterDate, twitterDateFormat()).format('H')
-  return hour
-}
 
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
@@ -24,22 +34,44 @@ export default async (req, res) => {
     return checkIfWithinSevenDays(t)
   })
 
-  let addedHour = filtered.map(t => {
-    return { ...t, hour: convertToHour(t.created_at) }
+  let baseTweets = filtered.map(f => f.text).flat()
+
+  let toxicityResults = await predict(baseTweets.slice(0, 100))
+  let toxicityPercentage = toxicityResults.filter(t => t.toxicity)
+  /*let filteredToxic = _.some(
+    toxicityResults,
+    'identity_attack',
+    'insult',
+    'obscene',
+    'severe_toxicity',
+    'sexual_explicit',
+    'threat',
+    'toxicity'
+  )*/
+
+  let filteredToxic = toxicityResults.filter(t => {
+    return (
+      t.toxicityResults ||
+      t.identity_attack ||
+      t.insult ||
+      t.obscene ||
+      t.severe_toxicity ||
+      t.sexual_explicit ||
+      t.threat ||
+      t.toxicity
+    )
   })
 
-  let timeRanges = _.groupBy(addedHour, 'hour')
+  /*
+  let clone = { ...t }
+    let updated = delete clone.text
+    for (var key in updated) {
+      if (t[key] === false) return false
+    }
+    return true*/
 
-  let hours = [...Array(Number(24))]
-  let r = hours.map((v, i) => {
-    return { time: i, value: 0 }
-  })
-
-  let response = Object.entries(timeRanges).map(([k, v]) => {
-    return { time: Number(k), value: v.length }
-  })
-
-  let chartData = r.map(obj => response.find(o => o.time === obj.time) || obj)
+  let frequency = compromise(baseTweets)
+  let hashTags = _.uniq(frequency.map(d => d.text.replace(/,\s*$/, '')))
 
   res.statusCode = 200
   res.json({
@@ -48,7 +80,11 @@ export default async (req, res) => {
     averageTweetsPerDay: Math.round(filtered.length / 7),
     totalTweets: filtered.length,
     longestStreak: reducer(filtered),
-    chartData
+    chartData: chartData(filtered),
+    hashTags,
+    toxicityResults,
+    toxicityPercentage,
+    filteredToxic
   })
 }
 
