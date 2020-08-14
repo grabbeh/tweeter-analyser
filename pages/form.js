@@ -68,7 +68,7 @@ const MainForm = props => {
                   </Box>
                 </Grid>
               </Box>
-              <Box sx={{ mt: 3, height: '800px' }}>
+              <Box sx={{ p: 3, bg: 'light-gray', mt: 3, height: '800px' }}>
                 <Text as='p' sx={{ fontSize: 6, fontWeight: 'bold' }}>
                   Times
                 </Text>
