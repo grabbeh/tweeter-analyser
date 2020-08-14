@@ -81,7 +81,6 @@ const MainForm = props => {
                   Times of the day
                 </Text>
                 <ResponsiveBar
-                  borderWidth={10}
                   enableGridY={false}
                   colors='#357edd'
                   data={data.chartData}
