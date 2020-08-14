@@ -17,7 +17,7 @@ export default async (req, res) => {
     })*/
 
     let friendIds = await getAllFriends(username)
-    let response = await getFriendTweets(friendIds.slice(0, 10))
+    let response = await getFriendTweets(friendIds.slice(0, 100))
     let filtered = response.filter(result => !(result instanceof Error))
     const tweets = filtered.filter(result => !(result instanceof Array))
     // sort by date order

@@ -30,7 +30,7 @@ const MainForm = props => {
               {data.tweets.map(tweet => (
                 <Box
                   key={tweet.id}
-                  sx={{ borderRadius: 3, my: 3, p: 3, bg: 'dark-blue' }}
+                  sx={{ borderRadius: 3, my: 3, p: 3, bg: 'blue' }}
                 >
                   <Text
                     sx={{ color: 'white', fontSize: 5, fontWeight: 'bold' }}
