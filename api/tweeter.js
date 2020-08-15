@@ -1,5 +1,5 @@
 import Twitter from 'twitter'
-import moment from 'moment'
+import moment from 'dayjs'
 import predict from './tensorflow'
 import compromise from './compromise'
 import chartData from './chartData'

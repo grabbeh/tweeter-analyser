@@ -1,5 +1,4 @@
 import Twitter from 'twitter'
-import axios from 'axios'
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,

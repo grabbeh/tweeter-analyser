@@ -1,7 +1,6 @@
 import nlp from 'compromise'
 import sw from 'stopword'
-import _ from 'lodash'
-nlp.extend(require('compromise-ngrams'))
+import uniq from 'lodash/uniq'
 
 const process = words => {
   let arrayOfWords = words.join(' ').split(' ')
@@ -11,7 +10,7 @@ const process = words => {
     .hashTags()
     .json({ normal: true })
 
-  let hashTags = _.uniq(basehashTags.map(d => d.text.replace(/,\s*$/, '')))
+  let hashTags = uniq(basehashTags.map(d => d.text.replace(/,\s*$/, '')))
 
   const emojis = nlp(removed)
     .emojis()

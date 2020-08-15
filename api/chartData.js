@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import moment from 'moment'
+import moment from 'dayjs'
 
 const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
 

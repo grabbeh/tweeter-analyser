@@ -1,5 +1,5 @@
 import Twitter from 'twitter'
-import moment from 'moment'
+import moment from 'dayjs'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
