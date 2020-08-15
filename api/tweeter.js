@@ -45,7 +45,7 @@ const tweeter = async username => {
 }
 
 const filterSevenDays = tweets => {
-  tweets.filter(t => {
+  return tweets.filter(t => {
     return checkIfWithinSevenDays(t)
   })
 }
