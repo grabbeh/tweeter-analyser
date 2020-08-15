@@ -5,7 +5,7 @@ import { Grid, Box, Flex, Image, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import { ResponsiveBar } from '@nivo/bar'
-import Loading from 'components/Loading'
+import Loading from 'components/LoadingSpinner'
 
 const MainForm = props => {
   let { serverData } = props
@@ -23,9 +23,16 @@ const MainForm = props => {
         <Box sx={{ mt: 4, mx: 3, width: 600 }}>
           <Form setLoading={setLoading} setData={setData} />
           {loading && (
-            <Box sx={{ width: '100%' }}>
+            <Flex
+              sx={{
+                mt: 5,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
               <Loading />
-            </Box>
+            </Flex>
           )}
           {data && (
             <Box>
@@ -34,14 +41,16 @@ const MainForm = props => {
                   Last 7 days
                 </Text>
                 <Flex sx={{ flexWrap: 'wrap' }}>
-                  <Box sx={{ width: '50%' }}>
+                  <Box sx={{ width: ['100%', '50%'] }}>
                     <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
                       <Link href={`https://twitter.com/${data.screenName}`}>
                         @{data.screenName}
                       </Link>
                     </Text>
                   </Box>
-                  <Flex sx={{ width: '50%', justifyContent: 'flex-end' }}>
+                  <Flex
+                    sx={{ width: ['100%', '50%'], justifyContent: 'flex-end' }}
+                  >
                     <Image
                       sx={{ width: '150px', borderRadius: '999px' }}
                       src={data.filtered[0].user.profile_image_url_https}
@@ -91,7 +100,7 @@ const MainForm = props => {
                   }}
                 >
                   <Text as='p' sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                    Times of the day
+                    Hours
                   </Text>
                   <ResponsiveBar
                     enableGridY={false}
