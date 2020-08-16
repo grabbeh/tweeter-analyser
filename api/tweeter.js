@@ -70,7 +70,8 @@ const checkIfWithinSevenDays = tweet => {
 const getSevenDaysTweets = async (username, maximumId) => {
   let fragment = await getTweetsBatch(username, maximumId)
   let earliestTweet = fragment.data.pop()
-  if (checkIfWithinSevenDays(earliestTweet)) {
+  // return if error
+  if (earliestTweet && checkIfWithinSevenDays(earliestTweet)) {
     return fragment.data.concat(
       await getSevenDaysTweets(username, fragment.nextId)
     )
