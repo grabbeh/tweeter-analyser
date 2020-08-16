@@ -7,7 +7,7 @@ import { server } from 'config/index'
 import { ResponsiveBar } from '@nivo/bar'
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
-import Rating from 'components/Rating'
+import Rating from 'components/rating'
 
 const MainForm = props => {
   let { serverData } = props
