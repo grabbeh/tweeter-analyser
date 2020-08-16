@@ -1,5 +1,4 @@
 import Twitter from 'twitter'
-
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -11,10 +10,6 @@ const client = new Twitter({
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
   try {
-    /*let user = await client.get('users/show', {
-      screen_name: username
-    })*/
-
     let friendIds = await getAllFriends(username)
     let response = await getFriendTweets(friendIds.slice(0, 100))
     let filtered = response.filter(result => !(result instanceof Error))
