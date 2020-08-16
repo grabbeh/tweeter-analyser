@@ -7,11 +7,11 @@ import { server } from 'config/index'
 import { ResponsiveBar } from '@nivo/bar'
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
+import Rating from 'components/Rating'
 
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -86,11 +86,21 @@ const MainForm = props => {
                       </Text>
                     </Box>
                     <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
-                      <Text
-                        sx={{ color: 'white', fontSize: 4, fontWeight: 'bold' }}
-                      >
-                        Actions per day{' '}
-                      </Text>
+                      <Flex sx={{ flexWrap: 'wrap' }}>
+                        <Text
+                          sx={{
+                            width: '80%',
+                            color: 'white',
+                            fontSize: 4,
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          Actions per day{' '}
+                        </Text>
+                        <Flex sx={{ width: '20%', justifyContent: 'flex-end' }}>
+                          <Rating rating={data.averageTweetsPerDay} />
+                        </Flex>
+                      </Flex>
                       <Text
                         sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}
                       >
