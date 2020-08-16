@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Form from 'components/EchoForm'
 import Layout from 'components/Layout'
-import { Grid, Box, Flex, Text } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
 import { server } from '../config/index'
 
 const MainForm = props => {

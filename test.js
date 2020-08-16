@@ -1,18 +1,18 @@
-var dayjs = require('moment')
+var moment = require('moment')
 
 let now = new Date()
 let dateFormat = 'D MMMM YYYY'
-let today = dayjs(now, 'day').format(dateFormat)
-let sevenDaysAgo = dayjs(now)
+let today = moment(now, 'day').format(dateFormat)
+let sevenDaysAgo = moment(now)
   .subtract(7, 'days')
   .format(dateFormat)
 let timePeriod = `${sevenDaysAgo} - ${today}`
 console.log(timePeriod)
 
 const checkRefresh = createdAt => {
-  let dateNow = dayjs(new Date(), 'x')
-  let createdDate = dayjs(createdAt, 'x')
-  let duration = dayjs.duration(dateNow.diff(createdDate)).days()
+  let dateNow = moment(new Date(), 'x')
+  let createdDate = moment(createdAt, 'x')
+  let duration = moment.duration(dateNow.diff(createdDate)).days()
   let refreshAvailable = false
   if (duration > 1) {
     refreshAvailable = true

@@ -52,17 +52,17 @@ const filterSevenDays = tweets => {
 const timePeriod = () => {
   let now = new Date()
   let dateFormat = 'D MMMM YYYY'
-  let today = dayjs(now, 'day').format(dateFormat)
-  let sevenDaysAgo = dayjs(now)
+  let today = moment(now, 'day').format(dateFormat)
+  let sevenDaysAgo = moment(now)
     .subtract(7, 'days')
     .format(dateFormat)
   return `${sevenDaysAgo} - ${today}`
 }
 
-const sevenDaysAgo = dayjs(new Date(), twitterDateFormat()).subtract(7, 'days')
+const sevenDaysAgo = moment(new Date(), twitterDateFormat()).subtract(7, 'days')
 
 const checkIfWithinSevenDays = tweet => {
-  return dayjs(new Date(tweet.created_at), twitterDateFormat()).isAfter(
+  return moment(new Date(tweet.created_at), twitterDateFormat()).isAfter(
     sevenDaysAgo
   )
 }

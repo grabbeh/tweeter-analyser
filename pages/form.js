@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import dayjs from 'dayjs'
 import Form from 'components/Form'
 import Layout from 'components/Layout'
 import { Grid, Box, Flex, Image, Text, Link } from 'theme-ui'

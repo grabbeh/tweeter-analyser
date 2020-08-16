@@ -21,10 +21,6 @@ export default async (req, res) => {
   }
 }
 
-const empty = obj => {
-  return Object.keys(obj).length === 0 && obj.constructor === Object
-}
-
 const checkRefresh = createdAt => {
   let dateNow = moment(new Date(), 'x')
   let createdDate = moment(createdAt, 'x')
