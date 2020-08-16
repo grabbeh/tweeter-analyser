@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react'
+import dayjs from 'dayjs'
 import Form from 'components/Form'
 import Layout from 'components/Layout'
 import { Grid, Box, Flex, Image, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import { ResponsiveBar } from '@nivo/bar'
+import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
 
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
-      setData(serverData.Item)
+      setData(serverData)
     }
   })
   return (
@@ -37,30 +39,40 @@ const MainForm = props => {
           {data && (
             <Box>
               <ScrollAnimation>
-                <Text sx={{ fontSize: 7, fontWeight: 'bold' }}>
-                  Last 7 days
-                </Text>
                 <Flex sx={{ flexWrap: 'wrap' }}>
-                  <Box sx={{ width: ['100%', '50%'] }}>
-                    <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                      <Link href={`https://twitter.com/${data.screenName}`}>
-                        @{data.screenName}
-                      </Link>
-                    </Text>
-                  </Box>
-                  <Flex
-                    sx={{ width: ['100%', '50%'], justifyContent: 'flex-end' }}
-                  >
+                  <Box sx={{ mr: 3 }}>
                     <Image
-                      sx={{ width: '150px', borderRadius: '999px' }}
-                      src={data.filtered[0].user.profile_image_url_https}
+                      sx={{ width: '50px', borderRadius: '999px' }}
+                      src={data.user.profile_image_url_https}
                     />
-                  </Flex>
+                  </Box>
+                  <Text sx={{ fontSize: [3, 5], fontWeight: 'bold' }}>
+                    <Link href={`https://twitter.com/${data.screenName}`}>
+                      @{data.user.screen_name}
+                    </Link>
+                  </Text>
                 </Flex>
               </ScrollAnimation>
               <ScrollAnimation>
                 <Box>
                   <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Overview</Text>
+                  <Flex sx={{ fleWrap: 'wrap' }}>
+                    <Text sx={{ fontSize: [3, 5], fontWeight: 'bold' }}>
+                      {data.timePeriod}
+                    </Text>
+                    <Box>
+                      {data.refreshAvailable && (
+                        <Box>
+                          <RefreshForm
+                            setLoading={setLoading}
+                            setData={setData}
+                            username={data.user.screen_name}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  </Flex>
+
                   <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
                     <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
                       <Text

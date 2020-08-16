@@ -1,4 +1,5 @@
 var AWS = require('aws-sdk')
+
 AWS.config.update({
   region: 'eu-west-1',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -27,13 +28,13 @@ const findItem = async id => {
   }
 }
 
-// async await needed
 const addItem = async (id, content) => {
   var params = {
     TableName: 'TWEETERS',
     Item: {
       PK: id,
-      ...content
+      ...content,
+      createdAt: Date.now()
     }
   }
 

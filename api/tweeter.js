@@ -1,5 +1,5 @@
 import Twitter from 'twitter'
-import moment from 'dayjs'
+import moment from 'moment'
 import predict from './tensorflow'
 import compromise from './compromise'
 import chartData from './chartData'
@@ -33,14 +33,13 @@ const tweeter = async username => {
   let { hashTags, emojis } = compromise(baseTweets)
 
   return {
-    filtered,
-    screenName: filtered[0].user.screen_name,
     averageTweetsPerDay: Math.round(filtered.length / 7),
     totalTweets: filtered.length,
     chartData: chartData(filtered),
     hashTags,
     filteredToxic,
-    emojis
+    emojis,
+    timePeriod: timePeriod()
   }
 }
 
@@ -50,10 +49,20 @@ const filterSevenDays = tweets => {
   })
 }
 
-const sevenDaysAgo = moment(new Date(), twitterDateFormat()).subtract(7, 'days')
+const timePeriod = () => {
+  let now = new Date()
+  let dateFormat = 'D MMMM YYYY'
+  let today = dayjs(now, 'day').format(dateFormat)
+  let sevenDaysAgo = dayjs(now)
+    .subtract(7, 'days')
+    .format(dateFormat)
+  return `${sevenDaysAgo} - ${today}`
+}
+
+const sevenDaysAgo = dayjs(new Date(), twitterDateFormat()).subtract(7, 'days')
 
 const checkIfWithinSevenDays = tweet => {
-  return moment(new Date(tweet.created_at), twitterDateFormat()).isAfter(
+  return dayjs(new Date(tweet.created_at), twitterDateFormat()).isAfter(
     sevenDaysAgo
   )
 }

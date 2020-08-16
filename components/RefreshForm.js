@@ -1,41 +1,31 @@
 import React from 'react'
+
 import { Formik, Form } from 'formik'
-import { string, object } from 'yup'
-import { useRouter } from 'next/router'
-import { Box, Flex } from 'theme-ui'
-import Input from './Input'
-import Button from './Button'
+import { Box, Flex, Button, Text } from 'theme-ui'
 import Error from './Error'
+import { MdRefresh } from 'react-icons/md'
 import { server } from '../config/index'
 
 const InputForm = props => {
-  const { setLoading, setData } = props
-  const router = useRouter()
+  const { setLoading, setData, username } = props
   return (
     <Formik
       initialValues={{
         username: ''
       }}
-      validateOnChange={false}
-      validationSchema={object().shape({
-        username: string().required('Please provide a twitter username!')
-      })}
       onSubmit={(values, { setErrors, resetForm }) => {
         setData(false)
         setLoading(true)
         setErrors({
-          username: false,
           serverError: false
         })
-        let { username } = values
-        fetch(`${server}/get-tweeter-data`, {
+        fetch(`${server}/refresh-tweeter`, {
           method: 'POST',
           body: JSON.stringify({ username })
         })
           .then(r => r.json())
           .then(json => {
             setData(json)
-            console.log(json)
             setLoading(false)
             resetForm()
           })
@@ -46,38 +36,30 @@ const InputForm = props => {
               error = err.response.data
             }
             setErrors({
-              // serverError: 'Server error'
               serverError: error
             })
             setLoading(false)
           })
-        const href = `/form?username=${username}`
-        const as = href
-        router.push(href, as, { shallow: true })
       }}
     >
       {props => {
-        const { values, errors, touched, isSubmitting, handleChange } = props
+        const { errors, touched, isSubmitting } = props
         return (
           <Box sx={{ mt: 2 }}>
             <Form>
-              <Input
-                style={{ boxSizing: 'border-box' }}
-                onChange={handleChange}
-                name='username'
-                value={values.username}
-                label='Please input a username'
-                error={errors.username}
-              />
               <Box sx={{ mt: 1 }}>
-                {touched.username && (
-                  <Error>{errors.username || errors.serverError}</Error>
-                )}
+                {touched.username && <Error>{errors.serverError}</Error>}
               </Box>
               <Box sx={{ mt: 3 }}>
-                <Flex sx={{ justifyContent: 'flex-end' }}>
-                  <Button disabled={isSubmitting} type='submit'>
-                    Submit
+                <Flex justifyContent='flex-end'>
+                  <Button
+                    sx={{ p: 0, bg: 'white', color: 'black' }}
+                    disabled={isSubmitting}
+                    type='submit'
+                  >
+                    <Text sx={{ fontWeight: 'bold', fontSize: 5 }}>
+                      <MdRefresh />
+                    </Text>
                   </Button>
                 </Flex>
               </Box>
