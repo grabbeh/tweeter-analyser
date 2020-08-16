@@ -84,4 +84,10 @@ const getTweetsBatch = async (username, maximumId) => {
   }
 }
 
-export { tweeter, getSevenDaysTweets, filterSevenDays }
+const getUser = username => {
+  return client.get('users/show', {
+    screen_name: username
+  })
+}
+
+export { tweeter, getSevenDaysTweets, filterSevenDays, getUser }

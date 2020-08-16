@@ -14,6 +14,7 @@ const chartData = tweets => {
   })
   let timeRanges = _.groupBy(hour, 'hour')
   let hours = [...Array(Number(24))]
+  // empty object to fill with relevant results
   let r = hours.map((v, i) => {
     return { time: i, value: 0 }
   })
@@ -21,7 +22,7 @@ const chartData = tweets => {
   let response = Object.entries(timeRanges).map(([k, v]) => {
     return { time: Number(k), value: v.length }
   })
-
+  // replace empty objects with entries where applicable
   return r.map(obj => response.find(o => o.time === obj.time) || obj)
 }
 

@@ -14,7 +14,7 @@ const MainForm = props => {
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
-      setData(serverData)
+      setData(serverData.Item)
     }
   })
   return (
