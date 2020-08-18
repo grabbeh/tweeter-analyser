@@ -42,12 +42,12 @@ const MainForm = props => {
                   <Box sx={{ mr: 3 }}>
                     <Image
                       sx={{ width: '50px', borderRadius: '999px' }}
-                      src={data.user.profile_image_url_https}
+                      src={data.profile_image_url_https}
                     />
                   </Box>
                   <Text sx={{ fontSize: [3, 5], fontWeight: 'bold' }}>
                     <Link href={`https://twitter.com/${data.screenName}`}>
-                      @{data.user.screen_name}
+                      @{data.screen_name}
                     </Link>
                   </Text>
                 </Flex>
@@ -65,7 +65,7 @@ const MainForm = props => {
                           <RefreshForm
                             setLoading={setLoading}
                             setData={setData}
-                            username={data.user.screen_name}
+                            username={data.screen_name}
                           />
                         </Box>
                       )}

@@ -17,7 +17,12 @@ const process = words => {
     .json({ normal: true })
     .map(d => d.text)
 
-  return { hashTags, emojis }
+  const topics = nlp(removed)
+    .topics()
+    .json({ normal: true })
+    .map(d => d.text)
+
+  return { hashTags, emojis, topics }
 }
 
 export default process

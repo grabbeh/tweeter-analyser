@@ -9,24 +9,25 @@ export default async (req, res) => {
   let existingResults = await findItem(user.id)
   if (existingResults && existingResults.body !== '{}') {
     let o = JSON.parse(existingResults.body)
-    let refreshAvailable = checkRefresh(o.createdAt)
+    let refreshAvailable = checkRefresh(o.Item.createdAt)
     res.statusCode = 200
-    res.json({ ...o.Item, user, refreshAvailable })
+    res.json({ ...o.Item, refreshAvailable })
   } else {
     let results = await tweeter(username)
-    let response = await addItem(user.id, results)
+    let save = { ...results, ...user }
+    let response = await addItem(user.id, save)
     // console.log(response)
     res.statusCode = 200
-    res.json({ ...results, user })
+    res.json({ ...results, ...user })
   }
 }
 
 const checkRefresh = createdAt => {
   let dateNow = moment(new Date(), 'x')
   let createdDate = moment(createdAt, 'x')
-  let duration = moment.duration(dateNow.diff(createdDate)).days()
+  let duration = moment.duration(dateNow.diff(createdDate)).hours()
   let refreshAvailable = false
-  if (duration > 1) {
+  if (duration > 12) {
     refreshAvailable = true
   }
   return refreshAvailable

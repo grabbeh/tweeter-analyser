@@ -49,4 +49,19 @@ const addItem = async (id, content) => {
   }
 }
 
-export { addItem, findItem }
+const mostActive = async () => {
+  var params = {
+    TableName: 'TWEETERS'
+  }
+  try {
+    let data = await docClient.scan(params).promise()
+    return { statusCode: 200, body: JSON.stringify(data) }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      error: `Could not fetch: ${error.stack}`
+    }
+  }
+}
+
+export { addItem, findItem, mostActive }

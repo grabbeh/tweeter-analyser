@@ -30,7 +30,7 @@ const tweeter = async username => {
     )
   })
 
-  let { hashTags, emojis } = compromise(baseTweets)
+  let { hashTags, emojis, topics } = compromise(baseTweets)
 
   return {
     averageTweetsPerDay: Math.round(filtered.length / 7),
@@ -39,6 +39,7 @@ const tweeter = async username => {
     hashTags,
     filteredToxic,
     emojis,
+    topics,
     timePeriod: timePeriod()
   }
 }
