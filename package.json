@@ -22,6 +22,7 @@
     "aws-sdk": "^2.734.0",
     "axios": "^0.19.2",
     "compromise": "^13.3.2",
+    "compromise-ngrams": "0.0.5",
     "dayjs": "^1.8.33",
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",

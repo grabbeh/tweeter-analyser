@@ -1,8 +1,8 @@
-import React from 'react'
+/** @jsx jsx */
 import { Formik, Form } from 'formik'
 import { string, object } from 'yup'
 import { useRouter } from 'next/router'
-import { Box, Flex } from 'theme-ui'
+import { jsx, Box, Flex } from 'theme-ui'
 import Input from './Input'
 import Button from './Button'
 import Error from './Error'

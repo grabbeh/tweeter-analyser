@@ -16,7 +16,6 @@ export default async (req, res) => {
       let results = await tweeter(username)
       let save = { ...results, ...user }
       await addItem(user.id, save)
-      // console.log(response)
       res.statusCode = 200
       res.json({ ...results, ...user })
     }

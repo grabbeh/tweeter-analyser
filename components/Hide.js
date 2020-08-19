@@ -18,7 +18,6 @@ const Hide = props => {
 
 const HideStyled = styled.div`
   ${props =>
-    props.hide === 'ISC' &&
     css`
       visibility: hidden;
     `};

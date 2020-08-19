@@ -1,9 +1,8 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx, Box, Flex } from 'theme-ui'
 import { Formik, Form } from 'formik'
 import { string, object } from 'yup'
 import { useRouter } from 'next/router'
-import Box from './Box'
-import Flex from './Flex'
 import Input from './Input'
 import Button from './Button'
 import Error from './Error'
@@ -60,7 +59,7 @@ const InputForm = props => {
       {props => {
         const { values, errors, touched, isSubmitting, handleChange } = props
         return (
-          <Box mt={2}>
+          <Box sx={{ mt: 2 }}>
             <Form>
               <Input
                 style={{ boxSizing: 'border-box' }}
@@ -70,13 +69,13 @@ const InputForm = props => {
                 label='Please input a username'
                 error={errors.username}
               />
-              <Box mt={1}>
+              <Box sx={{ mt: 1 }}>
                 {touched.username && (
                   <Error>{errors.username || errors.serverError}</Error>
                 )}
               </Box>
-              <Box mt={3}>
-                <Flex justifyContent='flex-end'>
+              <Box sx={{ mt: 3 }}>
+                <Flex sx={{ justifyContent: 'flex-end' }}>
                   <Button disabled={isSubmitting} type='submit'>
                     Submit
                   </Button>

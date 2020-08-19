@@ -15,6 +15,9 @@ const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
 const tweeter = async username => {
   try {
     let tweets = await getSevenDaysTweets(username)
+    if (!tweets.length > 0 || !tweets) {
+      throw new Error('No tweets in the last 7 days')
+    }
     let filtered = filterSevenDays(tweets)
     let baseTweets = filtered.map(f => f.text).flat()
     let toxicityResults = await predict(baseTweets.slice(0, 100))
@@ -76,10 +79,6 @@ const getSevenDaysTweets = async (username, maximumId) => {
   try {
     let fragment = await getTweetsBatch(username, maximumId)
     let earliestTweet = fragment.data.pop()
-    if (!fragment.length > 0 || !fragment) {
-      throw new Error('No tweets in the last 7 days')
-    }
-
     if (earliestTweet && checkIfWithinSevenDays(earliestTweet)) {
       return fragment.data.concat(
         await getSevenDaysTweets(username, fragment.nextId)

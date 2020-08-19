@@ -1,24 +1,26 @@
+/** @jsx jsx */
 import { useState, useEffect } from 'react'
 import Form from 'components/Form'
 import Layout from 'components/Layout'
-import { Grid, Box, Flex, Image, Text, Link } from 'theme-ui'
+import { jsx, Box, Flex, Image, Text, Link } from 'theme-ui'
+import Toggle from 'components/toggle'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import { ResponsiveBar } from '@nivo/bar'
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
-import Rating from 'components/rating'
+import Summary from 'components/tweeter/summary'
+import Toxic from 'components/tweeter/toxic'
+import Emojis from 'components/tweeter/emojis'
+import Topics from 'components/tweeter/topics'
+import Hashtags from 'components/tweeter/hashtags'
 
 const theme = {
   axis: {
-    textColor: '#eee',
-    fontSize: '14px',
-    fontFamily: 'Segoe UI',
-    tickColor: '#eee'
-  },
-  grid: {
-    stroke: '#888',
-    strokeWidth: 1
+    textColor: 'red',
+    fontSize: '30px',
+    fontFamily: 'Georgia',
+    tickColor: 'red'
   }
 }
 const MainForm = props => {
@@ -33,7 +35,7 @@ const MainForm = props => {
   return (
     <Layout>
       <Flex sx={{ justifyContent: 'center' }}>
-        <Box sx={{ mt: 4, mx: 3, width: 600 }}>
+        <Box sx={{ my: 4, mx: 3, width: 600 }}>
           <Form setLoading={setLoading} setData={setData} />
           {loading && (
             <Flex
@@ -83,43 +85,10 @@ const MainForm = props => {
                       )}
                     </Box>
                   </Flex>
-
-                  <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
-                    <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
-                      <Text
-                        sx={{ color: 'white', fontSize: 4, fontWeight: 'bold' }}
-                      >
-                        Total tweets, likes, retweets
-                      </Text>
-                      <Text
-                        sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}
-                      >
-                        {data.totalTweets}
-                      </Text>
-                    </Box>
-                    <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
-                      <Flex sx={{ flexWrap: 'wrap' }}>
-                        <Text
-                          sx={{
-                            width: '80%',
-                            color: 'white',
-                            fontSize: 4,
-                            fontWeight: 'bold'
-                          }}
-                        >
-                          Actions per day{' '}
-                        </Text>
-                        <Flex sx={{ width: '20%', justifyContent: 'flex-end' }}>
-                          <Rating rating={data.averageTweetsPerDay} />
-                        </Flex>
-                      </Flex>
-                      <Text
-                        sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}
-                      >
-                        {data.averageTweetsPerDay}
-                      </Text>
-                    </Box>
-                  </Grid>
+                  <Summary
+                    averageTweetsPerDay={data.averageTweetsPerDay}
+                    totalTweets={data.totalTweets}
+                  />
                 </Box>
               </ScrollAnimation>
               <ScrollAnimation>
@@ -132,9 +101,7 @@ const MainForm = props => {
                     height: '900px'
                   }}
                 >
-                  <Text as='p' sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                    Hours
-                  </Text>
+                  <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Hours</Text>
                   <ResponsiveBar
                     theme={theme}
                     enableGridY={false}
@@ -168,112 +135,10 @@ const MainForm = props => {
                   />
                 </Box>
               </ScrollAnimation>
-              <ScrollAnimation>
-                {data.hashTags.length > 0 && (
-                  <Box
-                    sx={{
-                      mt: 4,
-                      borderRadius: '20px',
-                      bg: 'light-green',
-                      p: 3
-                    }}
-                  >
-                    <Text as='p' sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                      Hashtags
-                    </Text>
-                    <Flex sx={{ flexWrap: 'wrap' }}>
-                      {data.hashTags.map(f => (
-                        <Box
-                          sx={{
-                            borderRadius: '10px',
-                            p: 2,
-                            mr: 3,
-                            my: 2,
-                            bg: 'green'
-                          }}
-                        >
-                          <Text
-                            sx={{
-                              fontSize: 4,
-                              color: 'white',
-                              fontWeight: 'bold'
-                            }}
-                          >
-                            {f}
-                          </Text>
-                        </Box>
-                      ))}
-                    </Flex>
-                  </Box>
-                )}
-              </ScrollAnimation>
-              <ScrollAnimation>
-                <Box sx={{ mt: 4 }}>
-                  {data.filteredToxic.length > 0 && (
-                    <Box sx={{ borderRadius: '20px', bg: 'light-red', p: 3 }}>
-                      <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                        Toxic tweets -{' '}
-                        {Math.round((data.filteredToxic.length / 100) * 100)}%
-                      </Text>
-
-                      <Box>
-                        {data.filteredToxic.map(r => {
-                          return (
-                            <Box
-                              sx={{
-                                borderRadius: '10px',
-                                p: 2,
-                                bg: 'red',
-                                my: 3
-                              }}
-                            >
-                              <Text
-                                sx={{
-                                  fontSize: 4,
-                                  fontWeight: 'bold',
-                                  color: 'white'
-                                }}
-                              >
-                                {r.text}
-                              </Text>
-                            </Box>
-                          )
-                        })}
-                      </Box>
-                    </Box>
-                  )}
-                </Box>
-              </ScrollAnimation>
-              <ScrollAnimation>
-                <Box sx={{ my: 4 }}>
-                  {data.emojis.length > 0 && (
-                    <Box
-                      sx={{ borderRadius: '20px', bg: 'light-yellow', p: 3 }}
-                    >
-                      <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
-                        Emojis
-                      </Text>
-
-                      <Flex sx={{ flexWrap: 'wrap' }}>
-                        {data.emojis.map(emoji => {
-                          return (
-                            <Box>
-                              <Text
-                                sx={{
-                                  fontSize: 4,
-                                  fontWeight: 'bold'
-                                }}
-                              >
-                                {emoji}
-                              </Text>
-                            </Box>
-                          )
-                        })}
-                      </Flex>
-                    </Box>
-                  )}
-                </Box>
-              </ScrollAnimation>
+              <Hashtags hashTags={data.hashTags} />
+              <Toxic toxic={data.filteredToxic} />
+              <Emojis emojis={data.emojis} />
+              <Topics topics={data.topics} />
             </Box>
           )}
         </Box>
