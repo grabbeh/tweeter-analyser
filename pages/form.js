@@ -60,7 +60,7 @@ const MainForm = props => {
                     />
                   </Box>
                   <Text sx={{ fontSize: [3, 5], fontWeight: 'bold' }}>
-                    <Link href={`https://twitter.com/${data.screenName}`}>
+                    <Link href={`https://twitter.com/${data.screen_name}`}>
                       @{data.screen_name}
                     </Link>
                   </Text>

@@ -107,9 +107,6 @@ const theme = {
   styles: {
     a: {
       color: 'black',
-      '&:hover': {
-        bg: 'light-yellow'
-      },
       transition: '0.3'
     },
     div: {},
