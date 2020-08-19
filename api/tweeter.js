@@ -13,34 +13,38 @@ const client = new Twitter({
 const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
 
 const tweeter = async username => {
-  let tweets = await getSevenDaysTweets(username)
-  let filtered = filterSevenDays(tweets)
-  let baseTweets = filtered.map(f => f.text).flat()
-  let toxicityResults = await predict(baseTweets.slice(0, 100))
-  let filteredToxic = toxicityResults.filter(t => {
-    return (
-      t.toxicityResults ||
-      t.identity_attack ||
-      t.insult ||
-      t.obscene ||
-      t.severe_toxicity ||
-      t.sexual_explicit ||
-      t.threat ||
-      t.toxicity
-    )
-  })
+  try {
+    let tweets = await getSevenDaysTweets(username)
+    let filtered = filterSevenDays(tweets)
+    let baseTweets = filtered.map(f => f.text).flat()
+    let toxicityResults = await predict(baseTweets.slice(0, 100))
+    let filteredToxic = toxicityResults.filter(t => {
+      return (
+        t.toxicityResults ||
+        t.identity_attack ||
+        t.insult ||
+        t.obscene ||
+        t.severe_toxicity ||
+        t.sexual_explicit ||
+        t.threat ||
+        t.toxicity
+      )
+    })
 
-  let { hashTags, emojis, topics } = compromise(baseTweets)
+    let { hashTags, emojis, topics } = compromise(baseTweets)
 
-  return {
-    averageTweetsPerDay: Math.round(filtered.length / 7),
-    totalTweets: filtered.length,
-    chartData: chartData(filtered),
-    hashTags,
-    filteredToxic,
-    emojis,
-    topics,
-    timePeriod: timePeriod()
+    return {
+      averageTweetsPerDay: Math.round(filtered.length / 7),
+      totalTweets: filtered.length,
+      chartData: chartData(filtered),
+      hashTags,
+      filteredToxic,
+      emojis,
+      topics,
+      timePeriod: timePeriod()
+    }
+  } catch (e) {
+    throw e
   }
 }
 
@@ -69,15 +73,22 @@ const checkIfWithinSevenDays = tweet => {
 }
 
 const getSevenDaysTweets = async (username, maximumId) => {
-  let fragment = await getTweetsBatch(username, maximumId)
-  let earliestTweet = fragment.data.pop()
-  // return if error
-  if (earliestTweet && checkIfWithinSevenDays(earliestTweet)) {
-    return fragment.data.concat(
-      await getSevenDaysTweets(username, fragment.nextId)
-    )
-  } else {
-    return fragment.data
+  try {
+    let fragment = await getTweetsBatch(username, maximumId)
+    let earliestTweet = fragment.data.pop()
+    if (!fragment.length > 0 || !fragment) {
+      throw new Error('No tweets in the last 7 days')
+    }
+
+    if (earliestTweet && checkIfWithinSevenDays(earliestTweet)) {
+      return fragment.data.concat(
+        await getSevenDaysTweets(username, fragment.nextId)
+      )
+    } else {
+      return fragment.data
+    }
+  } catch (e) {
+    throw e
   }
 }
 
@@ -91,7 +102,7 @@ const getTweetsBatch = async (username, maximumId) => {
     let nextId = data.pop().id
     return { data, nextId }
   } catch (e) {
-    console.log(e)
+    throw new Error(e)
   }
 }
 

@@ -32,25 +32,35 @@ const InputForm = props => {
           method: 'POST',
           body: JSON.stringify({ username })
         })
-          .then(r => r.json())
-          .then(json => {
-            setData(json)
-            console.log(json)
-            setLoading(false)
-            resetForm()
-          })
-          .catch(err => {
-            let error = 'Server error'
-            if (!err.response) error = 'Server timeout'
-            if (err.response && typeof err.response.data === 'string') {
-              error = err.response.data
+          .then(response => {
+            if (response.status === 200) {
+              return Promise.resolve(response.json()) // This will end up in SUCCESS part
             }
-            setErrors({
-              // serverError: 'Server error'
-              serverError: error
+            return Promise.resolve(response.json()).then(responseInJson => {
+              return Promise.reject(responseInJson.errorMessage) //  responseInJson.message = "Some nasty error message!"
             })
+          })
+          .then(
+            result => {
+              setData(result)
+              setLoading(false)
+              resetForm()
+            },
+            error => {
+              setErrors({
+                serverError: error
+              })
+            }
+          )
+          .catch(catchError => {
+            setErrors({
+              serverError: catchError
+            })
+          })
+          .finally(() => {
             setLoading(false)
           })
+
         const href = `/form?username=${username}`
         const as = href
         router.push(href, as, { shallow: true })
@@ -90,3 +100,10 @@ const InputForm = props => {
 }
 
 export default InputForm
+
+const handleErrors = response => {
+  if (!response.ok) {
+    throw response
+  }
+  return response
+}

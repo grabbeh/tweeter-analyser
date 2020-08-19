@@ -9,6 +9,18 @@ import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
 import Rating from 'components/rating'
 
+const theme = {
+  axis: {
+    textColor: '#eee',
+    fontSize: '14px',
+    fontFamily: 'Segoe UI',
+    tickColor: '#eee'
+  },
+  grid: {
+    stroke: '#888',
+    strokeWidth: 1
+  }
+}
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
@@ -124,6 +136,7 @@ const MainForm = props => {
                     Hours
                   </Text>
                   <ResponsiveBar
+                    theme={theme}
                     enableGridY={false}
                     colors='#357edd'
                     data={data.chartData}

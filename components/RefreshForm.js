@@ -26,6 +26,7 @@ const InputForm = props => {
           .then(r => r.json())
           .then(json => {
             setData(json)
+            console.log(json)
             setLoading(false)
             resetForm()
           })
