@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, Box, Flex, Grid, Text } from 'theme-ui'
-import Rating from '../Rating'
+import Rating from '../rating'
 
 const Summary = ({ totalTweets, averageTweetsPerDay }) => (
   <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
