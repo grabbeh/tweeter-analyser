@@ -107,6 +107,10 @@ const theme = {
   styles: {
     a: {
       color: 'black',
+      cursor: 'pointer',
+      '&:hover': {
+        textDecoration: 'underline'
+      },
       transition: '0.3'
     },
     div: {},

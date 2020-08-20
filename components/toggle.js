@@ -10,6 +10,7 @@ const Toggle = ({ title, children }) => {
   return (
     <Box>
       <Flex
+        sx={{ cursor: 'pointer' }}
         onClick={() => {
           setHide(!hide)
         }}

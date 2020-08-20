@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Image, Text, Link } from 'theme-ui'
+import { jsx, Box, Flex, Image, Text, Link as ThemeLink } from 'theme-ui'
+import Link from 'components/Link'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 
@@ -12,9 +13,8 @@ const Active = props => {
           <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
             Most active tweeters
           </Text>
-
           {props.data.active.map((account, i) => (
-            <ScrollAnimation>
+            <ScrollAnimation key={i}>
               <Box sx={{ my: 3, borderRadius: '20px', p: 3, bg: 'blue' }}>
                 <Flex sx={{ flexWrap: 'wrap' }}>
                   <Box sx={{ mr: 3 }}>
@@ -30,11 +30,8 @@ const Active = props => {
                       fontWeight: 'bold'
                     }}
                   >
-                    <Link
-                      sx={{ color: 'white' }}
-                      href={`https://twitter.com/${account.screen_name}`}
-                    >
-                      @{account.screen_name}
+                    <Link href={`/form?username=${account.screen_name}`}>
+                      <ThemeLink>@{account.screen_name}</ThemeLink>
                     </Link>
                   </Text>
                 </Flex>

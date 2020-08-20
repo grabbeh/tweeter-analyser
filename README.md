@@ -1,14 +1,19 @@
-This is a project to help people analyse people's tweets
+## Tweeter analyser
+
+This is a project to help people analyse people's tweets. It is built using Next.js, Twitter's API, and DynamoDB. It does some basic analysis of tweets to discover common themes, including using NLP and a pre-trained model to detect toxicity in tweets.
 
 ## Getting Started
 
 Make a copy of the code on your computer
+
 `git clone https://github.com/grabbeh/tweeter-analyser`
 
 Change to the directory
+
 `cd tweeter-analyser`
 
 Install all the third party dependencies
+
 `npm install`
 
 Add Twitter API credentials and DynamoDB credentials in .env matching the following format:
@@ -29,6 +34,22 @@ Open [http://localhost:5000](http://localhost:5000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
+## To do
+
+- Fix issue where if 500 error returned, user has to manually refresh page to submit another username
+- Create a homepage
+- Understand how sort keys work in DynamoDB for more efficient sorting to access most active tweeters
+- Get Twitter bot working
+  - work out how to get import/export working in Node to avoid using Babel
+
+## Structure
+
+- Pages accessible to users are in `/pages`.
+- The same folder has a sub-folder `/api`. This contains API routes used to get data for the pages
+- The `/components` folder has the building blocks for pages
+- The root `/api` folder has files that the above `/api` subfolder uses to get content
+- The `/bot` folder has the Twitterbot content
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -36,7 +57,7 @@ To learn more about Next.js, take a look at the following resources:
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
+You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/).
 
 ### Deployments
 
@@ -44,6 +65,6 @@ Make a production build (optimized for speed etc)
 
 `npm run build`
 
-Start the production server - it uses `Forever` to main uptime in a rudimentary way
+Start the production server - it uses `Forever` to main uptime in a rudimentary wa
 
 `npm run start-next`
