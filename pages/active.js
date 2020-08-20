@@ -3,7 +3,6 @@ import Layout from 'components/Layout'
 import { jsx, Box, Flex, Image, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
-import Loading from 'components/LoadingSpinner'
 
 const Active = props => {
   return (
