@@ -58,6 +58,11 @@ const Active = props => {
                     per day
                   </Text>
                 </Box>
+                <Box>
+                  <Text sx={{ color: 'white', fontSize: 3 }}>
+                    {account.timePeriod}
+                  </Text>
+                </Box>
               </Box>
             </ScrollAnimation>
           ))}
