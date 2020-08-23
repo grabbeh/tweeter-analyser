@@ -8,7 +8,6 @@ export default async (req, res) => {
     let user = await getUser(username)
     let existingResults = await findItem(user.id)
     let o = JSON.parse(existingResults.body)
-
     if (o && o.Items.length > 0) {
       const item = o.Items[0]
       const refreshAvailable = checkRefresh(item.SUMMARY_CREATED_AT)

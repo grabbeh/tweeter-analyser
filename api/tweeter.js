@@ -121,7 +121,7 @@ const calculateAverage = tweets => {
   let oldestTweet = tweets.pop()
   let difference = calculateDuration(oldestTweet, latestTweet)
   let average = Math.round(tweets.length / difference)
-  let limitExceeded = !!difference < 7
+  let limitExceeded = !!difference < 7 && !!tweets.length > 3000
   return { average, limitExceeded }
 }
 

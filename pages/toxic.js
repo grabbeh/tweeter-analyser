@@ -5,15 +5,15 @@ import Link from 'components/Link'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 
-const Active = ({ data }) => {
+const Toxic = ({ data }) => {
   return (
     <Layout>
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ mt: 4, mx: 3, width: 600 }}>
           <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
-            Most active tweeters
+            Most toxic tweeters
           </Text>
-          {data.active.map((account, i) => (
+          {data.toxic.map((account, i) => (
             <ScrollAnimation key={i}>
               <Box sx={{ my: 3, borderRadius: '20px', p: 3, bg: 'blue' }}>
                 <Flex sx={{ flexWrap: 'wrap' }}>
@@ -44,18 +44,7 @@ const Active = ({ data }) => {
                       color: 'white'
                     }}
                   >
-                    {account.activeTweeterCount}
-                  </Text>
-                  <Text
-                    sx={{
-                      ml: 2,
-                      fontSize: 5,
-                      color: 'white',
-                      fontWeight: 'bold'
-                    }}
-                    as='span'
-                  >
-                    per day
+                    {account.toxicTweeterCount}%
                   </Text>
                 </Box>
                 <Box>
@@ -72,10 +61,10 @@ const Active = ({ data }) => {
   )
 }
 
-export default Active
+export default Toxic
 
-Active.getInitialProps = async props => {
-  const res = await fetch(`${server}/get-most-active`)
+Toxic.getInitialProps = async props => {
+  const res = await fetch(`${server}/get-most-toxic`)
   const data = await res.json()
   return { data }
 }

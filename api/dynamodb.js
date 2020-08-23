@@ -36,15 +36,17 @@ const findItem = async id => {
 const addItem = async (id, content) => {
   let dbContent = { ...content }
   // TODO: improve conditional keys
+  // Conditional data attributes to power secondary indexes
+  if (content.toxicPercentage > 2) {
+    dbContent = { ...dbContent, toxicTweeterCount: content.toxicPercentage }
+  }
   if (content.averageTweetsPerDay >= 100) {
     dbContent = {
       ...dbContent,
       activeTweeterCount: content.averageTweetsPerDay
     }
   }
-  if (content.toxicityPercentage >= 5) {
-    dbContent = { ...dbContent, toxicTweeterCount: content.toxicityPercentage }
-  }
+
   var params = {
     TableName: 'TWEETERSv2',
     Item: {
@@ -104,6 +106,22 @@ const mostActive = async () => {
   }
 }
 
-export { addItem, findItem, mostActive }
+const mostToxic = async () => {
+  var params = {
+    IndexName: 'ToxicityPercentageIndex',
+    TableName: 'TWEETERSv2'
+  }
+  try {
+    let data = await docClient.scan(params).promise()
+    return { statusCode: 200, body: JSON.stringify(data) }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      error: `Could not fetch: ${error.stack}`
+    }
+  }
+}
+
+export { addItem, findItem, mostActive, mostToxic }
 
 // create local secondary index where value of tweets per day is key? Or only put items in with average > 100 and then query all items?
