@@ -21,7 +21,7 @@ const InputForm = props => {
         username: string().required('Please provide a twitter username!')
       })}
       onSubmit={(values, { setErrors, resetForm }) => {
-        setData(false)
+        setData(null)
         setLoading(true)
         setErrors({
           username: false,

@@ -7,11 +7,13 @@ export default async (req, res) => {
   try {
     let user = await getUser(username)
     let existingResults = await findItem(user.id)
-    if (existingResults && existingResults.body !== '{}') {
-      let o = JSON.parse(existingResults.body)
-      let refreshAvailable = checkRefresh(o.Item.createdAt)
+    let o = JSON.parse(existingResults.body)
+
+    if (o && o.Items.length > 0) {
+      const item = o.Items[0]
+      const refreshAvailable = checkRefresh(item.SUMMARY_CREATED_AT)
       res.statusCode = 200
-      res.json({ ...o.Item, refreshAvailable })
+      res.json({ ...item, refreshAvailable })
     } else {
       let results = await tweeter(username)
       let save = { ...results, ...user }
@@ -21,7 +23,6 @@ export default async (req, res) => {
     }
   } catch (e) {
     let error = e[0] ? e[0].message : e.message
-    console.log(error)
     res.statusCode = 500
     res.json({ errorMessage: error })
   }

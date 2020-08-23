@@ -5,9 +5,11 @@ import Link from 'next/link'
 const InternalLink = props => {
   return (
     <Link
-      {...props}
+      href={props.href}
       sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
-    />
+    >
+      {props.children}
+    </Link>
   )
 }
 

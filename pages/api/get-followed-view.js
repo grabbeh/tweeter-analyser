@@ -18,7 +18,9 @@ export default async (req, res) => {
     res.statusCode = 200
     res.json({ tweets, username })
   } catch (e) {
-    console.log(e)
+    let error = e[0] ? e[0].message : e.message
+    res.statusCode = 500
+    res.json({ errorMessage: error })
   }
 }
 
@@ -67,6 +69,6 @@ const getTweets = async id => {
       count: 1
     })
   } catch (e) {
-    console.log(e)
+    throw e
   }
 }

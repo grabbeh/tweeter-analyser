@@ -1,5 +1,5 @@
 import { mostActive } from '../../api/dynamodb'
-import _ from 'lodash'
+import orderBy from 'lodash/orderBy'
 
 export default async (req, res) => {
   try {
@@ -8,10 +8,12 @@ export default async (req, res) => {
     let filter = parsed.Items.filter(f => {
       return f.averageTweetsPerDay
     })
-    let activeTweeters = _.orderBy(filter, ['averageTweetsPerDay'], ['desc'])
+    let activeTweeters = orderBy(filter, ['averageTweetsPerDay'], ['desc'])
     res.status = 200
-    res.json({ active: activeTweeters.slice(0, 20) })
+    res.json({ active: activeTweeters })
   } catch (e) {
-    console.log(e)
+    let error = e[0] ? e[0].message : e.message
+    res.statusCode = 500
+    res.json({ errorMessage: error })
   }
 }

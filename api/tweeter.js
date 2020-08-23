@@ -35,16 +35,20 @@ const tweeter = async username => {
     })
 
     let { hashTags, emojis, topics } = compromise(baseTweets)
-
+    let { average, limitExceeded } = calculateAverage(filtered)
+    let latestTweet = filtered[0]
+    let oldestTweet = filtered.pop()
     return {
-      averageTweetsPerDay: Math.round(filtered.length / 7),
+      averageTweetsPerDay: average,
+      limitExceeded,
       totalTweets: filtered.length,
       chartData: chartData(filtered),
       hashTags,
       filteredToxic,
+      toxicPercentage: (filteredToxic.length / 100) * 100,
       emojis,
       topics,
-      timePeriod: timePeriod()
+      timePeriod: timePeriod(oldestTweet, latestTweet)
     }
   } catch (e) {
     throw e
@@ -57,14 +61,15 @@ const filterSevenDays = tweets => {
   })
 }
 
-const timePeriod = () => {
-  let now = new Date()
+const timePeriod = (oldestTweet, latestTweet) => {
   let dateFormat = 'D MMMM YYYY'
-  let today = moment(now, 'day').format(dateFormat)
-  let sevenDaysAgo = moment(now)
-    .subtract(7, 'days')
-    .format(dateFormat)
-  return `${sevenDaysAgo} - ${today}`
+  let endDate = moment(latestTweet.created_at, twitterDateFormat()).format(
+    dateFormat
+  )
+  let startDate = moment(oldestTweet.created_at, twitterDateFormat()).format(
+    dateFormat
+  )
+  return `${startDate} - ${endDate}`
 }
 
 const sevenDaysAgo = moment(new Date(), twitterDateFormat()).subtract(7, 'days')
@@ -109,6 +114,21 @@ const getUser = username => {
   return client.get('users/show', {
     screen_name: username
   })
+}
+
+const calculateAverage = tweets => {
+  let latestTweet = tweets[0]
+  let oldestTweet = tweets.pop()
+  let difference = calculateDuration(oldestTweet, latestTweet)
+  let average = Math.round(tweets.length / difference)
+  let limitExceeded = !!difference < 7
+  return { average, limitExceeded }
+}
+
+const calculateDuration = (oldestTweet, latestTweet) => {
+  let latestDate = moment(latestTweet.created_at, twitterDateFormat())
+  let oldestDate = moment(oldestTweet.created_at, twitterDateFormat())
+  return latestDate.diff(oldestDate, 'days')
 }
 
 export { tweeter, getSevenDaysTweets, filterSevenDays, getUser }

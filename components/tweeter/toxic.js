@@ -11,7 +11,7 @@ const Toxic = ({ toxic }) => (
         <Box sx={{ borderRadius: '20px', bg: 'light-red', p: 3 }}>
           <Toggle title='Toxic tweets'>
             <Box>
-              {toxic.map(r => {
+              {toxic.map((r, i) => {
                 return (
                   <Box
                     sx={{
@@ -20,6 +20,7 @@ const Toxic = ({ toxic }) => (
                       bg: 'red',
                       my: 3
                     }}
+                    key={i}
                   >
                     <Text
                       sx={{

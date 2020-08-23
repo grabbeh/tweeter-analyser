@@ -34,7 +34,6 @@ const InputForm = props => {
         })
           .then(r => r.json())
           .then(json => {
-            console.log(json)
             setData(json)
             setLoading(false)
             resetForm()

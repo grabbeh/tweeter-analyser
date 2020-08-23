@@ -5,7 +5,7 @@ import Link from 'components/Link'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 
-const Active = props => {
+const Active = ({ data }) => {
   return (
     <Layout>
       <Flex sx={{ justifyContent: 'center' }}>
@@ -13,7 +13,7 @@ const Active = props => {
           <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
             Most active tweeters
           </Text>
-          {props.data.active.map((account, i) => (
+          {data.active.map((account, i) => (
             <ScrollAnimation key={i}>
               <Box sx={{ my: 3, borderRadius: '20px', p: 3, bg: 'blue' }}>
                 <Flex sx={{ flexWrap: 'wrap' }}>
