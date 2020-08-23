@@ -3,8 +3,8 @@ var AWS = require('aws-sdk')
 
 AWS.config.update({
   region: 'eu-west-1',
-  accessKeyId: 'AKIAXD4TJVYNID4ABSGT',
-  secretAccessKey: '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'
+  accessKeyId: '',
+  secretAccessKey: ''
 })
 
 // Create the DynamoDB service object
