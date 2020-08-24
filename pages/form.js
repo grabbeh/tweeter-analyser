@@ -49,7 +49,7 @@ const MainForm = props => {
             </Flex>
           )}
           {data && (
-            <Box>
+            <Box sx={{ mt: 3 }}>
               <ScrollAnimation>
                 <Flex sx={{ flexWrap: 'wrap' }}>
                   <Box sx={{ mr: 3 }}>

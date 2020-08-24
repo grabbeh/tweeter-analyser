@@ -1,5 +1,7 @@
+import dotenv from 'dotenv'
 import Twitter from 'twitter'
 import moment from 'moment'
+dotenv.config({ path: '../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -18,12 +20,11 @@ const newTweet = async content => {
 const getMentions = async () => {
   try {
     let mentions = await client.get('statuses/mentions_timeline', {})
-    let oneMinuteAgo = moment(returnTwitterDateFormat()).subtract(1, 'minutes')
-    return mentions.filter(m => {
-      return moment(m.created_at, returnTwitterDateFormat()).isAfter(
-        oneMinuteAgo
-      )
-    })
+    let oneMinuteAgo = moment(Date.now()).subtract(1, 'minutes')
+    // return mentions.filter(m => {
+    // return moment(m.created_at, twitterDateFormat()).isAfter(oneMinuteAgo)
+    //})
+    return mentions
   } catch (e) {
     console.log(e)
   }
@@ -54,6 +55,6 @@ const getAllTweets = async (username, maximumId) => {
   }
 }
 
-const returnTwitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
+const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
 
 export { newTweet, getMentions, getTweet, getAllTweets }

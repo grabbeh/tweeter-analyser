@@ -1,5 +1,5 @@
-import { getMentions, newTweet } from './tweet'
-import getAnalysis from './getAnalysis'
+import { getMentions, newTweet } from './tweet.js'
+import getAnalysis from './getAnalysis.js'
 
 let testMentions = [
   { text: '@grabbeh I am impressed! @bot_detector_', id_str: '123456789' },

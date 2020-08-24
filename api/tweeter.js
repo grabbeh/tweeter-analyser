@@ -1,8 +1,8 @@
 import Twitter from 'twitter'
 import moment from 'moment'
-import predict from './tensorflow'
-import compromise from './compromise'
-import chartData from './chartData'
+import predict from './tensorflow.js'
+import compromise from './compromise.js'
+import chartData from './chartData.js'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
