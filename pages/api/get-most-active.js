@@ -5,7 +5,11 @@ export default async (req, res) => {
   try {
     let dbResults = await mostActive()
     let parsed = JSON.parse(dbResults.body)
-    let activeTweeters = orderBy(parsed, ['averageTweetsPerDay'], ['desc'])
+    let activeTweeters = orderBy(
+      parsed.Items,
+      ['averageTweetsPerDay'],
+      ['desc']
+    )
     res.status = 200
     res.json({ active: activeTweeters })
   } catch (e) {
