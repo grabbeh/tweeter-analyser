@@ -11,6 +11,7 @@ var docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' })
 
 // for findItem both partition key and sort key have to be provided?
 const findItem = async id => {
+  // sort params to return the latest item
   const params = {
     TableName: 'TWEETERSv2',
     ExpressionAttributeNames: {
