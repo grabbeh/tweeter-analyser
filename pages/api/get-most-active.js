@@ -1,4 +1,4 @@
-import { mostActive } from '../../api/dynamodb'
+import { mostActive } from '../../server/api/dynamodb'
 import orderBy from 'lodash/orderBy'
 
 export default async (req, res) => {

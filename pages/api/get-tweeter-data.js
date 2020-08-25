@@ -1,5 +1,5 @@
-import { tweeter, getUser } from '../../api/tweeter'
-import { addItem, findItem } from '../../api/dynamodb'
+import { tweeter, getUser } from '../../server/api/tweeter'
+import { addItem, findItem } from '../../server/api/dynamodb'
 import moment from 'moment'
 
 export default async (req, res) => {

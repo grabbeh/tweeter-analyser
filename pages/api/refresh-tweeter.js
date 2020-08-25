@@ -1,5 +1,5 @@
-import { tweeter, getUser } from '../../api/tweeter'
-import { addItem } from '../../api/dynamodb'
+import { tweeter, getUser } from '../../server/api/tweeter'
+import { addItem } from '../../server/api/dynamodb'
 
 export default async (req, res) => {
   let { username } = JSON.parse(req.body)

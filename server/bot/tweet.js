@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
 import moment from 'moment'
-dotenv.config({ path: '../.env' })
+dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
