@@ -119,7 +119,7 @@ const mostActive = async () => {
       '#pk': 'activeTweeterCount',
       '#sk': 'SK'
     },
-    KeyConditionExpression: '#pk = :pk AND #sk = :sk',
+    KeyConditionExpression: '#pk = :pk AND begins_with(#sk, :sk)',
     ExpressionAttributeValues: {
       ':pk': 'ACTIVE',
       ':sk': 'LATEST'

@@ -39,8 +39,8 @@ var params = {
     {
       IndexName: 'AverageTweetsPerDayIndex',
       KeySchema: [
-        { AttributeName: 'activeTweeterCount', KeyType: 'HASH' }
-        //   { AttributeName: 'SK', KeyType: 'RANGE' }
+        { AttributeName: 'activeTweeterCount', KeyType: 'HASH' },
+        { AttributeName: 'SK', KeyType: 'RANGE' }
       ],
       Projection: {
         ProjectionType: 'ALL'
