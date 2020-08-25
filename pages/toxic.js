@@ -44,7 +44,7 @@ const Toxic = ({ data }) => {
                       color: 'white'
                     }}
                   >
-                    {account.toxicTweeterCount}%
+                    {account.toxicPercentage}%
                   </Text>
                 </Box>
                 <Box>

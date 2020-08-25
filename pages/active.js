@@ -44,7 +44,7 @@ const Active = ({ data }) => {
                       color: 'white'
                     }}
                   >
-                    {account.activeTweeterCount}
+                    {account.averageTweetsPerDay}
                   </Text>
                   <Text
                     sx={{

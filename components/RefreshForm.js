@@ -14,7 +14,7 @@ const InputForm = props => {
         username: ''
       }}
       onSubmit={(values, { setErrors, resetForm }) => {
-        setData(false)
+        setData(null)
         setLoading(true)
         setErrors({
           serverError: false

@@ -1,8 +1,10 @@
+import dotenv from 'dotenv'
 import Twitter from 'twitter'
 import moment from 'moment'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
 import chartData from './chartData.js'
+dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -84,7 +86,12 @@ const getSevenDaysTweets = async (username, maximumId) => {
   try {
     let fragment = await getTweetsBatch(username, maximumId)
     let earliestTweet = fragment.data.pop()
-    if (earliestTweet && checkIfWithinSevenDays(earliestTweet)) {
+    if (
+      fragment &&
+      fragment.nextId &&
+      earliestTweet &&
+      checkIfWithinSevenDays(earliestTweet)
+    ) {
       return fragment.data.concat(
         await getSevenDaysTweets(username, fragment.nextId)
       )
@@ -103,8 +110,14 @@ const getTweetsBatch = async (username, maximumId) => {
       max_id: maximumId,
       count: 200
     })
-    let nextId = data.pop().id
-    return { data, nextId }
+    let oldest = data.pop()
+    let nextId
+    if (oldest) {
+      nextId = oldest.id
+      return { data, nextId }
+    } else {
+      return { data: data.filter(d => d) }
+    }
   } catch (e) {
     throw new Error(e)
   }

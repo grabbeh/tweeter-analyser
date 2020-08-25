@@ -1,5 +1,6 @@
-var AWS = require('aws-sdk')
-
+import dotenv from 'dotenv'
+import AWS from 'aws-sdk'
+dotenv.config({ path: '../../.env' })
 AWS.config.update({
   region: 'eu-west-1',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -13,13 +14,19 @@ var docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' })
 const findItem = async id => {
   // sort params to return the latest item
   const params = {
-    TableName: 'TWEETERSv2',
+    TableName: 'TWEETERSv3',
+
+    // give nicknames to the partition and sort keys
     ExpressionAttributeNames: {
-      '#pk': 'PK'
+      '#pk': 'PK',
+      '#sk': 'SK'
     },
-    KeyConditionExpression: '#pk = :pk',
+    // use nicknames and values for nicknames
+    KeyConditionExpression: '#pk = :pk AND begins_with(#sk, :sk)',
+    // define values for the actual values of the nicknames
     ExpressionAttributeValues: {
-      ':pk': id
+      ':pk': id,
+      ':sk': 'LATEST'
     }
   }
 
@@ -27,6 +34,7 @@ const findItem = async id => {
     const data = await docClient.query(params).promise()
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
+    console.log(error)
     return {
       statusCode: 400,
       error: `Could not fetch: ${error.stack}`
@@ -35,32 +43,44 @@ const findItem = async id => {
 }
 
 const addItem = async (id, content) => {
+  // add item but also copy contents into new item beginning with 'latest'
   let dbContent = { ...content }
   // TODO: improve conditional keys
   // Conditional data attributes to power secondary indexes
   if (content.toxicPercentage > 2) {
-    dbContent = { ...dbContent, toxicTweeterCount: content.toxicPercentage }
+    dbContent = { ...dbContent, toxicTweeterCount: 'TOXIC' }
   }
   if (content.averageTweetsPerDay >= 100) {
     dbContent = {
       ...dbContent,
-      activeTweeterCount: content.averageTweetsPerDay
+      activeTweeterCount: 'ACTIVE'
     }
   }
 
-  var params = {
-    TableName: 'TWEETERSv2',
+  var addParams = {
+    TableName: 'TWEETERSv3',
     Item: {
       PK: id,
-      SUMMARY_CREATED_AT: Date.now(),
+      SK: 'GENERAL',
+      ...dbContent
+    }
+  }
+  // replace item with sort key 'latest' with  latest item
+  var latestParams = {
+    TableName: 'TWEETERSv3',
+    Item: {
+      PK: id,
+      SK: 'LATEST',
       ...dbContent
     }
   }
 
   try {
-    const data = await docClient.put(params).promise()
+    await docClient.put(addParams).promise()
+    const data = await docClient.put(latestParams).promise()
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
+    console.log(error)
     return {
       statusCode: 400,
       error: `Could not fetch: ${error.stack}`
@@ -94,10 +114,20 @@ const mostActive = async () => {
 const mostActive = async () => {
   var params = {
     IndexName: 'AverageTweetsPerDayIndex',
-    TableName: 'TWEETERSv2'
+    TableName: 'TWEETERSv3',
+    ExpressionAttributeNames: {
+      '#pk': 'activeTweeterCount',
+      '#sk': 'SK'
+    },
+    KeyConditionExpression: '#pk = :pk AND #sk = :sk',
+    ExpressionAttributeValues: {
+      ':pk': 'ACTIVE',
+      ':sk': 'LATEST'
+    }
   }
+
   try {
-    let data = await docClient.scan(params).promise()
+    let data = await docClient.query(params).promise()
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
     return {
@@ -110,10 +140,19 @@ const mostActive = async () => {
 const mostToxic = async () => {
   var params = {
     IndexName: 'ToxicityPercentageIndex',
-    TableName: 'TWEETERSv2'
+    TableName: 'TWEETERSv3',
+    ExpressionAttributeNames: {
+      '#pk': 'toxicTweeterCount',
+      '#sk': 'SK'
+    },
+    KeyConditionExpression: '#pk = :pk AND begins_with(#sk, :sk)',
+    ExpressionAttributeValues: {
+      ':pk': 'TOXIC',
+      ':sk': 'LATEST'
+    }
   }
   try {
-    let data = await docClient.scan(params).promise()
+    let data = await docClient.query(params).promise()
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
     return {

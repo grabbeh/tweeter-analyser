@@ -1,5 +1,6 @@
-require('dotenv').config()
-var AWS = require('aws-sdk')
+import dotenv from 'dotenv'
+import AWS from 'aws-sdk'
+dotenv.config({ path: '../../.env' })
 
 AWS.config.update({
   region: 'eu-west-1',
@@ -17,11 +18,11 @@ var params = {
       AttributeType: 'N'
     },
     {
-      AttributeName: 'SUMMARY_CREATED_AT',
-      AttributeType: 'N'
+      AttributeName: 'SK',
+      AttributeType: 'S'
     },
-    { AttributeName: 'activeTweeterCount', AttributeType: 'N' },
-    { AttributeName: 'toxicTweeterCount', AttributeType: 'N' }
+    { AttributeName: 'activeTweeterCount', AttributeType: 'S' },
+    { AttributeName: 'toxicTweeterCount', AttributeType: 'S' }
   ],
   KeySchema: [
     {
@@ -29,29 +30,38 @@ var params = {
       KeyType: 'HASH'
     },
     {
-      AttributeName: 'SUMMARY_CREATED_AT',
+      AttributeName: 'SK',
       KeyType: 'RANGE'
     }
   ],
-  LocalSecondaryIndexes: [
+  // create global secondary indexes to a) get toxic/active tweets and b) latest version
+  GlobalSecondaryIndexes: [
     {
       IndexName: 'AverageTweetsPerDayIndex',
       KeySchema: [
-        { AttributeName: 'PK', KeyType: 'HASH' },
-        { AttributeName: 'activeTweeterCount', KeyType: 'RANGE' }
+        { AttributeName: 'activeTweeterCount', KeyType: 'HASH' }
+        //   { AttributeName: 'SK', KeyType: 'RANGE' }
       ],
       Projection: {
         ProjectionType: 'ALL'
+      },
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1
       }
     },
     {
       IndexName: 'ToxicityPercentageIndex',
       KeySchema: [
-        { AttributeName: 'PK', KeyType: 'HASH' },
-        { AttributeName: 'toxicTweeterCount', KeyType: 'RANGE' }
+        { AttributeName: 'toxicTweeterCount', KeyType: 'HASH' },
+        { AttributeName: 'SK', KeyType: 'RANGE' }
       ],
       Projection: {
         ProjectionType: 'ALL'
+      },
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1
       }
     }
   ],
@@ -59,7 +69,7 @@ var params = {
     ReadCapacityUnits: 1,
     WriteCapacityUnits: 1
   },
-  TableName: 'TWEETERSv2'
+  TableName: 'TWEETERSv3'
 }
 
 // Call DynamoDB to create the table

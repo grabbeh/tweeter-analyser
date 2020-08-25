@@ -9,10 +9,9 @@ export default async (req, res) => {
     let user = await getUser(username)
     let existingResults = await findItem(user.id)
     let o = JSON.parse(existingResults.body)
-    let ordered = orderBy(o.Items, ['SUMMARY_CREATED_AT'], ['desc'])
     // saving multiple items to the database rather than replacing existing item
-    if (o && ordered.length > 0) {
-      const item = ordered[0]
+    if (o && o.Items.length > 0) {
+      const item = o.Items[0]
       const refreshAvailable = checkRefresh(item.SUMMARY_CREATED_AT)
       res.statusCode = 200
       res.json({ ...item, refreshAvailable })
