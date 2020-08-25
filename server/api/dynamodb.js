@@ -123,7 +123,8 @@ const mostActive = async () => {
     ExpressionAttributeValues: {
       ':pk': 'ACTIVE',
       ':sk': 'LATEST'
-    }
+    },
+    ScanIndexForward: false
   }
 
   try {
@@ -149,7 +150,8 @@ const mostToxic = async () => {
     ExpressionAttributeValues: {
       ':pk': 'TOXIC',
       ':sk': 'LATEST'
-    }
+    },
+    ScanIndexForward: false
   }
   try {
     let data = await docClient.query(params).promise()

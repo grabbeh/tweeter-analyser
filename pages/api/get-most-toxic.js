@@ -5,10 +5,8 @@ export default async (req, res) => {
   try {
     let dbResults = await mostToxic()
     let parsed = JSON.parse(dbResults.body)
-    let filter = parsed.Items.filter(f => {
-      return f.averageTweetsPerDay
-    })
-    let toxicTweeters = orderBy(filter, ['toxicPercentage'], ['desc'])
+
+    let toxicTweeters = orderBy(parsed, ['toxicPercentage'], ['desc'])
     res.status = 200
     res.json({ toxic: toxicTweeters })
   } catch (e) {
