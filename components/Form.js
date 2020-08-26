@@ -61,7 +61,7 @@ const InputForm = props => {
             setLoading(false)
           })
 
-        const href = `/form?username=${username}`
+        const href = `/search?username=${username}`
         const as = href
         router.push(href, as, { shallow: true })
       }}
