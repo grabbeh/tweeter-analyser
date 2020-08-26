@@ -5,7 +5,6 @@ import Layout from 'components/Layout'
 import { jsx, Box, Flex, Image, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
-import { ResponsiveBar } from '@nivo/bar'
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
 import Summary from 'components/tweeter/summary'
@@ -13,18 +12,12 @@ import Toxic from 'components/tweeter/toxic'
 import Emojis from 'components/tweeter/emojis'
 import Topics from 'components/tweeter/topics'
 import Hashtags from 'components/tweeter/hashtags'
+import Chart from 'components/tweeter/chart'
 
-const theme = {
-  axis: {
-    textColor: 'red',
-    fontSize: '30px',
-    fontFamily: 'Georgia',
-    tickColor: 'red'
-  }
-}
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -48,7 +41,7 @@ const MainForm = props => {
               <Loading />
             </Flex>
           )}
-          {data && (
+          {!loading && data && (
             <Box sx={{ mt: 3 }}>
               <ScrollAnimation>
                 <Flex sx={{ flexWrap: 'wrap' }}>
@@ -90,50 +83,7 @@ const MainForm = props => {
                   />
                 </Box>
               </ScrollAnimation>
-              <ScrollAnimation>
-                <Box
-                  sx={{
-                    p: 3,
-                    borderRadius: '30px',
-                    bg: 'light-gray',
-                    mt: 4,
-                    height: '900px'
-                  }}
-                >
-                  <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Hours</Text>
-                  <ResponsiveBar
-                    theme={theme}
-                    enableGridY={false}
-                    colors='#357edd'
-                    data={data.chartData}
-                    indexBy='time'
-                    margin={{ top: 20, bottom: 150, left: 65 }}
-                    padding={0.3}
-                    axisTop={null}
-                    axisRight={null}
-                    layout='horizontal'
-                    axisLeft={{
-                      tickSize: 5,
-                      tickPadding: 20,
-                      tickRotation: 30,
-                      legend: 'times (24 hour clock)',
-                      legendPosition: 'middle',
-                      legendOffset: -50
-                    }}
-                    axisBottom={{
-                      tickSize: 5,
-                      tickPadding: 20,
-                      tickRotation: 0,
-                      legend: 'tweet volume',
-                      legendPosition: 'middle',
-                      legendOffset: 50
-                    }}
-                    labelSkipWidth={12}
-                    labelSkipHeight={12}
-                    labelTextColor='white'
-                  />
-                </Box>
-              </ScrollAnimation>
+              <Chart chartData={data.chartData} />
               <Hashtags hashTags={data.hashTags} />
               <Toxic toxic={data.filteredToxic} />
               <Emojis emojis={data.emojis} />
