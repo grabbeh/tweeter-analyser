@@ -16,11 +16,11 @@ const Home = () => (
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ my: 4, mx: 3, width: 600 }}>
           <ScrollAnimation>
-            <Text sx={{ fontSize: [4, 6], fontWeight: 'bold' }}>
+            <Text sx={{ fontSize: [5, 6], fontWeight: 'bold' }}>
               🕵🏼‍♀️ Last Seven Days
             </Text>
             <Box sx={{ my: 3 }}>
-              <Text sx={{ fontSize: 4 }}>
+              <Text sx={{ fontSize: [4, 5] }}>
                 Tools to help analyse and understand tweeters and echo chambers
               </Text>
             </Box>
@@ -29,7 +29,7 @@ const Home = () => (
             {links.map(l => (
               <Box sx={{ mb: 2 }} key={l.href}>
                 <Link href={l.href}>
-                  <Text sx={{ fontWeight: 'bold', fontSize: [3, 5] }}>
+                  <Text sx={{ fontWeight: 'bold', fontSize: [4, 5] }}>
                     {l.text}
                   </Text>
                 </Link>
