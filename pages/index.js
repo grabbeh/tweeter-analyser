@@ -25,14 +25,15 @@ const Home = () => (
               </Text>
             </Box>
           </ScrollAnimation>
-
-          {links.map(l => (
-            <Box key={l.href}>
-              <Link href={l.href}>
-                <Text sx={{ fontWeight: 'bold', fontSize: 5 }}>{l.text}</Text>
-              </Link>
-            </Box>
-          ))}
+          <ScrollAnimation>
+            {links.map(l => (
+              <Box key={l.href}>
+                <Link href={l.href}>
+                  <Text sx={{ fontWeight: 'bold', fontSize: 5 }}>{l.text}</Text>
+                </Link>
+              </Box>
+            ))}
+          </ScrollAnimation>
         </Box>
       </Flex>
 
