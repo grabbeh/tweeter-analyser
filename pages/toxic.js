@@ -30,7 +30,7 @@ const Toxic = ({ data }) => {
                       fontWeight: 'bold'
                     }}
                   >
-                    <Link href={`/form?username=${account.screen_name}`}>
+                    <Link href={`/search?username=${account.screen_name}`}>
                       <ThemeLink>@{account.screen_name}</ThemeLink>
                     </Link>
                   </Text>
