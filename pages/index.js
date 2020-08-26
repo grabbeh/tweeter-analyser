@@ -27,9 +27,11 @@ const Home = () => (
           </ScrollAnimation>
           <ScrollAnimation>
             {links.map(l => (
-              <Box key={l.href}>
+              <Box sx={{ mb: 2 }} key={l.href}>
                 <Link href={l.href}>
-                  <Text sx={{ fontWeight: 'bold', fontSize: 5 }}>{l.text}</Text>
+                  <Text sx={{ fontWeight: 'bold', fontSize: [3, 5] }}>
+                    {l.text}
+                  </Text>
                 </Link>
               </Box>
             ))}
