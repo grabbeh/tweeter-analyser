@@ -11,8 +11,9 @@ const Topics = ({ topics }) => (
         <Box sx={{ borderRadius: '20px', bg: 'light-purple', p: 3 }}>
           <Toggle title='Topics'>
             <Flex sx={{ flexWrap: 'wrap' }}>
-              {topics.map(t => (
+              {topics.map((t, i) => (
                 <Box
+                  key={i}
                   sx={{
                     borderRadius: '10px',
                     p: 2,
