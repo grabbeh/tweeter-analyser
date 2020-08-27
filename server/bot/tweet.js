@@ -21,10 +21,9 @@ const getMentions = async () => {
   try {
     let mentions = await client.get('statuses/mentions_timeline', {})
     let oneMinuteAgo = moment(Date.now()).subtract(1, 'minutes')
-    // return mentions.filter(m => {
-    // return moment(m.created_at, twitterDateFormat()).isAfter(oneMinuteAgo)
-    //})
-    return mentions
+    return mentions.filter(m => {
+      return moment(m.created_at, twitterDateFormat()).isAfter(oneMinuteAgo)
+    })
   } catch (e) {
     console.log(e)
   }

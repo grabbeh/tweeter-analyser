@@ -34,7 +34,6 @@ const findItem = async id => {
     const data = await docClient.query(params).promise()
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
-    console.log(error)
     return {
       statusCode: 400,
       error: `Could not fetch: ${error.stack}`
@@ -62,6 +61,7 @@ const addItem = async (id, content) => {
     Item: {
       PK: id,
       SK: 'GENERAL',
+      SUMMARY_CREATED_AT: Date.now(),
       ...dbContent
     }
   }
@@ -71,6 +71,7 @@ const addItem = async (id, content) => {
     Item: {
       PK: id,
       SK: 'LATEST',
+      SUMMARY_CREATED_AT: Date.now(),
       ...dbContent
     }
   }
