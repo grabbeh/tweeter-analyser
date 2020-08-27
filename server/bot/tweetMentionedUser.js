@@ -45,6 +45,4 @@ const replyToMention = async mention => {
   }
 }
 
-tweetMentionedUser()
-
 export default tweetMentionedUser
