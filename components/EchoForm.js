@@ -76,7 +76,7 @@ const InputForm = props => {
               <Box sx={{ mt: 3 }}>
                 <Flex sx={{ justifyContent: 'flex-end' }}>
                   <Button disabled={isSubmitting} type='submit'>
-                    Submit
+                    GO
                   </Button>
                 </Flex>
               </Box>

@@ -1,9 +1,20 @@
+/** @jsx jsx */
+import { jsx, Flex, Box } from 'theme-ui'
 import Spinner from 'react-svg-spinner'
 
 const Loading = () => (
-  <div>
-    <Spinner thickness={4} size='80px' />
-  </div>
+  <Flex
+    sx={{
+      mt: 5,
+      justifyContent: 'center',
+
+      width: '100%'
+    }}
+  >
+    <Box>
+      <Spinner thickness={4} size='80px' />
+    </Box>
+  </Flex>
 )
 
 export default Loading

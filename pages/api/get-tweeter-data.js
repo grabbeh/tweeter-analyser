@@ -1,7 +1,6 @@
 import { tweeter, getUser } from '../../server/api/tweeter'
 import { addItem, findItem } from '../../server/api/dynamodb'
 import moment from 'moment'
-import orderBy from 'lodash/orderBy'
 
 export default async (req, res) => {
   let { username } = JSON.parse(req.body)
@@ -9,7 +8,6 @@ export default async (req, res) => {
     let user = await getUser(username)
     let existingResults = await findItem(user.id)
     let o = JSON.parse(existingResults.body)
-    // saving multiple items to the database rather than replacing existing item
     if (o && o.Items.length > 0) {
       const item = o.Items[0]
       const refreshAvailable = checkRefresh(item.SUMMARY_CREATED_AT)

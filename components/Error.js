@@ -1,6 +1,5 @@
-// import posed from 'react-pose'
-import BasicText from './Text'
-import React from 'react'
+/** @jsx jsx */
+import { jsx, Text as BasicText } from 'theme-ui'
 
 const Error = props => {
   const { children, innerRef } = props

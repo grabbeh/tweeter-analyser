@@ -2,13 +2,15 @@
 import { useState, useEffect } from 'react'
 import Form from 'components/EchoForm'
 import Layout from 'components/Layout'
+import Header from 'components/Header'
 import { jsx, Box, Flex, Text } from 'theme-ui'
+import Loading from 'components/LoadingSpinner'
+import User from 'components/user'
 import { server } from '../config/index'
 
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
-
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -17,28 +19,28 @@ const MainForm = props => {
   })
   return (
     <Layout>
+      <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ mt: 4, mx: 3, width: 600 }}>
           <Form setLoading={setLoading} setData={setData} />
-          {loading && (
-            <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Loading...</Text>
-          )}
-          {data && (
+          {loading && <Loading />}
+          {!loading && data && (
             <Box>
-              <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
-                {data.username}'s timeline
-              </Text>
+              <Box sx={{ mb: 3 }}>
+                <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
+                  {data.username}'s timeline
+                </Text>
+              </Box>
               {data.tweets.map(tweet => (
                 <Box
                   key={tweet.id}
-                  sx={{ borderRadius: 3, my: 3, p: 3, bg: 'blue' }}
+                  sx={{ borderRadius: 3, mb: 4, p: 3, bg: 'light-gray' }}
                 >
-                  <Text
-                    sx={{ color: 'white', fontSize: 5, fontWeight: 'bold' }}
-                  >
-                    @{tweet.user.screen_name}
-                  </Text>
-                  <Text sx={{ fontSize: 4, color: 'white' }}>{tweet.text}</Text>
+                  <User
+                    profileImage={tweet.user.profile_image_url_https}
+                    screenName={tweet.user.screen_name}
+                  />
+                  <Text sx={{ fontSize: 3, color: 'black' }}>{tweet.text}</Text>
                 </Box>
               ))}
             </Box>

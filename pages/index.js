@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import { useState, useEffect } from 'react'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Image, Text, Link } from 'theme-ui'
+import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
+import Header from 'components/Header'
 
 const links = [
   { href: '/search', text: 'Search', bg: 'light-yellow' },
@@ -10,9 +10,11 @@ const links = [
   { href: '/active', text: 'Active tweeters', bg: 'light-green' },
   { href: '/toxic', text: 'Toxic tweeters', bg: 'light-red' }
 ]
+
 const Home = () => (
   <Layout>
     <Box className='gradient'>
+      <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ my: 4, mx: 3, width: 600 }}>
           <ScrollAnimation>

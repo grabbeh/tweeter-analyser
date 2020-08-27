@@ -18,7 +18,7 @@ const process = words => {
   const emojis = nlp(removed)
     .emojis()
     .json({ normal: true })
-    .map(d => d.text)
+    .map(d => d.text.replace(/,\s*$/, ''))
 
   let baseTopics = nlp(removed)
     .topics()

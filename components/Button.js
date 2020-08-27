@@ -16,7 +16,7 @@ const StyledButton = styled.button`
   border: none;
   cursor: pointer;
   &:hover {
-    background: #00449e;
+    background: #137752;
   }
   ${layout} ${space} ${shadow} ${position} ${color} ${border} ${typography}
 `
@@ -31,9 +31,10 @@ Button.defaultProps = {
   px: 3,
   py: 2,
   fontSize: 4,
+  width: '100px',
   fontWeight: 'bold',
   disabled: false,
-  bg: 'blue',
+  bg: 'green',
   color: 'white',
   borderRadius: 2
 }

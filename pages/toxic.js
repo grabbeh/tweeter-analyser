@@ -4,10 +4,12 @@ import { jsx, Box, Flex, Image, Text, Link as ThemeLink } from 'theme-ui'
 import Link from 'components/Link'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
+import Header from 'components/Header'
 
 const Toxic = ({ data }) => {
   return (
     <Layout>
+      <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ mt: 4, mx: 3, width: 600 }}>
           <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>

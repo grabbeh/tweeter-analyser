@@ -1,4 +1,5 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx, Box } from 'theme-ui'
 import { Helmet } from 'react-helmet'
 import { ThemeProvider } from 'emotion-theming'
 import theme from '../theme-ui/theme'
@@ -11,7 +12,9 @@ const Layout = props => {
         <meta name='viewport' content='width=device-width' />
         <title>Tweet analyser</title>
       </Helmet>
-      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Box>{props.children}</Box>
+      </ThemeProvider>
     </div>
   )
 }

@@ -1,6 +1,5 @@
-import React from 'react'
-import Text from './Text'
-import Box from './Box'
+/** @jsx jsx */
+import { jsx, Box, Text } from 'theme-ui'
 import {
   layout,
   space,
@@ -46,46 +45,44 @@ const StyledInput = styled('input')`
     border-bottom: 3px solid #357edd;
   }
   `
-class Input extends React.Component {
-  render () {
-    const {
-      label,
-      type,
-      placeholder,
-      name,
-      onChange,
-      value,
-      onFocus,
-      onBlur,
-      readOnly,
-      autoComplete
-    } = this.props
+const Input = props => {
+  const {
+    label,
+    type,
+    placeholder,
+    name,
+    onChange,
+    value,
+    onFocus,
+    onBlur,
+    readOnly,
+    autoComplete
+  } = props
 
-    return (
-      <Box borderRadius={2}>
-        {label && (
-          <Box mb={2}>
-            <Text fontWeight='bold' fontSize={4}>
-              <label htmlFor={value}>{label}</label>
-            </Text>
-          </Box>
-        )}
-        <StyledInput
-          autoComplete={autoComplete}
-          id={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          value={value}
-          type={type}
-          name={name}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          readOnly={readOnly}
-          {...this.props}
-        />
-      </Box>
-    )
-  }
+  return (
+    <Box>
+      {label && (
+        <Box mb={2}>
+          <Text sx={{ fontWeight: 'bold', fontSize: 4 }}>
+            <label htmlFor={value}>{label}</label>
+          </Text>
+        </Box>
+      )}
+      <StyledInput
+        autoComplete={autoComplete}
+        id={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        value={value}
+        type={type}
+        name={name}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        readOnly={readOnly}
+        {...props}
+      />
+    </Box>
+  )
 }
 
 Input.defaultProps = {
