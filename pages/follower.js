@@ -45,23 +45,23 @@ const Follower = props => {
                     colors='#357edd'
                     margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
                     blendMode='multiply'
-                    xScale={{
+                    yScale={{
                       type: 'time',
                       format: '%Y-%m-%d',
                       precision: 'day'
                     }}
-                    yScale={{
+                    xScale={{
                       type: 'linear'
                     }}
-                    axisLeft={{
+                    axisBottom={{
                       tickValues: 5,
                       format: c => `follower ${c}`
                     }}
-                    axisBottom={{
+                    axisLeft={{
                       format: '20%y'
                     }}
-                    xFormat={c => moment(c).format('DD-MM-YYYY')}
-                    yFormat={c => `${c}`}
+                    yFormat={c => moment(c).format('DD-MM-YYYY')}
+                    xFormat={c => `${c}`}
                   />
                 </Box>
               </ScrollAnimation>
