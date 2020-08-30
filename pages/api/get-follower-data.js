@@ -17,17 +17,19 @@ export default async (req, res) => {
     let friendIds = await getAllFollowers(username)
     let response = await getUsers(friendIds)
     let filtered = response.flat().filter(result => !(result instanceof Error))
-    let sorted = filtered.sort(
-      (a, b) =>
-        moment(a.created_at, twitterDateFormat()).unix() -
-        moment(b.created_at, twitterDateFormat()).unix()
-    )
+    let sorted = filtered
+      .sort(
+        (a, b) =>
+          moment(a.created_at, twitterDateFormat()).unix() -
+          moment(b.created_at, twitterDateFormat()).unix()
+      )
+      .reverse()
 
     const followers = sorted.map((f, i) => {
       let date = moment(f.created_at, twitterDateFormat()).format('YYYY-MM-DD')
       return {
-        x: date,
-        y: i + 1
+        x: i + 1,
+        y: date
       }
     })
     let f = followers.filter(f => f)

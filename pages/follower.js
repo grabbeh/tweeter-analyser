@@ -55,7 +55,7 @@ const Follower = props => {
                     }}
                     axisBottom={{
                       tickValues: 5,
-                      format: c => `follower ${c}`
+                      format: c => `${c}`
                     }}
                     axisLeft={{
                       format: '20%y'
