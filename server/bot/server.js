@@ -1,6 +1,6 @@
 import cron from 'node-cron'
 import express from 'express'
-import tweetMentionedUser from './tweetMentionedUser'
+import tweetMentionedUser from './tweetMentionedUser.js'
 
 const app = express()
 
