@@ -8,7 +8,8 @@ const links = [
   { href: '/search', text: 'Search', bg: 'light-yellow' },
   { href: '/echo', text: 'Echo chamber', bg: 'light-purple' },
   { href: '/active', text: 'Active tweeters', bg: 'light-green' },
-  { href: '/toxic', text: 'Toxic tweeters', bg: 'light-red' }
+  { href: '/toxic', text: 'Toxic tweeters', bg: 'light-red' },
+  { href: '/follower', text: 'Followers', bg: 'light-blue' }
 ]
 
 const Home = () => (

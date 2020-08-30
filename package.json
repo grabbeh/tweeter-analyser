@@ -6,7 +6,8 @@
     "dev": "NODE_ENV=development next dev -p 5000",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start -p 5000",
-    "start-next": "NODE_ENV=production forever start ./node_modules/.bin/next start -p 5000"
+    "start-next": "NODE_ENV=production forever start ./node_modules/.bin/next start -p 5000",
+    "start-bot": "NODE_ENV=production forever start ./server/bot/server.js"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
