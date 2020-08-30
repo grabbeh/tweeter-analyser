@@ -17,27 +17,21 @@ export default async (req, res) => {
     let friendIds = await getAllFollowers(username)
     let response = await getUsers(friendIds)
     let filtered = response.flat().filter(result => !(result instanceof Error))
-    let sorted = filtered
-      .sort(
-        (a, b) =>
-          moment(a.created_at, twitterDateFormat()).unix() -
-          moment(b.created_at, twitterDateFormat()).unix()
-      )
-      .reverse()
+    let justUnixDate = filtered
+      .map(f => moment(f.created_at, twitterDateFormat()).unix())
+      .sort((a, b) => a - b)
 
-    const followers = sorted.map((f, i) => {
-      let date = moment(f.created_at, twitterDateFormat()).format('YYYY-MM-DD')
+    const followers = justUnixDate.map((f, i) => {
       return {
         x: i + 1,
-        y: date
+        y: moment(f, 'X').format('YYYY-MM-DD')
       }
     })
-    let f = followers.filter(f => f)
 
     // moment(f.created_at, twitterDateFormat()).format('YYYY-MM-DD')
     // sort by date order
     res.statusCode = 200
-    res.json({ user, graphData: [{ data: f, id: 'Followers' }] })
+    res.json({ user, graphData: [{ data: followers, id: 'Followers' }] })
   } catch (e) {
     console.log(e)
     let error = e[0] ? e[0].message : e.message

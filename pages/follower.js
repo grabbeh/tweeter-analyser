@@ -14,6 +14,7 @@ import moment from 'moment'
 const Follower = props => {
   let { serverData } = props
   let [data, setData] = useState()
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
