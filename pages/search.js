@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react'
-import Form from 'components/Form'
+import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Image, Text, Link } from 'theme-ui'
+import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import RefreshForm from 'components/RefreshForm'
@@ -30,7 +30,12 @@ const MainForm = props => {
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ my: 4, mx: 3, width: 600 }}>
-          <Form setLoading={setLoading} setData={setData} />
+          <GenericUsernameForm
+            dataUrl='/get-tweeter-data'
+            callbackUrl='/search'
+            setLoading={setLoading}
+            setData={setData}
+          />
           {loading && <Loading />}
           {!loading && data && (
             <Box sx={{ mt: 3 }}>

@@ -112,7 +112,7 @@ const getTweetsBatch = async (username, maximumId) => {
     })
     let oldest = data.pop()
     let nextId
-    // sometimes gives error message cannot find id of undefined
+    // sometimes gives error message "cannot find id of undefined"
     if (oldest) {
       nextId = oldest.id
       return { data, nextId }
@@ -137,7 +137,7 @@ const calculateAverage = tweets => {
   if (difference < 1) difference = 1
   let average = Math.round(tweets.length / difference)
   let limitExceeded = !!difference < 7 && !!tweets.length > 3000
-  return { average, limitExceeded }
+  return { average, difference, limitExceeded }
 }
 
 const calculateDuration = (oldestTweet, latestTweet) => {
@@ -146,4 +146,10 @@ const calculateDuration = (oldestTweet, latestTweet) => {
   return latestDate.diff(oldestDate, 'days')
 }
 
-export { tweeter, getSevenDaysTweets, filterSevenDays, getUser }
+export {
+  tweeter,
+  calculateAverage,
+  getSevenDaysTweets,
+  filterSevenDays,
+  getUser
+}

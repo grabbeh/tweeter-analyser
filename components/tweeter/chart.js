@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, Box, Text } from 'theme-ui'
-import Toggle from 'components/toggle'
 import { ResponsiveBar } from '@nivo/bar'
 import ScrollAnimation from 'components/animations/scrollanimation'
 const theme = {
