@@ -46,7 +46,7 @@ const Toxic = ({ data }) => {
                       color: 'white'
                     }}
                   >
-                    {account.toxicPercentage}%
+                    {Math.round(account.toxicPercentage)}%
                   </Text>
                 </Box>
                 <Box>

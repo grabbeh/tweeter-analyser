@@ -116,10 +116,12 @@ const theme = {
     div: {},
     p: {
       fontFamily: 'sansSerif',
-      fontSize: 5
+      fontSize: 6,
+      color: 'red'
     },
     h1: {
-      ...Heading
+      ...Heading,
+      fontSize: 7
     },
     h2: {
       ...Heading

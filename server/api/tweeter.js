@@ -47,7 +47,7 @@ const tweeter = async username => {
       chartData: chartData(filtered),
       hashTags,
       filteredToxic,
-      toxicPercentage: (filteredToxic.length / 100) * 100,
+      toxicPercentage: Math.round((filteredToxic.length / 100) * 100),
       emojis,
       topics,
       timePeriod: timePeriod(oldestTweet, latestTweet)

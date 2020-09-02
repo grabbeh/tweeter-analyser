@@ -44,7 +44,7 @@ const Follower = props => {
                   <ResponsiveScatterPlot
                     data={data.graphData}
                     colors='#357edd'
-                    margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
+                    margin={{ top: 20, right: 10, bottom: 20, left: 10 }}
                     blendMode='multiply'
                     yScale={{
                       type: 'time',

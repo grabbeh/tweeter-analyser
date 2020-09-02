@@ -54,7 +54,12 @@ const InputForm = props => {
               <Box sx={{ mt: 3 }}>
                 <Flex justifyContent='flex-end'>
                   <Button
-                    sx={{ p: 0, bg: 'white', color: 'black' }}
+                    sx={{
+                      cursor: 'pointer',
+                      p: 0,
+                      bg: 'white',
+                      color: 'black'
+                    }}
                     disabled={isSubmitting}
                     type='submit'
                   >
