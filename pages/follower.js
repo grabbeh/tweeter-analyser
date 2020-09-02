@@ -25,7 +25,7 @@ const Follower = props => {
     <Layout>
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
-        <Box sx={{ my: 4, mx: 3, width: 600 }}>
+        <Box sx={{ my: 4, mx: 3, width: ['100%', '600px'] }}>
           <GenericUsernameForm
             dataUrl='/get-follower-data'
             callbackUrl='/follower'

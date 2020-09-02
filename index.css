@@ -30,6 +30,7 @@ button {
 }
 
 .gradient {
+  overflow: hidden;
   height: 100vh;
   background: rgb(255, 126, 95);
   background: linear-gradient(
