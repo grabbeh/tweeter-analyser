@@ -21,7 +21,6 @@ export default async (req, res) => {
       res.json({ ...results, ...user })
     }
   } catch (e) {
-    console.log(e)
     let error = e[0] ? e[0].message : e.message
     res.statusCode = 500
     res.json({ errorMessage: error })

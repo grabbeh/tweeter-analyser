@@ -5,7 +5,7 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 import Header from 'components/Header'
 
 const links = [
-  { href: '/search', text: 'Search', bg: 'light-yellow' },
+  { href: '/search', text: 'Tweeter analysis', bg: 'light-yellow' },
   { href: '/echo', text: 'Echo chamber', bg: 'light-purple' },
   { href: '/active', text: 'Active tweeters', bg: 'light-green' },
   { href: '/toxic', text: 'Toxic tweeters', bg: 'light-red' },

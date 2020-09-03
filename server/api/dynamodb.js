@@ -14,7 +14,6 @@ const findItem = async id => {
   // sort params to return the latest item
   const params = {
     TableName: 'TWEETERSv3',
-
     // give nicknames to the partition and sort keys
     ExpressionAttributeNames: {
       '#pk': 'PK',
@@ -31,6 +30,7 @@ const findItem = async id => {
 
   try {
     const data = await docClient.query(params).promise()
+
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
     return {
@@ -64,7 +64,7 @@ const addItem = async (id, content) => {
       ...dbContent
     }
   }
-  // replace item with sort key 'latest' with  latest item
+  // replace item with sort key 'latest' with latest item
   let latestParams = {
     TableName: 'TWEETERSv3',
     Item: {
@@ -78,6 +78,7 @@ const addItem = async (id, content) => {
   try {
     await docClient.put(addParams).promise()
     const data = await docClient.put(latestParams).promise()
+    console.log(data)
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
     console.log(error)

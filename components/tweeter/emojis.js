@@ -10,8 +10,8 @@ const Emojis = ({ emojis }) => (
         <Box sx={{ borderRadius: '20px', bg: 'light-yellow', p: 3 }}>
           <Toggle title='Emojis'>
             <Flex sx={{ flexWrap: 'wrap' }}>
-              {emojis.map(emoji => (
-                <Box>
+              {emojis.map((emoji, i) => (
+                <Box key={i}>
                   <Text
                     sx={{
                       fontSize: 4,

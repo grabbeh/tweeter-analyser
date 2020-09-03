@@ -9,11 +9,14 @@
     "start-next": "NODE_ENV=production forever start ./node_modules/.bin/next start -p 5000",
     "start-bot": "NODE_ENV=production forever start ./server/bot/server.js"
   },
+  "resolutions": {
+    "@mdx-js/react": "2.0.0-next.7"
+  },
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.16",
-    "@mdx-js/react": "^2.0.0-next.7",
+    "@mdx-js/react": "^1.6.16",
     "@next/mdx": "^9.5.3",
     "@nivo/bar": "^0.62.0",
     "@nivo/scatterplot": "^0.62.0",

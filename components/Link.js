@@ -4,11 +4,10 @@ import Link from 'next/link'
 
 const InternalLink = props => {
   return (
-    <Link
-      href={props.href}
-      sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
-    >
-      {props.children}
+    <Link href={props.href}>
+      <a sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}>
+        {props.children}
+      </a>
     </Link>
   )
 }

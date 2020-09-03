@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react'
-import Form from 'components/EchoForm'
+import Form from 'components/GenericForm'
 import Layout from 'components/Layout'
 import Header from 'components/Header'
-import { jsx, Box, Flex, Text } from 'theme-ui'
+import ScrollAnimation from 'components/animations/scrollanimation'
+import { jsx, Box, Flex, Text, Image, Link } from 'theme-ui'
 import Loading from 'components/LoadingSpinner'
-import User from 'components/user'
 import { server } from '../config/index'
 
 const MainForm = props => {
@@ -22,7 +22,12 @@ const MainForm = props => {
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ mt: 4, mx: 3, width: 600 }}>
-          <Form setLoading={setLoading} setData={setData} />
+          <Form
+            dataUrl='/get-followed-view'
+            callbackUrl='/echo'
+            setLoading={setLoading}
+            setData={setData}
+          />
           {loading && <Loading />}
           {!loading && data && (
             <Box>
@@ -32,16 +37,43 @@ const MainForm = props => {
                 </Text>
               </Box>
               {data.tweets.map(tweet => (
-                <Box
-                  key={tweet.id}
-                  sx={{ borderRadius: 3, mb: 4, p: 3, bg: 'light-gray' }}
-                >
-                  <User
-                    profileImage={tweet.user.profile_image_url_https}
-                    screenName={tweet.user.screen_name}
-                  />
-                  <Text sx={{ fontSize: 3, color: 'black' }}>{tweet.text}</Text>
-                </Box>
+                <ScrollAnimation key={tweet.id}>
+                  <Box
+                    sx={{
+                      borderStyle: '1px dark-gray solid',
+                      borderRadius: 3,
+                      mb: 4,
+                      p: 3,
+                      bg: 'light-gray'
+                    }}
+                  >
+                    <Flex sx={{ flexWrap: 'wrap' }}>
+                      <Flex sx={{ flexBasis: '0 1 50px' }}>
+                        <Box sx={{ mr: 3 }}>
+                          <Image
+                            sx={{ width: '35px', borderRadius: '999px' }}
+                            src={tweet.user.profile_image_url_https}
+                          />
+                        </Box>
+                      </Flex>
+                      <Box sx={{ width: '90%' }}>
+                        <Text sx={{ fontSize: 3, fontWeight: 'bold' }}>
+                          <Link
+                            sx={{ textDecoration: 'none' }}
+                            href={`https://twitter.com/${tweet.user.screen_name}`}
+                          >
+                            @{tweet.user.screen_name}
+                          </Link>
+                        </Text>
+                        <Box sx={{ mt: 2 }}>
+                          <Text sx={{ fontSize: 4, color: 'black' }}>
+                            {tweet.text}
+                          </Text>
+                        </Box>
+                      </Box>
+                    </Flex>
+                  </Box>
+                </ScrollAnimation>
               ))}
             </Box>
           )}
