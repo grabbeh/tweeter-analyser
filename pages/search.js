@@ -70,7 +70,7 @@ const MainForm = props => {
                   />
                 </Box>
               </ScrollAnimation>
-              <Pie pieData={data.tweetSplit} />
+              {data.tweetSplit && <Pie pieData={data.tweetSplit} />}
               <Chart chartData={data.chartData} />
               <Hashtags hashTags={data.hashTags} />
               <Toxic toxic={data.filteredToxic} />
