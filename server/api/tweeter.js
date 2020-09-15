@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
+import _ from 'lodash'
 import moment from 'moment'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
@@ -47,6 +48,7 @@ const tweeter = async username => {
       chartData: chartData(filtered),
       hashTags,
       filteredToxic,
+      tweetSplit: tweetSplit(filtered),
       toxicPercentage: Math.round((filteredToxic.length / 100) * 100),
       emojis,
       topics,
@@ -124,6 +126,17 @@ const getTweetsBatch = async (username, maximumId) => {
   }
 }
 
+const getBatch = async username => {
+  try {
+    return await client.get('statuses/user_timeline', {
+      screen_name: username,
+      count: 200
+    })
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
 const getUser = username => {
   return client.get('users/show', {
     screen_name: username
@@ -146,10 +159,33 @@ const calculateDuration = (oldestTweet, latestTweet) => {
   return latestDate.diff(oldestDate, 'days')
 }
 
+const addCategory = tweet => {
+  let category
+  let firstTwo = tweet.text.slice(0, 2)
+  if (tweet.text.charAt(0) === '@') {
+    category = 'REPLY'
+  } else if (firstTwo === 'RT') {
+    category = 'RETWEET'
+  } else {
+    category = 'TWEET'
+  }
+  return category
+}
+const tweetSplit = tweets => {
+  let added = tweets.map(t => {
+    return { ...t, category: addCategory(t) }
+  })
+  let categories = _.groupBy(added, 'category')
+  return Object.entries(categories).map(([k, v]) => {
+    return { id: k, label: k, value: v.length }
+  })
+}
+
 export {
   tweeter,
   calculateAverage,
   getSevenDaysTweets,
+  getBatch,
   filterSevenDays,
   getUser
 }

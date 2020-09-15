@@ -48,7 +48,7 @@ const MainForm = props => {
                     }}
                   >
                     <Flex sx={{ flexWrap: 'wrap' }}>
-                      <Flex sx={{ flexBasis: '0 1 50px' }}>
+                      <Flex sx={{ flexBasis: '0 1 auto' }}>
                         <Box sx={{ mr: 3 }}>
                           <Image
                             sx={{ width: '35px', borderRadius: '999px' }}

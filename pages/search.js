@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Text, Link } from 'theme-ui'
+import { jsx, Box, Flex, Text } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import RefreshForm from 'components/RefreshForm'
@@ -14,11 +14,13 @@ import Emojis from 'components/tweeter/emojis'
 import Topics from 'components/tweeter/topics'
 import Hashtags from 'components/tweeter/hashtags'
 import Chart from 'components/tweeter/chart'
+import Pie from 'components/tweeter/pie'
 import User from 'components/user'
 
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -68,6 +70,7 @@ const MainForm = props => {
                   />
                 </Box>
               </ScrollAnimation>
+              <Pie pieData={data.tweetSplit} />
               <Chart chartData={data.chartData} />
               <Hashtags hashTags={data.hashTags} />
               <Toxic toxic={data.filteredToxic} />

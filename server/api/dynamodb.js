@@ -10,7 +10,61 @@ AWS.config.update({
 // Create the DynamoDB service object
 var docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' })
 
-const findItem = async id => {
+const getPeriodicSaves = async () => {
+  var params = {
+    IndexName: 'PeriodicSaveIndex',
+    TableName: 'TWEETERSv3',
+    ExpressionAttributeNames: {
+      '#pk': 'PK'
+    },
+    KeyConditionExpression: '#pk = :pk',
+    ExpressionAttributeValues: {
+      ':pk': 'PERIODICSAVE'
+    },
+    ScanIndexForward: false
+  }
+  try {
+    let data = await docClient.query(params).promise()
+    return { statusCode: 200, body: JSON.stringify(data) }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      error: `Could not fetch: ${error.stack}`
+    }
+  }
+}
+
+const findMetadata = async id => {
+  const params = {
+    TableName: 'TWEETERSv3',
+    // give nicknames to the partition and sort keys
+    ExpressionAttributeNames: {
+      '#pk': 'PK',
+      '#sk': 'SK'
+    },
+    // use nicknames and values for nicknames
+    KeyConditionExpression: '#pk = :pk AND begins_with(#sk, :sk)',
+    // define values for the actual values of the nicknames
+    ExpressionAttributeValues: {
+      ':pk': id,
+      ':sk': 'meta'
+    }
+  }
+
+  try {
+    const data = await docClient.query(params).promise()
+    return { statusCode: 200, body: JSON.stringify(data) }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      error: `Could not fetch: ${error.stack}`
+    }
+  }
+}
+
+const updateMetadta = async () => {}
+
+const findSummary = async id => {
   // sort params to return the latest item
   const params = {
     TableName: 'TWEETERSv3',
@@ -30,7 +84,6 @@ const findItem = async id => {
 
   try {
     const data = await docClient.query(params).promise()
-
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
     return {
@@ -40,8 +93,53 @@ const findItem = async id => {
   }
 }
 
-const addItem = async (id, content) => {
+const addPeriodicallySavedUser = async id => {
+  let params = {
+    TableName: 'TWEETERSv3',
+    Item: {
+      PK: id,
+      SK: `PERIODICSAVE`
+    }
+  }
+  try {
+    const data = await docClient.put(params).promise()
+    return { statusCode: 200, body: JSON.stringify(data) }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      error: `Could not fetch: ${error.stack}`
+    }
+  }
+}
+
+const addTweets = async tweets => {
+  let userId = tweets[0].user.id
+  tweets.forEach(async tweet => {
+    let params = {
+      TableName: 'TWEETERSv3',
+      Item: {
+        PK: userId,
+        SK: `TWEET#${tweet.id}`,
+        ...tweet
+      }
+    }
+
+    try {
+      const data = await docClient.put(params).promise()
+      return { statusCode: 200, body: JSON.stringify(data) }
+    } catch (error) {
+      console.log(error)
+      return {
+        statusCode: 400,
+        error: `Could not fetch: ${error.stack}`
+      }
+    }
+  })
+}
+
+const addSummary = async (id, content) => {
   // add item but also copy contents into new item beginning with 'latest'
+  let metadata = await findMetadata(id)
   let dbContent = { ...content }
   // TODO: improve conditional keys
   // Conditional data attributes to power secondary indexes
@@ -54,12 +152,13 @@ const addItem = async (id, content) => {
       activeTweeterCount: 'ACTIVE'
     }
   }
-
+  let latestVersion = (metadata.version + 1).toString() || '1'
+  console.log(latestVersion)
   let addParams = {
     TableName: 'TWEETERSv3',
     Item: {
       PK: id,
-      SK: 'GENERAL',
+      SK: latestVersion,
       SUMMARY_CREATED_AT: Date.now(),
       ...dbContent
     }
@@ -75,10 +174,19 @@ const addItem = async (id, content) => {
     }
   }
 
+  let metaParams = {
+    TableName: 'TWEETERSv3',
+    Item: {
+      PK: id,
+      SK: 'meta',
+      version: metadata.version + 1 || 1
+    }
+  }
+
   try {
     await docClient.put(addParams).promise()
+    await docClient.put(metaParams).promise()
     const data = await docClient.put(latestParams).promise()
-    console.log(data)
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
     console.log(error)
@@ -142,6 +250,12 @@ const mostToxic = async () => {
   }
 }
 
-export { addItem, findItem, mostActive, mostToxic }
-
-// create local secondary index where value of tweets per day is key? Or only put items in with average > 100 and then query all items?
+export {
+  addSummary,
+  addPeriodicallySavedUser,
+  getPeriodicSaves,
+  findSummary,
+  addTweets,
+  mostActive,
+  mostToxic
+}

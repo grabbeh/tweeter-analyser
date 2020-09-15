@@ -1,12 +1,12 @@
 import { tweeter, getUser } from '../../server/api/tweeter'
-import { addItem, findItem } from '../../server/api/dynamodb'
+import { addSummary, findSummary } from '../../server/api/dynamodb'
 import moment from 'moment'
 
 export default async (req, res) => {
   let { username } = JSON.parse(req.body)
   try {
     let user = await getUser(username)
-    let existingResults = await findItem(user.id)
+    let existingResults = await findSummary(user.id)
     let o = JSON.parse(existingResults.body)
     if (o && o.Items.length > 0) {
       const item = o.Items[0]
@@ -16,7 +16,7 @@ export default async (req, res) => {
     } else {
       let results = await tweeter(username)
       let save = { ...results, ...user }
-      await addItem(user.id, save)
+      await addSummary(user.id, save)
       res.statusCode = 200
       res.json({ ...results, ...user })
     }

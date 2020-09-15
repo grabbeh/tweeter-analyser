@@ -1,5 +1,4 @@
 /** @jsx jsx */
-
 import { jsx, Box, Flex, Text } from 'theme-ui'
 import Toggle from 'components/toggle'
 import ScrollAnimation from 'components/animations/scrollanimation'

@@ -1,5 +1,6 @@
 const Heading = {
   fontWeight: 'bold',
+  fontFamily: 'sansSerif',
   my: 0
 }
 
@@ -108,20 +109,21 @@ const theme = {
     a: {
       color: 'black',
       cursor: 'pointer',
+      textDecoration: 'none',
       '&:hover': {
         textDecoration: 'underline'
       },
-      transition: '0.3'
+      transition: 'all 0.3s'
     },
     div: {},
     p: {
       fontFamily: 'sansSerif',
-      fontSize: 6,
-      color: 'red'
+      fontSize: 5,
+      color: 'black'
     },
     h1: {
       ...Heading,
-      fontSize: 7
+      fontSize: 8
     },
     h2: {
       ...Heading

@@ -1,5 +1,5 @@
 import { tweeter, getUser } from '../../server/api/tweeter'
-import { addItem } from '../../server/api/dynamodb'
+import { addSummary, findSummary } from '../../server/api/dynamodb'
 
 export default async (req, res) => {
   let { username } = JSON.parse(req.body)
@@ -7,8 +7,8 @@ export default async (req, res) => {
     let user = await getUser(username)
     let results = await tweeter(username)
     let save = { ...results, ...user }
-    await addItem(user.id, save)
-    // console.log(response)
+    let existingSummary = await findSummary(user.id)
+    await addSummary(user.id, save)
     res.statusCode = 200
     res.json({ ...results, ...user })
   } catch (e) {

@@ -7,7 +7,7 @@ const Summary = ({ totalTweets, averageTweetsPerDay }) => (
   <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
     <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
       <Text sx={{ color: 'white', fontSize: 4, fontWeight: 'bold' }}>
-        Total tweets, likes, retweets
+        Total tweets, retweets and replies
       </Text>
       <Text sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}>
         {totalTweets}

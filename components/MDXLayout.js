@@ -1,15 +1,17 @@
 /** @jsx jsx */
 import Layout from 'components/Layout'
-import { jsx, Box, Flex } from 'theme-ui'
+import { jsx, Box, Flex, BaseStyles } from 'theme-ui'
 import Header from 'components/Header'
 
 const MDXLayout = ({ children }) => {
   return (
     <Layout>
       <Header />
-      <Flex sx={{ justifyContent: 'center' }}>
-        <Box sx={{ mt: 4, mx: 3, width: ['100%', '600px'] }}>{children}</Box>
-      </Flex>
+      <BaseStyles>
+        <Flex sx={{ justifyContent: 'center' }}>
+          <Box sx={{ mt: 4, mx: 3, width: ['100%', '600px'] }}>{children}</Box>
+        </Flex>
+      </BaseStyles>
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'>
         <path
           fill='#0099ff'
