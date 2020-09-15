@@ -22,6 +22,9 @@ const Chart = ({ chartData }) => (
       }}
     >
       <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Hours</Text>
+      <Text sx={{ fontSize: 3 }}>
+        High volume throughout the day speaks for itself
+      </Text>
       <ResponsiveBar
         theme={theme}
         enableGridY={false}

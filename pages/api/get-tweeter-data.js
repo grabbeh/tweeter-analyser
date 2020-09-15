@@ -4,6 +4,7 @@ import moment from 'moment'
 
 export default async (req, res) => {
   let { username } = JSON.parse(req.body)
+  console.log(username)
   try {
     let user = await getUser(username)
     let existingResults = await findSummary(user.id)

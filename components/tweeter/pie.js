@@ -15,13 +15,16 @@ const Pie = ({ pieData }) => (
       }}
     >
       <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Split</Text>
+      <Text sx={{ fontSize: 3 }}>
+        A mixture of retweets and replies only is suggestive of bot activity
+      </Text>
       <ResponsivePie
         data={pieData}
-        margin={{ right: 20, bottom: 150, left: 20 }}
+        margin={{ right: 50, top: 50, bottom: 200, left: 50 }}
         innerRadius={0.5}
         padAngle={0.7}
         cornerRadius={3}
-        colors={{ scheme: 'nivo' }}
+        colors={{ scheme: 'category10' }}
         borderWidth={1}
         borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
         radialLabelsSkipAngle={10}
@@ -37,26 +40,6 @@ const Pie = ({ pieData }) => (
         animate
         motionStiffness={90}
         motionDamping={15}
-        defs={[
-          {
-            id: 'dots',
-            type: 'patternDots',
-            background: 'inherit',
-            color: 'rgba(255, 255, 255, 0.3)',
-            size: 4,
-            padding: 1,
-            stagger: true
-          },
-          {
-            id: 'lines',
-            type: 'patternLines',
-            background: 'inherit',
-            color: 'rgba(255, 255, 255, 0.3)',
-            rotation: -45,
-            lineWidth: 6,
-            spacing: 10
-          }
-        ]}
         fill={[
           {
             match: {
