@@ -1,7 +1,6 @@
 import Twitter from 'twitter'
 import { getUser } from '../../server/api/tweeter'
-import moment from 'moment'
-import { twitterDateFormat } from 'server/api/utils'
+import { format } from 'date-fns'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -18,18 +17,16 @@ export default async (req, res) => {
     let response = await getUsers(friendIds)
     let filtered = response.flat().filter(result => !(result instanceof Error))
     let justUnixDate = filtered
-      .map(f => moment(f.created_at, twitterDateFormat()).unix())
+      .map(f => format(new Date(f.created_at), 'x'))
       .sort((a, b) => a - b)
 
     const followers = justUnixDate.map((f, i) => {
       return {
         x: i + 1,
-        y: moment(f, 'X').format('YYYY-MM-DD')
+        y: format(new Date(f), 'yyyy-MM-dd')
       }
     })
 
-    // moment(f.created_at, twitterDateFormat()).format('YYYY-MM-DD')
-    // sort by date order
     res.statusCode = 200
     res.json({ user, graphData: [{ data: followers, id: 'Followers' }] })
   } catch (e) {

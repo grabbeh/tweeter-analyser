@@ -8,7 +8,7 @@ import Loading from 'components/LoadingSpinner'
 
 const MainForm = props => {
   let [data, setData] = useState()
-  console.log(data)
+
   let [loading, setLoading] = useState(false)
   return (
     <Layout>

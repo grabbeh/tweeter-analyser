@@ -28,8 +28,9 @@ const Chart = ({ chartData }) => (
       <ResponsiveBar
         theme={theme}
         enableGridY={false}
-        colors='#357edd'
-        data={chartData}
+        colors={{ scheme: 'category10' }}
+        data={chartData.data}
+        keys={chartData.keys}
         indexBy='time'
         margin={{ top: 20, bottom: 150, left: 65 }}
         padding={0.3}

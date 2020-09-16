@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
-import moment from 'moment'
+import { twitterDateFormat } from '../api/utils'
+import { format, isAfter, sub } from 'date-fns'
 dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -20,9 +21,12 @@ const newTweet = async content => {
 const getMentions = async () => {
   try {
     let mentions = await client.get('statuses/mentions_timeline', {})
-    let oneMinuteAgo = moment(Date.now()).subtract(1, 'minutes')
+
+    let oneMinuteAgo = sub(Date.now(), { minutes: 1 })
+
     return mentions.filter(m => {
-      return moment(m.created_at, twitterDateFormat()).isAfter(oneMinuteAgo)
+      const creationDate = new Date(m.created_at)
+      return isAfter(creationDate, oneMinuteAgo)
     })
   } catch (e) {
     console.log(e)
@@ -53,7 +57,5 @@ const getAllTweets = async (username, maximumId) => {
     return fragment.data
   }
 }
-
-const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
 
 export { newTweet, getMentions, getTweet, getAllTweets }

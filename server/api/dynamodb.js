@@ -128,7 +128,6 @@ const addTweets = async tweets => {
       const data = await docClient.put(params).promise()
       return { statusCode: 200, body: JSON.stringify(data) }
     } catch (error) {
-      console.log(error)
       return {
         statusCode: 400,
         error: `Could not fetch: ${error.stack}`
@@ -153,7 +152,7 @@ const addSummary = async (id, content) => {
     }
   }
   let latestVersion = (metadata.version + 1).toString() || '1'
-  console.log(latestVersion)
+
   let addParams = {
     TableName: 'TWEETERSv3',
     Item: {
@@ -189,7 +188,6 @@ const addSummary = async (id, content) => {
     const data = await docClient.put(latestParams).promise()
     return { statusCode: 200, body: JSON.stringify(data) }
   } catch (error) {
-    console.log(error)
     return {
       statusCode: 400,
       error: `Could not fetch: ${error.stack}`

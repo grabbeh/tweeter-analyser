@@ -9,7 +9,7 @@ import Loading from 'components/LoadingSpinner'
 import Header from 'components/Header'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 import User from 'components/user'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 const Follower = props => {
   let { serverData } = props
@@ -61,7 +61,7 @@ const Follower = props => {
                     axisLeft={{
                       format: '20%y'
                     }}
-                    yFormat={c => moment(c).format('DD-MM-YYYY')}
+                    yFormat={c => format(c, 'dd-MM-yyyy')}
                     xFormat={c => `${c}`}
                   />
                 </Box>

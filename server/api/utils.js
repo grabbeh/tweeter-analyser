@@ -1,3 +1,5 @@
-const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
+const twitterDateFormat = () => {
+  return 'EEE MMM dd HH:mm:ss zz yyyy'
+}
 
 export { twitterDateFormat }

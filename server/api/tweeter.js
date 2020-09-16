@@ -1,10 +1,11 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
 import _ from 'lodash'
-import moment from 'moment'
+import { format, sub, isAfter, differenceInDays } from 'date-fns'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
 import chartData from './chartData.js'
+import { twitterDateFormat } from '../api/utils'
 dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -13,8 +14,6 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_SECRET
 })
 
-const twitterDateFormat = () => 'ddd MMM DD HH:mm:ss ZZ YYYY'
-
 const tweeter = async username => {
   try {
     let tweets = await getSevenDaysTweets(username)
@@ -22,6 +21,7 @@ const tweeter = async username => {
       throw new Error('No tweets in the last 7 days')
     }
     let filtered = filterSevenDays(tweets)
+
     let baseTweets = filtered.map(f => f.text).flat()
     let toxicityResults = await predict(baseTweets.slice(0, 100))
     let filteredToxic = toxicityResults.filter(t => {
@@ -66,22 +66,16 @@ const filterSevenDays = tweets => {
 }
 
 const timePeriod = (oldestTweet, latestTweet) => {
-  let dateFormat = 'D MMMM YYYY'
-  let endDate = moment(latestTweet.created_at, twitterDateFormat()).format(
-    dateFormat
-  )
-  let startDate = moment(oldestTweet.created_at, twitterDateFormat()).format(
-    dateFormat
-  )
+  let dateFormat = 'd MMMM yyyy'
+  let endDate = format(new Date(latestTweet.created_at), dateFormat)
+  let startDate = format(new Date(oldestTweet.created_at), dateFormat)
   return `${startDate} - ${endDate}`
 }
 
-const sevenDaysAgo = moment(new Date(), twitterDateFormat()).subtract(7, 'days')
+const sevenDaysAgo = sub(new Date(), { days: 7 })
 
 const checkIfWithinSevenDays = tweet => {
-  return moment(new Date(tweet.created_at), twitterDateFormat()).isAfter(
-    sevenDaysAgo
-  )
+  return isAfter(new Date(tweet.created_at), sevenDaysAgo)
 }
 
 const getSevenDaysTweets = async (username, maximumId) => {
@@ -154,9 +148,9 @@ const calculateAverage = tweets => {
 }
 
 const calculateDuration = (oldestTweet, latestTweet) => {
-  let latestDate = moment(latestTweet.created_at, twitterDateFormat())
-  let oldestDate = moment(oldestTweet.created_at, twitterDateFormat())
-  return latestDate.diff(oldestDate, 'days')
+  let latestDate = new Date(latestTweet.created_at)
+  let oldestDate = new Date(oldestTweet.created_at)
+  return differenceInDays(oldestDate, latestDate)
 }
 
 const addCategory = tweet => {
@@ -171,6 +165,7 @@ const addCategory = tweet => {
   }
   return category
 }
+
 const tweetSplit = tweets => {
   let added = tweets.map(t => {
     return { ...t, category: addCategory(t) }
@@ -187,5 +182,6 @@ export {
   getSevenDaysTweets,
   getBatch,
   filterSevenDays,
-  getUser
+  getUser,
+  tweetSplit
 }

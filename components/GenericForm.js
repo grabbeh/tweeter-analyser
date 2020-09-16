@@ -42,7 +42,6 @@ const GenericUsernameForm = props => {
           })
           .then(
             result => {
-              console.log(result)
               setData(result)
               setLoading(false)
               resetForm()
