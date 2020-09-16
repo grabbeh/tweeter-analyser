@@ -149,7 +149,7 @@ const calculateAverage = tweets => {
 const calculateDuration = (oldestTweet, latestTweet) => {
   let latestDate = new Date(latestTweet.created_at)
   let oldestDate = new Date(oldestTweet.created_at)
-  return differenceInDays(oldestDate, latestDate)
+  return differenceInDays(latestDate, oldestDate)
 }
 
 const addCategory = tweet => {
