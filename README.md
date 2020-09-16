@@ -65,6 +65,6 @@ Make a production build (optimized for speed etc)
 
 `npm run build`
 
-Start the production server - it uses `Forever` to main uptime in a rudimentary wa
+Start the production server - it uses `Forever` to main uptime in a rudimentary way
 
 `npm run start-next`
