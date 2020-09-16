@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react'
 import Form from 'components/GenericForm'
+import { format } from 'date-fns'
 import Layout from 'components/Layout'
 import Header from 'components/Header'
 import ScrollAnimation from 'components/animations/scrollanimation'
@@ -11,6 +12,7 @@ import { server } from '../config/index'
 const MainForm = props => {
   let { serverData } = props
   let [data, setData] = useState()
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -69,6 +71,19 @@ const MainForm = props => {
                           <Text sx={{ fontSize: 4, color: 'black' }}>
                             {tweet.text}
                           </Text>
+                          <Box sx={{ pt: 2 }}>
+                            <Text
+                              sx={{
+                                color: 'dark-gray',
+                                fontSize: 2
+                              }}
+                            >
+                              {format(
+                                new Date(tweet.created_at),
+                                'dd MMMM yyy HH:mm'
+                              )}
+                            </Text>
+                          </Box>
                         </Box>
                       </Box>
                     </Flex>

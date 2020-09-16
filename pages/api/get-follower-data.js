@@ -26,7 +26,6 @@ export default async (req, res) => {
         y: format(new Date(f), 'yyyy-MM-dd')
       }
     })
-
     res.statusCode = 200
     res.json({ user, graphData: [{ data: followers, id: 'Followers' }] })
   } catch (e) {

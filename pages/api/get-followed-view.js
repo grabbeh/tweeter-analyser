@@ -1,4 +1,5 @@
 import Twitter from 'twitter'
+import _ from 'lodash'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -11,10 +12,14 @@ export default async (req, res) => {
   let username = JSON.parse(req.body).username
   try {
     let friendIds = await getAllFriends(username)
-    let response = await getFriendTweets(friendIds.slice(0, 100))
+    let response = await getFriendTweets(friendIds.slice(0, 250))
+    console.log(response)
     let filtered = response.filter(result => !(result instanceof Error))
-    const tweets = filtered.filter(result => !(result instanceof Array))
+    const unsorted = filtered.filter(result => !(result instanceof Array))
     // sort by date order
+    let tweets = _.sortBy(unsorted, function (o) {
+      return new Date(o.created_at)
+    }).reverse()
     res.statusCode = 200
     res.json({ tweets, username })
   } catch (e) {
