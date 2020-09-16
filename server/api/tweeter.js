@@ -20,7 +20,6 @@ const client = new Twitter({
 })
 
 const tweeter = async user => {
-  console.log(user)
   try {
     let tweets = await getSevenDaysTweets(user.id)
     if (!tweets.length > 0 || !tweets) {
@@ -62,6 +61,7 @@ const tweeter = async user => {
       timePeriod: timePeriod(oldestTweet, latestTweet)
     }
   } catch (e) {
+    console.log(e)
     throw e
   }
 }

@@ -62,7 +62,7 @@ const findMetadata = async id => {
   }
 }
 
-const updateMetadta = async () => {}
+const updateMetadata = async () => {}
 
 const findSummary = async id => {
   // sort params to return the latest item
@@ -139,6 +139,8 @@ const addTweets = async tweets => {
 const addSummary = async (id, content) => {
   // add item but also copy contents into new item beginning with 'latest'
   let metadata = await findMetadata(id)
+  let parsed = JSON.parse(metadata.body)
+  let parsedMetadata = parsed.Items
   let dbContent = { ...content }
   // TODO: improve conditional keys
   // Conditional data attributes to power secondary indexes
@@ -151,7 +153,11 @@ const addSummary = async (id, content) => {
       activeTweeterCount: 'ACTIVE'
     }
   }
-  let latestVersion = (metadata.version + 1).toString() || '1'
+
+  let latestVersion
+  if (parsedMetadata.length > 0) {
+    latestVersion = (Number(parsedMetadata[0].version) + 1).toString()
+  } else latestVersion = '1'
 
   let addParams = {
     TableName: 'TWEETERSv3',
@@ -178,7 +184,7 @@ const addSummary = async (id, content) => {
     Item: {
       PK: id,
       SK: 'meta',
-      version: metadata.version + 1 || 1
+      version: latestVersion
     }
   }
 
