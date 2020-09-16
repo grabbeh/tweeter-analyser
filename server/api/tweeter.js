@@ -1,11 +1,16 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
 import _ from 'lodash'
-import { format, sub, isAfter, differenceInDays } from 'date-fns'
+import {
+  format,
+  sub,
+  isAfter,
+  differenceInDays,
+  formatDistanceToNow
+} from 'date-fns'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
 import chartData from './chartData.js'
-import { twitterDateFormat } from '../api/utils'
 dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -14,9 +19,10 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_SECRET
 })
 
-const tweeter = async username => {
+const tweeter = async user => {
+  console.log(user)
   try {
-    let tweets = await getSevenDaysTweets(username)
+    let tweets = await getSevenDaysTweets(user.id)
     if (!tweets.length > 0 || !tweets) {
       throw new Error('No tweets in the last 7 days')
     }
@@ -41,6 +47,8 @@ const tweeter = async username => {
     let latestTweet = filtered[0]
     let oldestTweet = filtered.pop()
     return {
+      accountCreated: format(new Date(user.created_at), 'd LLLL y'),
+      timeSinceCreation: formatDistanceToNow(new Date(user.created_at)),
       averageTweetsPerDay: average,
       limitExceeded,
       totalTweets: filtered.length,
@@ -77,9 +85,9 @@ const checkIfWithinSevenDays = tweet => {
   return isAfter(new Date(tweet.created_at), sevenDaysAgo)
 }
 
-const getSevenDaysTweets = async (username, maximumId) => {
+const getSevenDaysTweets = async (id, maximumId) => {
   try {
-    let fragment = await getTweetsBatch(username, maximumId)
+    let fragment = await getTweetsBatch(id, maximumId)
     let earliestTweet = fragment.data.pop()
     if (
       fragment &&
@@ -87,9 +95,7 @@ const getSevenDaysTweets = async (username, maximumId) => {
       earliestTweet &&
       checkIfWithinSevenDays(earliestTweet)
     ) {
-      return fragment.data.concat(
-        await getSevenDaysTweets(username, fragment.nextId)
-      )
+      return fragment.data.concat(await getSevenDaysTweets(id, fragment.nextId))
     } else {
       return fragment.data
     }
@@ -98,10 +104,10 @@ const getSevenDaysTweets = async (username, maximumId) => {
   }
 }
 
-const getTweetsBatch = async (username, maximumId) => {
+const getTweetsBatch = async (id, maximumId) => {
   try {
     let data = await client.get('statuses/user_timeline', {
-      screen_name: username,
+      id,
       max_id: maximumId,
       count: 200
     })
@@ -119,10 +125,10 @@ const getTweetsBatch = async (username, maximumId) => {
   }
 }
 
-const getBatch = async username => {
+const getBatch = async id => {
   try {
     return await client.get('statuses/user_timeline', {
-      screen_name: username,
+      id,
       count: 200
     })
   } catch (e) {
@@ -130,9 +136,9 @@ const getBatch = async username => {
   }
 }
 
-const getUser = username => {
+const getUser = id => {
   return client.get('users/show', {
-    screen_name: username
+    id
   })
 }
 

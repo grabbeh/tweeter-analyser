@@ -6,7 +6,7 @@ const theme = {
   axis: {
     textColor: 'red',
     fontSize: '30px',
-    fontFamily: 'Georgia',
+    fontFamily: 'Segoe UI',
     tickColor: 'red'
   }
 }

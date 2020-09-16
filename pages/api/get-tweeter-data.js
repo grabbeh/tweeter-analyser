@@ -14,7 +14,7 @@ export default async (req, res) => {
       res.statusCode = 200
       res.json({ ...item, refreshAvailable })
     } else {
-      let results = await tweeter(username)
+      let results = await tweeter(user)
       let save = { ...results, ...user }
       await addSummary(user.id, save)
       res.statusCode = 200

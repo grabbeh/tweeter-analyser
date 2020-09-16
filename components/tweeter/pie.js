@@ -22,7 +22,7 @@ const Pie = ({ pieData }) => (
         data={pieData}
         margin={{ right: 50, top: 50, bottom: 200, left: 50 }}
         innerRadius={0.5}
-        padAngle={0.7}
+        padAngle={5}
         cornerRadius={3}
         colors={{ scheme: 'category10' }}
         borderWidth={1}

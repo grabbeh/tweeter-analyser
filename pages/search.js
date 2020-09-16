@@ -44,12 +44,21 @@ const MainForm = props => {
               <User
                 screenName={data.screen_name}
                 profileImage={data.profile_image_url_https}
+                accountCreated={data.accountCreated}
+                timeSinceCreation={data.timeSinceCreation}
               />
               <ScrollAnimation>
-                <Box>
-                  <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Overview</Text>
+                <Box sx={{ mt: 2 }}>
+                  <Text sx={{ fontSize: [4, 6], fontWeight: 'bold' }}>
+                    Overview
+                  </Text>
                   <Flex sx={{ fleWrap: 'wrap' }}>
-                    <Text sx={{ fontSize: [3, 5], fontWeight: 'bold' }}>
+                    <Text
+                      sx={{
+                        fontSize: 4,
+                        color: 'dark-gray'
+                      }}
+                    >
                       {data.timePeriod}
                     </Text>
                     <Box>

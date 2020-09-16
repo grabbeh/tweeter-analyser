@@ -16,6 +16,11 @@ const User = props => (
           @{props.screenName}
         </Link>
       </Text>
+      <Box>
+        <Text sx={{ color: 'dark-gray', fontSize: 4 }}>
+          Joined {props.accountCreated}, {props.timeSinceCreation} ago
+        </Text>
+      </Box>
     </Flex>
   </ScrollAnimation>
 )
