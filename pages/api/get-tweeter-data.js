@@ -31,7 +31,6 @@ const checkRefresh = createdAt => {
   let created = fromUnixTime(createdAt / 1000)
   let now = new Date()
   let difference = differenceInHours(now, created)
-  console.log('Difference:', difference)
   let refreshAvailable = false
   if (difference > 12) {
     refreshAvailable = true

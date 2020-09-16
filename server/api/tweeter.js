@@ -21,7 +21,6 @@ const tweeter = async username => {
       throw new Error('No tweets in the last 7 days')
     }
     let filtered = filterSevenDays(tweets)
-
     let baseTweets = filtered.map(f => f.text).flat()
     let toxicityResults = await predict(baseTweets.slice(0, 100))
     let filteredToxic = toxicityResults.filter(t => {
