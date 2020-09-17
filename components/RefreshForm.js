@@ -26,7 +26,7 @@ const InputForm = props => {
           .then(r => r.json())
           .then(json => {
             setData(json)
-            console.log(json)
+
             setLoading(false)
             resetForm()
           })
@@ -46,12 +46,12 @@ const InputForm = props => {
       {props => {
         const { errors, touched, isSubmitting } = props
         return (
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ ml: 2 }}>
             <Form>
-              <Box sx={{ mt: 1 }}>
+              <Box>
                 {touched.username && <Error>{errors.serverError}</Error>}
               </Box>
-              <Box sx={{ mt: 3 }}>
+              <Box>
                 <Flex justifyContent='flex-end'>
                   <Button
                     sx={{

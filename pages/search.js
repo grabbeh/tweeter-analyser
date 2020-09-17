@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
@@ -18,15 +19,25 @@ import Pie from 'components/tweeter/pie'
 import User from 'components/user'
 
 const MainForm = props => {
-  let { serverData } = props
+  const {
+    query: { username }
+  } = useRouter()
   let [data, setData] = useState()
-  console.log(data)
+
   let [loading, setLoading] = useState(false)
   useEffect(() => {
-    if (serverData) {
-      setData(serverData)
+    async function fetchData () {
+      const result = await fetch(`${server}/get-tweeter-data`, {
+        body: JSON.stringify({ username }),
+        method: 'POST'
+      })
+      const r = await result.json()
+      setData(r)
     }
-  })
+    if (username) {
+      fetchData()
+    }
+  }, [username])
   return (
     <Layout>
       <Header />
@@ -94,15 +105,3 @@ const MainForm = props => {
 }
 
 export default MainForm
-
-export async function getServerSideProps (props) {
-  if (props.query.username) {
-    let { username } = props.query
-    const res = await fetch(`${server}/get-tweeter-data`, {
-      body: JSON.stringify({ username }),
-      method: 'POST'
-    })
-    const data = await res.json()
-    return { serverData: data }
-  } else return {}
-}
