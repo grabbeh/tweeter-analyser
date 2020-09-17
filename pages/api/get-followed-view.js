@@ -13,7 +13,6 @@ export default async (req, res) => {
   try {
     let friendIds = await getAllFriends(username)
     let response = await getFriendTweets(friendIds.slice(0, 250))
-    console.log(response)
     let filtered = response.filter(result => !(result instanceof Error))
     const unsorted = filtered.filter(result => !(result instanceof Array))
     // sort by date order
@@ -55,7 +54,7 @@ const getFriendBatch = async (username, cursor) => {
 
 const getFriendTweets = friendIds => {
   let promises = friendIds.map(async id => {
-    let tweets = await getTweets(id)
+    let tweets = await getTweets(id.toString())
     if (tweets[0]) return tweets[0]
   })
   return Promise.all(

@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
-import { twitterDateFormat } from '../api/utils'
-import { format, isAfter, sub } from 'date-fns'
+import { isAfter, sub } from 'date-fns'
 dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -21,9 +20,7 @@ const newTweet = async content => {
 const getMentions = async () => {
   try {
     let mentions = await client.get('statuses/mentions_timeline', {})
-
     let oneMinuteAgo = sub(Date.now(), { minutes: 1 })
-
     return mentions.filter(m => {
       const creationDate = new Date(m.created_at)
       return isAfter(creationDate, oneMinuteAgo)
@@ -34,12 +31,12 @@ const getMentions = async () => {
 }
 
 const getTweet = async id => {
-  return client.get('statuses/show/', { id })
+  return client.get('statuses/show/', { screen_name: id })
 }
 
-const getTweetsBatch = async (username, maximumId) => {
+const getTweetsBatch = async (id, maximumId) => {
   let data = await client.get('statuses/user_timeline', {
-    screen_name: username,
+    screen_name: id,
     max_id: maximumId,
     count: 200
   })
@@ -47,12 +44,10 @@ const getTweetsBatch = async (username, maximumId) => {
   return { data, nextId }
 }
 
-// can we just get last 7 days of tweets?
-
-const getAllTweets = async (username, maximumId) => {
-  let fragment = await getTweetsBatch(username, maximumId)
+const getAllTweets = async (id, maximumId) => {
+  let fragment = await getTweetsBatch(id, maximumId)
   if (fragment.data.length > 1) {
-    return fragment.data.concat(await getAllTweets(username, fragment.nextId))
+    return fragment.data.concat(await getAllTweets(id, fragment.nextId))
   } else {
     return fragment.data
   }

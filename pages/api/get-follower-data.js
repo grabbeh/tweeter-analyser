@@ -1,6 +1,7 @@
 import Twitter from 'twitter'
 import { getUser } from '../../server/api/tweeter'
 import { format } from 'date-fns'
+import _ from 'lodash'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -13,17 +14,16 @@ export default async (req, res) => {
   let username = JSON.parse(req.body).username
   let user = await getUser(username)
   try {
-    let friendIds = await getAllFollowers(username)
+    let friendIds = await getAllFollowers(user.id)
     let response = await getUsers(friendIds)
     let filtered = response.flat().filter(result => !(result instanceof Error))
-    let justUnixDate = filtered
-      .map(f => format(new Date(f.created_at), 'x'))
-      .sort((a, b) => a - b)
-
-    const followers = justUnixDate.map((f, i) => {
+    let sorted = _.sortBy(filtered, function (o) {
+      return new Date(o.created_at)
+    })
+    const followers = sorted.map((f, i) => {
       return {
         x: i + 1,
-        y: format(new Date(f), 'yyyy-MM-dd')
+        y: format(new Date(f.created_at), 'yyyy-MM-dd')
       }
     })
     res.statusCode = 200
@@ -36,28 +36,25 @@ export default async (req, res) => {
   }
 }
 
-const getAllFollowers = async (username, cursor) => {
-  let fragment = await getFollowersBatch(username, cursor)
+const getAllFollowers = async (id, cursor) => {
+  let fragment = await getFollowersBatch(id, cursor)
   if (fragment.nextCursor) {
-    return fragment.ids.concat(
-      await getAllFollowers(username, fragment.nextCursor)
-    )
+    return fragment.ids.concat(await getAllFollowers(id, fragment.nextCursor))
   } else {
     return fragment.ids
   }
 }
 
-const getFollowersBatch = async (username, cursor) => {
+const getFollowersBatch = async (id, cursor) => {
   try {
     let data = await client.get('followers/ids', {
-      screen_name: username,
+      user_id: id,
       cursor
     })
     let nextCursor = data.next_cursor
     return { ids: data.ids, nextCursor }
   } catch (e) {
     throw e
-    //console.log(e)
   }
 }
 

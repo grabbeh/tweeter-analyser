@@ -21,7 +21,7 @@ const client = new Twitter({
 
 const tweeter = async user => {
   try {
-    let tweets = await getSevenDaysTweets(user.id)
+    let tweets = await getSevenDaysTweets(user.id_str)
     if (!tweets.length > 0 || !tweets) {
       throw new Error('No tweets in the last 7 days')
     }
@@ -61,7 +61,6 @@ const tweeter = async user => {
       timePeriod: timePeriod(oldestTweet, latestTweet)
     }
   } catch (e) {
-    console.log(e)
     throw e
   }
 }
@@ -107,10 +106,12 @@ const getSevenDaysTweets = async (id, maximumId) => {
 const getTweetsBatch = async (id, maximumId) => {
   try {
     let data = await client.get('statuses/user_timeline', {
-      id,
+      user_id: id,
+      //  screen_name: id,
       max_id: maximumId,
       count: 200
     })
+
     let oldest = data.pop()
     let nextId
     // sometimes gives error message "cannot find id of undefined"
@@ -128,7 +129,7 @@ const getTweetsBatch = async (id, maximumId) => {
 const getBatch = async id => {
   try {
     return await client.get('statuses/user_timeline', {
-      id,
+      screen_name: id,
       count: 200
     })
   } catch (e) {
@@ -136,9 +137,9 @@ const getBatch = async id => {
   }
 }
 
-const getUser = id => {
+const getUser = username => {
   return client.get('users/show', {
-    id
+    screen_name: username
   })
 }
 
