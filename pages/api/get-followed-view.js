@@ -12,15 +12,21 @@ export default async (req, res) => {
   let username = JSON.parse(req.body).username
   try {
     let friendIds = await getAllFriends(username)
-    let response = await getFriendTweets(friendIds.slice(0, 250))
+    let response = await getFriendTweets(friendIds.slice(0, 100))
+
     let filtered = response.filter(result => !(result instanceof Error))
     const unsorted = filtered.filter(result => !(result instanceof Array))
+    if (unsorted.length > 0) {
+      let tweets = _.sortBy(unsorted, function (o) {
+        return new Date(o.created_at)
+      }).reverse()
+      res.statusCode = 200
+      res.json({ tweets, username })
+    } else {
+      res.statusCode = 500
+      res.json({ errorMessage: 'Rate limit exceeded' })
+    }
     // sort by date order
-    let tweets = _.sortBy(unsorted, function (o) {
-      return new Date(o.created_at)
-    }).reverse()
-    res.statusCode = 200
-    res.json({ tweets, username })
   } catch (e) {
     let error = e[0] ? e[0].message : e.message
     res.statusCode = 500

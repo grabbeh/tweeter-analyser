@@ -95,7 +95,7 @@ const MainForm = props => {
 
 export default MainForm
 
-MainForm.getInitialProps = async props => {
+export async function getServerSideProps (props) {
   if (props.query.username) {
     let { username } = props.query
     const res = await fetch(`${server}/get-tweeter-data`, {
