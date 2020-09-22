@@ -190,9 +190,9 @@ const tweetSplit = tweets => {
 
 const likesToReplyTo = tweets => {
   let added = addCategories(tweets)
-  let retweets = _.groupBy(added, 'category').REPLY
-  let repliedTo = retweets.map(r => r.in_reply_to_screen_name)
-  if (repliedTo) {
+  let replies= _.groupBy(added, 'category').REPLY
+   if (replies) {
+    let repliedTo = replies.map(r => r.in_reply_to_screen_name)
     let grouped = _.countBy(repliedTo)
     let o = Object.entries(grouped).map(([k, v]) => {
       return { screen_name: `@${k}`, value: v }
@@ -216,7 +216,6 @@ const extractFirstScreenname = str => {
 
 const likesToRetweet = tweets => {
   let added = addCategories(tweets)
-
   let retweets = _.groupBy(added, 'category').RETWEET
   if (retweets) {
     let retweeted = retweets.map(r => extractFirstScreenname(r.text))
