@@ -192,15 +192,18 @@ const likesToReplyTo = tweets => {
   let added = addCategories(tweets)
   let retweets = _.groupBy(added, 'category').REPLY
   let repliedTo = retweets.map(r => r.in_reply_to_screen_name)
-  let grouped = _.countBy(repliedTo)
-  let o = Object.entries(grouped).map(([k, v]) => {
-    return { screen_name: `@${k}`, value: v }
-  })
-  let result = _.sortBy(o, function (o) {
-    return o.value
-  }).reverse()
-
-  return result.slice(0, 5)
+  if (repliedTo) {
+    let grouped = _.countBy(repliedTo)
+    let o = Object.entries(grouped).map(([k, v]) => {
+      return { screen_name: `@${k}`, value: v }
+    })
+    let result = _.sortBy(o, function (o) {
+      return o.value
+    }).reverse()
+    return result.slice(0, 5)
+  } else {
+    return false
+  }
 }
 
 const extractFirstScreenname = str => {
@@ -213,17 +216,22 @@ const extractFirstScreenname = str => {
 
 const likesToRetweet = tweets => {
   let added = addCategories(tweets)
-  let retweets = _.groupBy(added, 'category').RETWEET
-  let repliedTo = retweets.map(r => extractFirstScreenname(r.text))
-  let grouped = _.countBy(repliedTo)
-  let o = Object.entries(grouped).map(([k, v]) => {
-    return { screen_name: k, value: v }
-  })
-  let result = _.sortBy(o, function (o) {
-    return o.value
-  }).reverse()
 
-  return result.slice(0, 5)
+  let retweets = _.groupBy(added, 'category').RETWEET
+  if (retweets) {
+    let retweeted = retweets.map(r => extractFirstScreenname(r.text))
+    let grouped = _.countBy(retweeted)
+    let o = Object.entries(grouped).map(([k, v]) => {
+      return { screen_name: k, value: v }
+    })
+    let result = _.sortBy(o, function (o) {
+      return o.value
+    }).reverse()
+
+    return result.slice(0, 5)
+  } else {
+    return false
+  }
 }
 
 export {
@@ -234,5 +242,6 @@ export {
   filterSevenDays,
   getUser,
   tweetSplit,
-  likesToReplyTo
+  likesToReplyTo,
+  likesToRetweet
 }
