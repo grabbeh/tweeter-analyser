@@ -9,6 +9,7 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
+import IntroBar from 'components/introBar'
 import {
   Summary,
   Toxic,
@@ -26,7 +27,6 @@ const MainForm = props => {
     query: { username }
   } = useRouter()
   let [data, setData] = useState()
-  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +45,7 @@ const MainForm = props => {
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ my: 4, mx: 3, width: 600 }}>
+        <IntroBar title='Search' subtitle="Get an overview of someone's activity on Twitter"/>
           <GenericUsernameForm
             dataUrl='/get-tweeter-data'
             callbackUrl='/search'
@@ -100,7 +101,7 @@ const MainForm = props => {
               {data.tweetSplit && <Pie pieData={data.tweetSplit} />}
               <Chart chartData={data.chartData} />
               <Hashtags hashTags={data.hashTags} />
-              <Toxic toxic={data.filteredToxic} />
+              <Toxic toxic={data.toxicTweets} />
               <Emojis emojis={data.emojis} />
               <Topics topics={data.topics} />
             </Box>

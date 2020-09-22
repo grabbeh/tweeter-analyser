@@ -76,7 +76,7 @@ const GenericUsernameForm = props => {
                 onChange={handleChange}
                 name='username'
                 value={values.username}
-                label='Please input a username'
+                label='Twitter handle'
                 error={errors.username}
               />
               <Box sx={{ mt: 1 }}>

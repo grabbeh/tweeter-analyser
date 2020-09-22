@@ -14,18 +14,6 @@ import { css } from '@emotion/core'
 import propTypes from '@styled-system/prop-types'
 import PropTypes from 'prop-types'
 
-/*
-const StyledInput = styled('input')(
-  { border: 'none', boxSizing: 'border-box' },
-  layout,
-  space,
-  shadow,
-  position,
-  color,
-  border,
-  typography
-) */
-
 const StyledInput = styled('input')`
   ${layout}
   ${space}
@@ -63,7 +51,7 @@ const Input = props => {
     <Box>
       {label && (
         <Box mb={2}>
-          <Text sx={{ fontWeight: 'bold', fontSize: 4 }}>
+          <Text sx={{ fontFamily:'sansSerif',fontWeight: 'bold', fontSize: 4 }}>
             <label htmlFor={value}>{label}</label>
           </Text>
         </Box>

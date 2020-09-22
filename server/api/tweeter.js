@@ -26,28 +26,15 @@ const tweeter = async user => {
       throw new Error('No tweets in the last 7 days')
     }
     let filtered = filterSevenDays(tweets)
-    let baseTweets = filtered.map(f => f.text).flat()
-    let toxicityResults = await predict(baseTweets.slice(0, 100))
-    let filteredToxic = toxicityResults.filter(t => {
-      return (
-        t.toxicityResults ||
-        t.identity_attack ||
-        t.insult ||
-        t.obscene ||
-        t.severe_toxicity ||
-        t.sexual_explicit ||
-        t.threat ||
-        t.toxicity
-      )
-    })
-
-    let { hashTags, emojis, topics } = compromise(baseTweets)
+    filtered = addCategories(filtered)
+    let toxicTweets = await predict(filtered)
+    let { hashTags, emojis, topics } = compromise(filtered)
     let { average, limitExceeded } = calculateAverage(filtered)
     let latestTweet = filtered[0]
     let oldestTweet = filtered.pop()
     return {
-      accountCreated: format(new Date(user.created_at), 'd LLLL y'),
-      timeSinceCreation: formatDistanceToNow(new Date(user.created_at)),
+      accountCreated: accountCreated(user.created_at),
+      timeSinceCreation: timeSinceCreation(user.created_at),
       averageTweetsPerDay: average,
       limitExceeded,
       likesToReplyTo: likesToReplyTo(filtered),
@@ -55,9 +42,9 @@ const tweeter = async user => {
       totalTweets: filtered.length,
       chartData: chartData(filtered),
       hashTags,
-      filteredToxic,
+      toxicTweets,
       tweetSplit: tweetSplit(filtered),
-      toxicPercentage: Math.round((filteredToxic.length / 100) * 100),
+      toxicPercentage: Math.round((toxicTweets.length / 100) * 100),
       emojis,
       topics,
       timePeriod: timePeriod(oldestTweet, latestTweet)
@@ -109,7 +96,6 @@ const getTweetsBatch = async (id, maximumId) => {
   try {
     let data = await client.get('statuses/user_timeline', {
       user_id: id,
-      //  screen_name: id,
       max_id: maximumId,
       count: 200
     })
@@ -181,16 +167,14 @@ const addCategories = tweets => {
 }
 
 const tweetSplit = tweets => {
-  let added = addCategories(tweets)
-  let categories = _.groupBy(added, 'category')
+  let categories = _.groupBy(tweets, 'category')
   return Object.entries(categories).map(([k, v]) => {
     return { id: k, label: k, value: v.length }
   })
 }
 
 const likesToReplyTo = tweets => {
-  let added = addCategories(tweets)
-  let replies= _.groupBy(added, 'category').REPLY
+  let replies= _.groupBy(tweets, 'category').REPLY
    if (replies) {
     let repliedTo = replies.map(r => r.in_reply_to_screen_name)
     let grouped = _.countBy(repliedTo)
@@ -215,8 +199,7 @@ const extractFirstScreenname = str => {
 }
 
 const likesToRetweet = tweets => {
-  let added = addCategories(tweets)
-  let retweets = _.groupBy(added, 'category').RETWEET
+  let retweets = _.groupBy(tweets, 'category').RETWEET
   if (retweets) {
     let retweeted = retweets.map(r => extractFirstScreenname(r.text))
     let grouped = _.countBy(retweeted)
@@ -233,6 +216,14 @@ const likesToRetweet = tweets => {
   }
 }
 
+const accountCreated = (createdAt) => {
+  return format(new Date(createdAt), 'd LLLL y')
+}
+
+const timeSinceCreation = (createdAt) => {
+  return formatDistanceToNow(new Date(createdAt))
+}
+
 export {
   tweeter,
   calculateAverage,
@@ -242,5 +233,7 @@ export {
   getUser,
   tweetSplit,
   likesToReplyTo,
-  likesToRetweet
+  likesToRetweet,
+  accountCreated,
+  timeSinceCreation
 }

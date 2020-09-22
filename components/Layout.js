@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box } from 'theme-ui'
+import { jsx, Box, BaseStyles } from 'theme-ui'
 import { Helmet } from 'react-helmet'
 import { ThemeProvider } from 'emotion-theming'
 import theme from '../theme-ui/theme'
@@ -13,7 +13,9 @@ const Layout = props => {
         <title>Tweet analyser</title>
       </Helmet>
       <ThemeProvider theme={theme}>
-        <Box>{props.children}</Box>
+        <BaseStyles>
+           <Box>{props.children}</Box>
+        </BaseStyles>
       </ThemeProvider>
     </div>
   )

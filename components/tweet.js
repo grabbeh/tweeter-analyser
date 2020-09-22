@@ -25,6 +25,7 @@ const Tweet = props => (
         <Text sx={{ fontSize: 3, fontWeight: 'bold' }}>
           <Link
             sx={{ textDecoration: 'none' }}
+            target="_blank"
             href={`https://twitter.com/${props.user.screen_name}`}
           >
             @{props.user.screen_name}

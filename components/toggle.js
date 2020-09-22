@@ -16,16 +16,16 @@ const Toggle = ({ title, children }) => {
         }}
       >
         <Box>
-          <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>{title}</Text>
+          <Text sx={{ fontSize: [4,5], fontWeight: 'bold' }}>{title}</Text>
         </Box>
         <Box>
           <Box>
             {hide ? (
-              <Text sx={{ mt: 2, fontSize: 6 }}>
+              <Text sx={{ fontSize: 6 }}>
                 <MdKeyboardArrowRight />
               </Text>
             ) : (
-              <Text sx={{ mt: 2, fontSize: 6 }}>
+              <Text sx={{ fontSize: 6 }}>
                 <MdKeyboardArrowDown />
               </Text>
             )}

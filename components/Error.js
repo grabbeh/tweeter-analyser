@@ -5,7 +5,7 @@ const Error = props => {
   const { children, innerRef } = props
   return (
     <div ref={innerRef}>
-      <BasicText color='red' fontWeight='bold'>
+      <BasicText sx={{color:'red', fontWeight:'bold'}}>
         {children}
       </BasicText>
     </div>

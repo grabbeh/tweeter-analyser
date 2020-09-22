@@ -4,7 +4,8 @@ import uniq from 'lodash/uniq.js'
 import ngrams from 'compromise-ngrams'
 nlp.extend(ngrams)
 
-const process = words => {
+const process = tweets => {
+  let words = tweets.map(f => f.text).flat()
   let arrayOfWords = words.join(' ').split(' ')
   let removed = sw.removeStopwords(arrayOfWords).join(', ')
 

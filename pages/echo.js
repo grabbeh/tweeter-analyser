@@ -8,12 +8,13 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 import { jsx, Box, Flex, Text, Image, Link } from 'theme-ui'
 import Loading from 'components/LoadingSpinner'
 import Tweet from 'components/tweet'
+import { Toxic } from 'components/tweeter/index'
+import IntroBar from 'components/introBar'
 import { server } from '../config/index'
 
-const MainForm = props => {
+const Echo = props => {
   let { serverData } = props
   let [data, setData] = useState()
-  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -25,6 +26,7 @@ const MainForm = props => {
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ mt: 4, mx: 3, width: 600 }}>
+          <IntroBar title='Echo chamber' subtitle='See what other people see when they log onto Twitter, for better or worse'/>
           <Form
             dataUrl='/get-followed-view'
             callbackUrl='/echo'
@@ -39,6 +41,7 @@ const MainForm = props => {
                   {data.username}'s timeline
                 </Text>
               </Box>
+              <Toxic toxic={data.toxicTweets} />
               {data.tweets.map(tweet => (
                 <ScrollAnimation key={tweet.id}>
                   <Tweet {...tweet} />
@@ -52,9 +55,9 @@ const MainForm = props => {
   )
 }
 
-export default MainForm
+export default Echo
 
-MainForm.getInitialProps = async props => {
+Echo.getInitialProps = async props => {
   if (props.query.username) {
     let { username } = props.query
     const res = await fetch(`${server}/get-followed-view`, {

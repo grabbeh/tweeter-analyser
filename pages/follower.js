@@ -7,6 +7,7 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import Loading from 'components/LoadingSpinner'
 import Header from 'components/Header'
+import IntroBar from 'components/introBar'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 import User from 'components/user'
 import { format } from 'date-fns'
@@ -14,6 +15,7 @@ import { format } from 'date-fns'
 const Follower = props => {
   let { serverData } = props
   let [data, setData] = useState()
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {
@@ -25,6 +27,7 @@ const Follower = props => {
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ my: 4, mx: 3, width: ['100%', '600px'] }}>
+        <IntroBar title='Followers' subtitle="View the date of creation of an account's followers. Accounts with multiple followers created on the same day may indicate presence in a bot network"/>
           <GenericUsernameForm
             dataUrl='/get-follower-data'
             callbackUrl='/follower'
@@ -37,6 +40,8 @@ const Follower = props => {
               <User
                 screenName={data.user.screen_name}
                 profileImage={data.user.profile_image_url_https}
+                accountCreated={data.user.accountCreated}
+                timeSinceCreation={data.user.timeSinceCreation}
               />
               <ScrollAnimation>
                 <Box sx={{ height: '1000px' }}>

@@ -14,11 +14,28 @@ const classify = async inputs => {
   })
 }
 
+const convertToxic = (results) => {
+  return results.filter(t => {
+      return (
+        t.toxicityResults ||
+        t.identity_attack ||
+        t.insult ||
+        t.obscene ||
+        t.severe_toxicity ||
+        t.sexual_explicit ||
+        t.threat ||
+        t.toxicity
+    )
+  })
+}
+
+
 const predict = async tweets => {
+  let text = tweets.map(f => f.text).flat().slice(0,100)
   model = await toxicity.load()
   labels = model.model.outputNodes.map(d => d.split('/')[0])
-  const predictions = await classify(tweets)
-  return predictions
+  const predictions = await classify(text)
+  return convertToxic(predictions)
 }
 
 export default predict

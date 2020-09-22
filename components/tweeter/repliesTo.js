@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box, Text, Flex } from 'theme-ui'
+import { jsx, Box, Text, Flex, Link} from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 
 const RepliesTo = ({ repliesTo }) => (
@@ -14,7 +14,7 @@ const RepliesTo = ({ repliesTo }) => (
                 fontSize: 3
               }}
             >
-              {f.screen_name} - {f.value}
+              <Link target="_blank" href={`https://twitter.com/${f.screen_name}`}> {f.screen_name} </Link>- {f.value}
             </Text>
           </Flex>
         ))}

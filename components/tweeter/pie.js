@@ -14,7 +14,7 @@ const Pie = ({ pieData }) => (
         height: '500px'
       }}
     >
-      <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>Split</Text>
+      <Text sx={{ fontSize: [4,5], fontWeight: 'bold' }}>Split</Text>
       <Text sx={{ fontSize: 3 }}>
         A mixture of retweets and replies only is suggestive of bot activity
       </Text>

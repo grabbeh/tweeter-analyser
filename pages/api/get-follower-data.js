@@ -1,6 +1,6 @@
 import Twitter from 'twitter'
-import { getUser } from '../../server/api/tweeter'
-import { format } from 'date-fns'
+import { getUser, accountCreated, timeSinceCreation } from '../../server/api/tweeter'
+import { format } from 'date-fns' 
 import _ from 'lodash'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -13,6 +13,11 @@ const client = new Twitter({
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
   let user = await getUser(username)
+  user = { 
+    ...user, 
+    accountCreated:accountCreated(user.created_at),
+    timeSinceCreation: timeSinceCreation(user.created_at)
+  }
   try {
     let friendIds = await getAllFollowers(user.id)
     let response = await getUsers(friendIds)

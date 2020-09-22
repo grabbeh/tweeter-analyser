@@ -62,8 +62,6 @@ const findMetadata = async id => {
   }
 }
 
-const updateMetadata = async () => {}
-
 const findSummary = async id => {
   // sort params to return the latest item
   const params = {
@@ -142,8 +140,7 @@ const addSummary = async (id, content) => {
   let parsed = JSON.parse(metadata.body)
   let parsedMetadata = parsed.Items
   let dbContent = { ...content }
-  // TODO: improve conditional keys
-  // Conditional data attributes to power secondary indexes
+
   if (content.toxicPercentage > 2) {
     dbContent = { ...dbContent, toxicTweeterCount: 'TOXIC' }
   }
