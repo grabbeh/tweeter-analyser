@@ -7,6 +7,7 @@ import Header from 'components/Header'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { jsx, Box, Flex, Text, Image, Link } from 'theme-ui'
 import Loading from 'components/LoadingSpinner'
+import Tweet from 'components/tweet'
 import { server } from '../config/index'
 
 const MainForm = props => {
@@ -40,54 +41,7 @@ const MainForm = props => {
               </Box>
               {data.tweets.map(tweet => (
                 <ScrollAnimation key={tweet.id}>
-                  <Box
-                    sx={{
-                      borderStyle: '1px dark-gray solid',
-                      borderRadius: 3,
-                      mb: 4,
-                      p: 3,
-                      bg: 'light-gray'
-                    }}
-                  >
-                    <Flex sx={{ flexWrap: 'wrap' }}>
-                      <Flex sx={{ flexBasis: '0 1 auto' }}>
-                        <Box sx={{ mr: 3 }}>
-                          <Image
-                            sx={{ width: '35px', borderRadius: '999px' }}
-                            src={tweet.user.profile_image_url_https}
-                          />
-                        </Box>
-                      </Flex>
-                      <Box sx={{ width: '90%' }}>
-                        <Text sx={{ fontSize: 3, fontWeight: 'bold' }}>
-                          <Link
-                            sx={{ textDecoration: 'none' }}
-                            href={`https://twitter.com/${tweet.user.screen_name}`}
-                          >
-                            @{tweet.user.screen_name}
-                          </Link>
-                        </Text>
-                        <Box sx={{ mt: 2 }}>
-                          <Text sx={{ fontSize: 4, color: 'black' }}>
-                            {tweet.text}
-                          </Text>
-                          <Box sx={{ pt: 2 }}>
-                            <Text
-                              sx={{
-                                color: 'dark-gray',
-                                fontSize: 2
-                              }}
-                            >
-                              {format(
-                                new Date(tweet.created_at),
-                                'dd MMMM yyy HH:mm'
-                              )}
-                            </Text>
-                          </Box>
-                        </Box>
-                      </Box>
-                    </Flex>
-                  </Box>
+                  <Tweet {...tweet} />
                 </ScrollAnimation>
               ))}
             </Box>

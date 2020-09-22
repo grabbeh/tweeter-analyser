@@ -10,18 +10,19 @@ export default async (req, res) => {
     let o = JSON.parse(existingResults.body)
     if (o && o.Items.length > 0) {
       const item = o.Items[0]
-      const refreshAvailable = checkRefresh(item.SUMMARY_CREATED_AT)
       res.statusCode = 200
-      res.json({ ...item, refreshAvailable })
+      res.json({
+        ...item,
+        refreshAvailable: checkRefresh(item.SUMMARY_CREATED_AT)
+      })
     } else {
       let results = await tweeter(user)
-      let save = { ...results, ...user }
-      await addSummary(user.id, save)
+      let full = { ...results, ...user }
+      await addSummary(user.id, full)
       res.statusCode = 200
-      res.json({ ...results, ...user })
+      res.json({ ...full })
     }
   } catch (e) {
-    console.log(e)
     let error = e[0] ? e[0].message : e.message
     res.statusCode = 500
     res.json({ errorMessage: error })

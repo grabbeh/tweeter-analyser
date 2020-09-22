@@ -4,18 +4,21 @@ import { useRouter } from 'next/router'
 import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Text } from 'theme-ui'
+import { jsx, Box, Flex, Text, Grid } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
-import Summary from 'components/tweeter/summary'
-import Toxic from 'components/tweeter/toxic'
-import Emojis from 'components/tweeter/emojis'
-import Topics from 'components/tweeter/topics'
-import Hashtags from 'components/tweeter/hashtags'
-import Chart from 'components/tweeter/chart'
-import Pie from 'components/tweeter/pie'
+import {
+  Summary,
+  Toxic,
+  Emojis,
+  Topics,
+  Hashtags,
+  Chart,
+  Pie,
+  Interactions
+} from 'components/tweeter/index'
 import User from 'components/user'
 
 const MainForm = props => {
@@ -23,16 +26,15 @@ const MainForm = props => {
     query: { username }
   } = useRouter()
   let [data, setData] = useState()
-
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
-    async function fetchData () {
+    const fetchData = async () => {
       const result = await fetch(`${server}/get-tweeter-data`, {
         body: JSON.stringify({ username }),
         method: 'POST'
-      })
-      const r = await result.json()
-      setData(r)
+      }).then(r => r.json())
+      setData(result)
     }
     if (username) {
       fetchData()
@@ -90,6 +92,11 @@ const MainForm = props => {
                   />
                 </Box>
               </ScrollAnimation>
+              <Interactions
+                retweets={data.likesToRetweet}
+                repliesTo={data.likesToReplyTo}
+              />
+
               {data.tweetSplit && <Pie pieData={data.tweetSplit} />}
               <Chart chartData={data.chartData} />
               <Hashtags hashTags={data.hashTags} />

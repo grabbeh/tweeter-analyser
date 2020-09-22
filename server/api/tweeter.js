@@ -50,6 +50,8 @@ const tweeter = async user => {
       timeSinceCreation: formatDistanceToNow(new Date(user.created_at)),
       averageTweetsPerDay: average,
       limitExceeded,
+      likesToReplyTo: likesToReplyTo(filtered),
+      likesToRetweet: likesToRetweet(filtered),
       totalTweets: filtered.length,
       chartData: chartData(filtered),
       hashTags,
@@ -172,14 +174,56 @@ const addCategory = tweet => {
   return category
 }
 
-const tweetSplit = tweets => {
-  let added = tweets.map(t => {
+const addCategories = tweets => {
+  return tweets.map(t => {
     return { ...t, category: addCategory(t) }
   })
+}
+
+const tweetSplit = tweets => {
+  let added = addCategories(tweets)
   let categories = _.groupBy(added, 'category')
   return Object.entries(categories).map(([k, v]) => {
     return { id: k, label: k, value: v.length }
   })
+}
+
+const likesToReplyTo = tweets => {
+  let added = addCategories(tweets)
+  let retweets = _.groupBy(added, 'category').REPLY
+  let repliedTo = retweets.map(r => r.in_reply_to_screen_name)
+  let grouped = _.countBy(repliedTo)
+  let o = Object.entries(grouped).map(([k, v]) => {
+    return { screen_name: `@${k}`, value: v }
+  })
+  let result = _.sortBy(o, function (o) {
+    return o.value
+  }).reverse()
+
+  return result.slice(0, 5)
+}
+
+const extractFirstScreenname = str => {
+  let removeFirstPart = str.slice(3)
+  let nextSpace = removeFirstPart.indexOf(' ')
+  let screenName = removeFirstPart.slice(0, nextSpace)
+  let removeColon = screenName.slice(0, screenName.length - 1)
+  return removeColon
+}
+
+const likesToRetweet = tweets => {
+  let added = addCategories(tweets)
+  let retweets = _.groupBy(added, 'category').RETWEET
+  let repliedTo = retweets.map(r => extractFirstScreenname(r.text))
+  let grouped = _.countBy(repliedTo)
+  let o = Object.entries(grouped).map(([k, v]) => {
+    return { screen_name: k, value: v }
+  })
+  let result = _.sortBy(o, function (o) {
+    return o.value
+  }).reverse()
+
+  return result.slice(0, 5)
 }
 
 export {
@@ -189,5 +233,6 @@ export {
   getBatch,
   filterSevenDays,
   getUser,
-  tweetSplit
+  tweetSplit,
+  likesToReplyTo
 }

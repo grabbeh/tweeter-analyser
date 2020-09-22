@@ -29,8 +29,8 @@ const chartData = tweets => {
     return { time: i }
   })
 
-  let response = Object.entries(timeRanges).map(([k, v]) => {
-    return Object.assign({ time: Number(k) }, ...convertDates(v))
+  let response = Object.entries(timeRanges).map(([k, v], i) => {
+    return Object.assign({ time: Number(k), indexValue: i }, ...convertDates(v))
   })
   let keys = _.uniq(hour.map(i => i.date))
 

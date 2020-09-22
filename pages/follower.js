@@ -14,7 +14,6 @@ import { format } from 'date-fns'
 const Follower = props => {
   let { serverData } = props
   let [data, setData] = useState()
-  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     if (serverData) {

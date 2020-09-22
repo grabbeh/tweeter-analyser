@@ -1,5 +1,4 @@
 /** @jsx jsx */
-
 import { jsx, Box, Flex, Grid, Text } from 'theme-ui'
 import Rating from '../rating'
 
