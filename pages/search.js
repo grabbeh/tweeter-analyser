@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Text, Grid } from 'theme-ui'
+import { jsx, Box, Flex, Text } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import RefreshForm from 'components/RefreshForm'
@@ -45,7 +45,10 @@ const MainForm = props => {
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
         <Box sx={{ my: 4, mx: 3, width: 600 }}>
-        <IntroBar title='Search' subtitle="Get an overview of someone's activity on Twitter"/>
+          <IntroBar
+            title='Search'
+            subtitle="Get an overview of someone's activity on Twitter"
+          />
           <GenericUsernameForm
             dataUrl='/get-tweeter-data'
             callbackUrl='/search'
