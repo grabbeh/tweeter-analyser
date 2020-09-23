@@ -19,14 +19,16 @@ import {
   Chart,
   Pie,
   Interactions
-} from 'components/tweeter/index'
+} from 'components/tweeter/'
 import User from 'components/user'
 
 const MainForm = props => {
   const {
     query: { username }
   } = useRouter()
+
   let [data, setData] = useState()
+  console.log(data)
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     const fetchData = async () => {

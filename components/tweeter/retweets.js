@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import { jsx, Box, Text } from 'theme-ui'
-import ScrollAnimation from 'components/animations/scrollanimation'
 
 const RepliesTo = ({ retweets }) => (
-  <ScrollAnimation>
+  <Box>
     {retweets.length > 0 && (
       <Box>
         <Text sx={{ fontSize: 4, fontWeight: 'bold' }}>Retweets</Text>
@@ -20,7 +19,7 @@ const RepliesTo = ({ retweets }) => (
         ))}
       </Box>
     )}
-  </ScrollAnimation>
+  </Box>
 )
 
 export default RepliesTo

@@ -1,9 +1,8 @@
 /** @jsx jsx */
-import { jsx, Box, Text, Flex, Link} from 'theme-ui'
-import ScrollAnimation from 'components/animations/scrollanimation'
+import { jsx, Box, Text, Flex, Link } from 'theme-ui'
 
 const RepliesTo = ({ repliesTo }) => (
-  <ScrollAnimation>
+  <Box>
     {repliesTo.length > 0 && (
       <Box>
         <Text sx={{ fontSize: 4, fontWeight: 'bold' }}>Replies to</Text>
@@ -14,13 +13,20 @@ const RepliesTo = ({ repliesTo }) => (
                 fontSize: 3
               }}
             >
-              <Link target="_blank" href={`https://twitter.com/${f.screen_name}`}> {f.screen_name} </Link>- {f.value}
+              <Link
+                target='_blank'
+                href={`https://twitter.com/${f.screen_name}`}
+              >
+                {' '}
+                {f.screen_name}{' '}
+              </Link>
+              - {f.value}
             </Text>
           </Flex>
         ))}
       </Box>
     )}
-  </ScrollAnimation>
+  </Box>
 )
 
 export default RepliesTo
