@@ -17,7 +17,6 @@ const RepliesTo = ({ repliesTo }) => (
                 target='_blank'
                 href={`https://twitter.com/${f.screen_name}`}
               >
-                {' '}
                 {f.screen_name}{' '}
               </Link>
               - {f.value}

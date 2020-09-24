@@ -17,7 +17,7 @@ const User = props => (
         </Link>
       </Text>
       <Box>
-        <Text sx={{ color: 'dark-gray', fontSize: 4 }}>
+        <Text as='p'>
           Joined {props.accountCreated}, {props.timeSinceCreation} ago
         </Text>
       </Box>

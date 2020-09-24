@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box, Text } from 'theme-ui'
+import { jsx, Box, Text, Link } from 'theme-ui'
 
 const RepliesTo = ({ retweets }) => (
   <Box>
@@ -13,7 +13,13 @@ const RepliesTo = ({ retweets }) => (
                 fontSize: 3
               }}
             >
-              {f.screen_name} - {f.value}
+              <Link
+                target='_blank'
+                href={`https://twitter.com/${f.screen_name}`}
+              >
+                {f.screen_name}{' '}
+              </Link>{' '}
+              - {f.value}
             </Text>
           </Box>
         ))}

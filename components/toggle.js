@@ -16,7 +16,7 @@ const Toggle = ({ title, children }) => {
         }}
       >
         <Box>
-          <Text sx={{ fontSize: [4,5], fontWeight: 'bold' }}>{title}</Text>
+          <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>{title}</Text>
         </Box>
         <Box>
           <Box>

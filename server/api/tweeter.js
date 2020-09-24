@@ -1,6 +1,10 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
 import _ from 'lodash'
+import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
+import flow from 'lodash/fp/flow'
+import countBy from 'lodash/fp/countBy'
 import {
   format,
   sub,
@@ -173,10 +177,14 @@ const tweetSplit = tweets => {
   })
 }
 
-const likesToReplyTo = tweets => {
-  let replies= _.groupBy(tweets, 'category').REPLY
-   if (replies) {
-    let repliedTo = replies.map(r => r.in_reply_to_screen_name)
+const likesToReplyTo = (tweets, screenName) => {
+  let replies = _.groupBy(tweets, 'category').REPLY
+  if (replies) {
+    let repliedTo = flow([
+      map(r => r.in_reply_to_screen_name),
+      filter(i => i !== screenName)
+    ])(replies)
+
     let grouped = _.countBy(repliedTo)
     let o = Object.entries(grouped).map(([k, v]) => {
       return { screen_name: `@${k}`, value: v }
@@ -198,10 +206,12 @@ const extractFirstScreenname = str => {
   return removeColon
 }
 
-const likesToRetweet = tweets => {
+const likesToRetweet = (tweets, userName) => {
   let retweets = _.groupBy(tweets, 'category').RETWEET
   if (retweets) {
-    let retweeted = retweets.map(r => extractFirstScreenname(r.text))
+    let retweeted = retweets
+      .map(r => extractFirstScreenname(r.text))
+      .filter(i => i !== `@${userName}`)
     let grouped = _.countBy(retweeted)
     let o = Object.entries(grouped).map(([k, v]) => {
       return { screen_name: k, value: v }
@@ -216,11 +226,11 @@ const likesToRetweet = tweets => {
   }
 }
 
-const accountCreated = (createdAt) => {
+const accountCreated = createdAt => {
   return format(new Date(createdAt), 'd LLLL y')
 }
 
-const timeSinceCreation = (createdAt) => {
+const timeSinceCreation = createdAt => {
   return formatDistanceToNow(new Date(createdAt))
 }
 

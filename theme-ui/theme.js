@@ -12,7 +12,8 @@ const theme = {
   borderWidths: [0, 1, 2, 4, 8, 16, 32],
   radii: [0, 2, 4, 16, 9999, '100%'],
   fonts: {
-    body: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    body:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
     serif: 'athelas, georgia, times, serif',
     sansSerif:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
@@ -119,15 +120,16 @@ const theme = {
     div: {},
     p: {
       fontFamily: 'sansSerif',
-      fontSize: 4,
-      color: 'black'
+      fontSize: 3,
+      color: 'dark-gray'
     },
     h1: {
       ...Heading,
       fontSize: 6
     },
     h2: {
-      ...Heading
+      ...Heading,
+      fontSize: 5
     },
     h3: {
       ...Heading

@@ -8,9 +8,9 @@ const Topics = ({ topics }) => (
   <ScrollAnimation>
     <Box sx={{ mt: 4 }}>
       {topics.length > 0 && (
-        <Box sx={{ borderRadius: '20px', bg: 'light-purple', p: 3 }}>
+        <Box sx={{ borderRadius: '20px', bg: 'light-purple', px: 3, pt: 3 }}>
           <Toggle title='Topics'>
-            <Flex sx={{ flexWrap: 'wrap' }}>
+            <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
               {topics.map((t, i) => (
                 <Box
                   key={i}

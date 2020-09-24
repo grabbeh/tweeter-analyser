@@ -7,9 +7,9 @@ const Toxic = ({ toxic }) => (
   <ScrollAnimation>
     <Box sx={{ mt: 4 }}>
       {toxic && toxic.length > 0 && (
-        <Box sx={{ borderRadius: '20px', bg: 'light-red', p: 3 }}>
+        <Box sx={{ borderRadius: '20px', bg: 'light-red', px: 3, pt: 3 }}>
           <Toggle title='Toxic tweets'>
-            <Box>
+            <Box sx={{ pb: 3 }}>
               {toxic.map((r, i) => {
                 return (
                   <Box

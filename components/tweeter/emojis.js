@@ -7,9 +7,9 @@ const Emojis = ({ emojis }) => (
   <ScrollAnimation>
     <Box sx={{ mt: 4 }}>
       {emojis.length > 0 && (
-        <Box sx={{ borderRadius: '20px', bg: 'light-yellow', p: 3 }}>
+        <Box sx={{ borderRadius: '20px', bg: 'yellow', px: 3, pt: 3 }}>
           <Toggle title='Emojis'>
-            <Flex sx={{ flexWrap: 'wrap' }}>
+            <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
               {emojis.map((emoji, i) => (
                 <Box key={i}>
                   <Text

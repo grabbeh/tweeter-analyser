@@ -11,11 +11,12 @@ const Hashtags = ({ hashTags }) => (
           mt: 4,
           borderRadius: '20px',
           bg: 'light-green',
-          p: 3
+          px: 3,
+          pt: 3
         }}
       >
         <Toggle title='Hashtags'>
-          <Flex sx={{ flexWrap: 'wrap' }}>
+          <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
             {hashTags.map(f => (
               <Box
                 key={f}

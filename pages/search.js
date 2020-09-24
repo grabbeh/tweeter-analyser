@@ -68,18 +68,9 @@ const MainForm = props => {
               />
               <ScrollAnimation>
                 <Box sx={{ mt: 2 }}>
-                  <Text sx={{ fontSize: [4, 6], fontWeight: 'bold' }}>
-                    Overview
-                  </Text>
+                  <Text as='h2'>Overview</Text>
                   <Flex sx={{ fleWrap: 'wrap' }}>
-                    <Text
-                      sx={{
-                        fontSize: 4,
-                        color: 'dark-gray'
-                      }}
-                    >
-                      {data.timePeriod}
-                    </Text>
+                    <Text as='p'>{data.timePeriod}</Text>
                     <Box>
                       {data.refreshAvailable && (
                         <Box>
