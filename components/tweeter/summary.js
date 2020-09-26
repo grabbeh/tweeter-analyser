@@ -2,10 +2,10 @@
 import { jsx, Box, Flex, Grid, Text } from 'theme-ui'
 import Rating from '../rating'
 
-const Summary = ({ totalTweets, averageTweetsPerDay }) => (
+const Summary = ({ totalTweets, averageTweetsPerDay, mostActionsPerHour }) => (
   <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
     <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
-      <Text sx={{ color: 'white', fontSize: 4, fontWeight: 'bold' }}>
+      <Text sx={{ color: 'light-gray', fontSize: 5, fontWeight: 'bold' }}>
         Total tweets, retweets and replies
       </Text>
       <Text sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}>
@@ -17,20 +17,36 @@ const Summary = ({ totalTweets, averageTweetsPerDay }) => (
         <Text
           sx={{
             width: '80%',
-            color: 'white',
+            color: 'light-gray',
             fontSize: 4,
             fontWeight: 'bold'
           }}
         >
-          Actions per day{' '}
+          Average actions per day
         </Text>
         <Flex sx={{ width: '20%', justifyContent: 'flex-end' }}>
           <Rating rating={averageTweetsPerDay} />
         </Flex>
       </Flex>
-      <Text sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}>
+      <Text sx={{ fontSize: 5, color: 'white', fontWeight: 'bold' }}>
         {averageTweetsPerDay}
       </Text>
+      <Box sx={{ mt: 2 }}>
+        <Flex sx={{ flexWrap: 'wrap' }}>
+          <Text
+            sx={{
+              color: 'light-gray',
+              fontSize: 4,
+              fontWeight: 'bold'
+            }}
+          >
+            Most actions per hour
+          </Text>
+        </Flex>
+        <Text sx={{ fontSize: 5, color: 'white', fontWeight: 'bold' }}>
+          {mostActionsPerHour}
+        </Text>
+      </Box>
     </Box>
   </Grid>
 )

@@ -86,6 +86,7 @@ const MainForm = props => {
                   <Summary
                     averageTweetsPerDay={data.averageTweetsPerDay}
                     totalTweets={data.totalTweets}
+                    mostActionsPerHour={data.mostTweetsPerHour}
                   />
                 </Box>
               </ScrollAnimation>

@@ -4,7 +4,6 @@ import _ from 'lodash'
 import map from 'lodash/fp/map'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
-import countBy from 'lodash/fp/countBy'
 import {
   format,
   sub,
@@ -14,7 +13,7 @@ import {
 } from 'date-fns'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
-import chartData from './chartData.js'
+import { chartData, getMostActiveHour } from './chartData.js'
 dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -41,10 +40,11 @@ const tweeter = async user => {
       timeSinceCreation: timeSinceCreation(user.created_at),
       averageTweetsPerDay: average,
       limitExceeded,
-      likesToReplyTo: likesToReplyTo(filtered),
-      likesToRetweet: likesToRetweet(filtered),
+      likesToReplyTo: likesToReplyTo(filtered, user.screen_name),
+      likesToRetweet: likesToRetweet(filtered, user.screen_name),
       totalTweets: filtered.length,
       chartData: chartData(filtered),
+      mostTweetsPerHour: getMostActiveHour(filtered),
       hashTags,
       toxicTweets,
       tweetSplit: tweetSplit(filtered),
@@ -180,11 +180,10 @@ const tweetSplit = tweets => {
 const likesToReplyTo = (tweets, screenName) => {
   let replies = _.groupBy(tweets, 'category').REPLY
   if (replies) {
-    let repliedTo = flow([
+    let repliedTo = flow(
       map(r => r.in_reply_to_screen_name),
       filter(i => i !== screenName)
-    ])(replies)
-
+    )(replies)
     let grouped = _.countBy(repliedTo)
     let o = Object.entries(grouped).map(([k, v]) => {
       return { screen_name: `@${k}`, value: v }
@@ -192,7 +191,7 @@ const likesToReplyTo = (tweets, screenName) => {
     let result = _.sortBy(o, function (o) {
       return o.value
     }).reverse()
-    return result.slice(0, 5)
+    return result.slice(0, 10)
   } else {
     return false
   }
@@ -220,7 +219,7 @@ const likesToRetweet = (tweets, userName) => {
       return o.value
     }).reverse()
 
-    return result.slice(0, 5)
+    return result.slice(0, 10)
   } else {
     return false
   }
