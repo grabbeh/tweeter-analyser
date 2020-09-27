@@ -1,6 +1,14 @@
 /** @jsx jsx */
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Image, Text, Link as ThemeLink } from 'theme-ui'
+import {
+  jsx,
+  Box,
+  Flex,
+  Image,
+  Text,
+  Link as ThemeLink,
+  Container
+} from 'theme-ui'
 import Link from 'components/Link'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
@@ -11,7 +19,7 @@ const Active = ({ data }) => {
     <Layout>
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
-        <Box sx={{ mt: 4, mx: 3, width: 600 }}>
+        <Container sx={{ mt: 4, mx: 3 }}>
           <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>
             Most active tweeters
           </Text>
@@ -32,7 +40,7 @@ const Active = ({ data }) => {
                       fontWeight: 'bold'
                     }}
                   >
-                    <Link href={`/search?username=${account.screen_name}`}>
+                    <Link href={`/tweeter?username=${account.screen_name}`}>
                       <ThemeLink>@{account.screen_name}</ThemeLink>
                     </Link>
                   </Text>
@@ -68,7 +76,7 @@ const Active = ({ data }) => {
               </Box>
             </ScrollAnimation>
           ))}
-        </Box>
+        </Container>
       </Flex>
     </Layout>
   )

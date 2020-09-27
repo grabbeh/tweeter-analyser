@@ -26,6 +26,48 @@ const supplementBase = tweets => {
   })
 }
 
+const addCategory = tweet => {
+  let category
+  let firstTwo = tweet.text.slice(0, 2)
+  if (tweet.text.charAt(0) === '@') {
+    category = 'REPLY'
+  } else if (firstTwo === 'RT') {
+    category = 'RETWEET'
+  } else {
+    category = 'TWEET'
+  }
+  return category
+}
+
+const addCategories = tweets => {
+  return tweets.map(t => {
+    return { ...t, category: addCategory(t) }
+  })
+}
+
+const likesToReplyTo = (tweets, screenName) => {
+  let updated = addCategories(tweets)
+  let replies = _.groupBy(updated, 'category').REPLY
+  if (replies) {
+    return fp.flow(
+      fp.map(r => r.in_reply_to_screen_name),
+      fp.filter(i => i !== screenName),
+      fp.countBy(fp.identity),
+      fp.entries,
+      fp.map(([k, v]) => {
+        return { screen_name: `@${k}`, value: v }
+      }),
+      fp.sortBy(o => o.value),
+      fp.reverse,
+      fp.slice(0, 10)
+    )(replies)
+  } else {
+    return false
+  }
+}
+
+const iter = value => console.log(value)
+
 const chartData = tweets => {
   let supplemented = supplementBase(tweets)
   let keys = fp.flow(
@@ -74,7 +116,7 @@ const convertDates = arr => {
   })
 }
 
-let r = chartData(tweets)
-console.log(r.keys)
+let r = likesToReplyTo(tweets)
+console.log(r)
 
 export { chartData, getMostActiveHour }

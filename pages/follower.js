@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import Layout from 'components/Layout'
-import { jsx, Box, Flex } from 'theme-ui'
+import { jsx, Box, Flex, Container } from 'theme-ui'
 import { useState, useEffect } from 'react'
 import GenericUsernameForm from 'components/GenericForm'
 import ScrollAnimation from 'components/animations/scrollanimation'
@@ -26,8 +26,11 @@ const Follower = props => {
     <Layout>
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
-        <Box sx={{ my: 4, mx: 3, width: ['100%', '600px'] }}>
-        <IntroBar title='Followers' subtitle="View the date of creation of an account's followers. Accounts with multiple followers created on the same day may indicate presence in a bot network"/>
+        <Container sx={{ my: 4, mx: 3 }}>
+          <IntroBar
+            title='Followers'
+            subtitle="View the date of creation of an account's followers. Accounts with multiple followers created on the same day may indicate presence in a bot network"
+          />
           <GenericUsernameForm
             dataUrl='/get-follower-data'
             callbackUrl='/follower'
@@ -72,7 +75,7 @@ const Follower = props => {
               </ScrollAnimation>
             </Box>
           )}
-        </Box>
+        </Container>
       </Flex>
     </Layout>
   )

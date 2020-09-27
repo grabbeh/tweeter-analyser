@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { format } from 'date-fns'
 import map from 'lodash/fp/map'
 import values from 'lodash/fp/values'
@@ -6,7 +5,7 @@ import groupBy from 'lodash/fp/groupBy'
 import max from 'lodash/fp/max'
 import flow from 'lodash/fp/flow'
 import entries from 'lodash/fp/entries'
-import uniq from 'lodash/fp/entries'
+import uniq from 'lodash/fp/uniq'
 
 const convertToHour = twitterDate => {
   let date = new Date(twitterDate)
@@ -31,13 +30,13 @@ const supplementBase = tweets => {
 }
 
 const chartData = tweets => {
-  const supplemented = supplementBase(tweets)
-  const keys = flow(
+  let supplemented = supplementBase(tweets)
+  let keys = flow(
     map(i => i.date),
     uniq
   )(supplemented)
 
-  const timeRanges = flow(
+  let timeRanges = flow(
     groupBy('hour'),
     entries,
     map(([k, v]) => {
@@ -45,13 +44,13 @@ const chartData = tweets => {
     })
   )(supplemented)
 
-  const twentyFourHours = [...Array(Number(24))].map((v, i) => {
+  let twentyFourHours = [...Array(Number(24))].map((v, i) => {
     return { time: i }
   })
 
-  const data = flow(
-    map(obj => timeRanges.find(o => o.time === obj.time) || obj)
-  )(twentyFourHours)
+  let data = flow(map(obj => timeRanges.find(o => o.time === obj.time) || obj))(
+    twentyFourHours
+  )
   return { data, keys }
 }
 

@@ -1,36 +1,50 @@
 import Twitter from 'twitter'
-import { getUser, accountCreated, timeSinceCreation } from '../../server/api/tweeter'
-import { format } from 'date-fns' 
-import _ from 'lodash'
+import {
+  getUser,
+  accountCreated,
+  timeSinceCreation
+} from '../../server/api/tweeter'
+import { format } from 'date-fns'
+import sortBy from 'lodash/fp/sortBy'
+import flow from 'lodash/fp/flow'
+import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
+import flatten from 'lodash/fp/flatten'
+import entries from 'lodash/fp/entries'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
   access_token_key: process.env.ACCESS_KEY,
   access_token_secret: process.env.ACCESS_SECRET
 })
+const fullMap = map.convert({ cap: false })
+
+const iter = (value, i) => console.log(value, i)
 
 // recursively call for retweets until has all retweets of retweets
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
   let user = await getUser(username)
-  user = { 
-    ...user, 
-    accountCreated:accountCreated(user.created_at),
+  user = {
+    ...user,
+    accountCreated: accountCreated(user.created_at),
     timeSinceCreation: timeSinceCreation(user.created_at)
   }
   try {
     let friendIds = await getAllFollowers(user.id)
     let response = await getUsers(friendIds)
-    let filtered = response.flat().filter(result => !(result instanceof Error))
-    let sorted = _.sortBy(filtered, function (o) {
-      return new Date(o.created_at)
-    })
-    const followers = sorted.map((f, i) => {
-      return {
-        x: i + 1,
-        y: format(new Date(f.created_at), 'yyyy-MM-dd')
-      }
-    })
+
+    let followers = flow(
+      flatten,
+      filter(r => !(r instanceof Error)),
+      sortBy(o => new Date(o.created_at)),
+      fullMap((o, i) => {
+        return {
+          x: i + 1,
+          y: format(new Date(o.created_at), 'yyyy-MM-dd')
+        }
+      })
+    )(response)
     res.statusCode = 200
     res.json({ user, graphData: [{ data: followers, id: 'Followers' }] })
   } catch (e) {
@@ -64,10 +78,8 @@ const getFollowersBatch = async (id, cursor) => {
 }
 
 const getUsers = followersIds => {
-  //let ids = followersIds.slice(0, 150)
   let chunks = arrayChunks(followersIds, 100)
   let promises = chunks.map(async chunk => {
-    // slice into 100 segments
     let user = await getFollowerData(chunk)
     return user
   })

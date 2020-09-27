@@ -53,6 +53,11 @@ const theme = {
       borderRadius: 3
     }
   },
+  layout: {
+    container: {
+      width: '600px'
+    }
+  },
   colors: {
     'g-pink': '#F0DBBC',
     'g-red': '#FF6A56',

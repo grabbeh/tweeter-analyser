@@ -13,12 +13,14 @@ const User = props => (
       </Box>
       <Box sx={{ mr: 3 }}>
         <Text sx={{ fontSize: [3, 5], fontWeight: 'bold' }}>
-          <Link href={`https://twitter.com/${props.screenName}`}>
+          <Link
+            target='_blank'
+            href={`https://twitter.com/${props.screenName}`}
+          >
             @{props.screenName}
           </Link>
         </Text>
       </Box>
-
       <Box>
         <Text as='p'>
           Joined {props.accountCreated}, {props.timeSinceCreation} ago

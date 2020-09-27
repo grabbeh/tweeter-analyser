@@ -1,6 +1,8 @@
 import Twitter from 'twitter'
 import predict from '../../server/api/tensorflow'
-import _ from 'lodash'
+import flow from 'lodash/fp/flow'
+import sortBy from 'lodash/fp/sortBy'
+import reverse from 'lodash/fp/reverse'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -8,7 +10,6 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_SECRET
 })
 
-// recursively call for retweets until has all retweets of retweets
 export default async (req, res) => {
   let username = JSON.parse(req.body).username
   try {
@@ -17,9 +18,10 @@ export default async (req, res) => {
     let filtered = response.filter(result => !(result instanceof Error))
     const unsorted = filtered.filter(result => !(result instanceof Array))
     if (unsorted.length > 0) {
-      let tweets = _.sortBy(unsorted, function (o) {
-        return new Date(o.created_at)
-      }).reverse()
+      let tweets = flow(
+        sortBy(o => new Date(o.created_at)),
+        reverse
+      )(unsorted)
       let toxicTweets = await predict(tweets)
       res.statusCode = 200
       res.json({ tweets, toxicTweets, username })
@@ -37,15 +39,15 @@ export default async (req, res) => {
 
 const getAllFriends = async (username, cursor) => {
   try {
-  let fragment = await getFriendBatch(username, cursor)
-  if (fragment && fragment.nextCursor) {
-    return fragment.ids.concat(
-      await getAllFriends(username, fragment.nextCursor)
-    )
-  } else {
-    return fragment.ids
-  }}
-  catch (e) {
+    let fragment = await getFriendBatch(username, cursor)
+    if (fragment && fragment.nextCursor) {
+      return fragment.ids.concat(
+        await getAllFriends(username, fragment.nextCursor)
+      )
+    } else {
+      return fragment.ids
+    }
+  } catch (e) {
     throw e
   }
 }

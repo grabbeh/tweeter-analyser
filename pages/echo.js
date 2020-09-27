@@ -4,7 +4,7 @@ import Form from 'components/GenericForm'
 import Layout from 'components/Layout'
 import Header from 'components/Header'
 import ScrollAnimation from 'components/animations/scrollanimation'
-import { jsx, Box, Flex, Text } from 'theme-ui'
+import { jsx, Box, Flex, Text, Container } from 'theme-ui'
 import Loading from 'components/LoadingSpinner'
 import Tweet from 'components/tweet'
 import { Toxic } from 'components/tweeter/index'
@@ -24,7 +24,7 @@ const Echo = props => {
     <Layout>
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
-        <Box sx={{ mt: 4, mx: 3, width: 600 }}>
+        <Container sx={{ mt: 3, mx: 3 }}>
           <IntroBar
             title='Echo chamber'
             subtitle='See what other people see when they log onto Twitter, for better or worse'
@@ -43,9 +43,7 @@ const Echo = props => {
                   {data.username}'s timeline
                 </Text>
               </Box>
-              <Box sx={{ mb: 3 }}>
-                <Toxic toxic={data.toxicTweets} />
-              </Box>
+              <Toxic toxic={data.toxicTweets} />
               {data.tweets.map(tweet => (
                 <ScrollAnimation key={tweet.id}>
                   <Tweet {...tweet} />
@@ -53,7 +51,7 @@ const Echo = props => {
               ))}
             </Box>
           )}
-        </Box>
+        </Container>
       </Flex>
     </Layout>
   )

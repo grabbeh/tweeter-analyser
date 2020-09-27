@@ -1,9 +1,15 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
-import _ from 'lodash'
 import map from 'lodash/fp/map'
+import entries from 'lodash/fp/entries'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import countBy from 'lodash/fp/countBy'
+import sortBy from 'lodash/fp/sortBy'
+import reverse from 'lodash/fp/reverse'
+import slice from 'lodash/fp/slice'
+import identity from 'lodash/fp/identity'
+import groupBy from 'lodash/fp/groupBy'
 import {
   format,
   sub,
@@ -136,18 +142,18 @@ const getUser = username => {
 }
 
 const calculateAverage = tweets => {
-  let latestTweet = tweets[0]
-  let oldestTweet = tweets.pop()
-  let difference = calculateDuration(oldestTweet, latestTweet)
+  let latest = tweets[0]
+  let oldest = tweets.pop()
+  let difference = calculateDuration(oldest, latest)
   if (difference < 1) difference = 1
   let average = Math.round(tweets.length / difference)
   let limitExceeded = !!difference < 7 && !!tweets.length > 3000
   return { average, difference, limitExceeded }
 }
 
-const calculateDuration = (oldestTweet, latestTweet) => {
-  let latestDate = new Date(latestTweet.created_at)
-  let oldestDate = new Date(oldestTweet.created_at)
+const calculateDuration = (oldest, latest) => {
+  let latestDate = new Date(latest.created_at)
+  let oldestDate = new Date(oldest.created_at)
   return differenceInDays(latestDate, oldestDate)
 }
 
@@ -171,27 +177,30 @@ const addCategories = tweets => {
 }
 
 const tweetSplit = tweets => {
-  let categories = _.groupBy(tweets, 'category')
-  return Object.entries(categories).map(([k, v]) => {
-    return { id: k, label: k, value: v.length }
-  })
+  return flow(
+    groupBy('category'),
+    entries,
+    map(([k, v]) => {
+      return { id: k, label: k, value: v.length }
+    })
+  )(tweets)
 }
 
 const likesToReplyTo = (tweets, screenName) => {
-  let replies = _.groupBy(tweets, 'category').REPLY
+  let replies = groupBy('category')(tweets).REPLY
   if (replies) {
-    let repliedTo = flow(
+    return flow(
       map(r => r.in_reply_to_screen_name),
-      filter(i => i !== screenName)
+      filter(i => i !== screenName),
+      countBy(identity),
+      entries,
+      map(([k, v]) => {
+        return { screen_name: `@${k}`, value: v }
+      }),
+      sortBy(o => o.value),
+      reverse,
+      slice(0, 10)
     )(replies)
-    let grouped = _.countBy(repliedTo)
-    let o = Object.entries(grouped).map(([k, v]) => {
-      return { screen_name: `@${k}`, value: v }
-    })
-    let result = _.sortBy(o, function (o) {
-      return o.value
-    }).reverse()
-    return result.slice(0, 10)
   } else {
     return false
   }
@@ -205,21 +214,21 @@ const extractFirstScreenname = str => {
   return removeColon
 }
 
-const likesToRetweet = (tweets, userName) => {
-  let retweets = _.groupBy(tweets, 'category').RETWEET
+const likesToRetweet = (tweets, screenName) => {
+  let retweets = groupBy('category')(tweets).RETWEET
   if (retweets) {
-    let retweeted = retweets
-      .map(r => extractFirstScreenname(r.text))
-      .filter(i => i !== `@${userName}`)
-    let grouped = _.countBy(retweeted)
-    let o = Object.entries(grouped).map(([k, v]) => {
-      return { screen_name: k, value: v }
-    })
-    let result = _.sortBy(o, function (o) {
-      return o.value
-    }).reverse()
-
-    return result.slice(0, 10)
+    return flow(
+      map(r => extractFirstScreenname(r.text)),
+      filter(i => i !== `@${screenName}`),
+      countBy(identity),
+      entries,
+      map(([k, v]) => {
+        return { screen_name: k, value: v }
+      }),
+      sortBy(o => o.value),
+      reverse,
+      slice(0, 10)
+    )(retweets)
   } else {
     return false
   }
