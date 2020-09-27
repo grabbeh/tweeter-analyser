@@ -41,6 +41,18 @@ const theme = {
     large: `260ms`,
     xLarge: `360ms`
   },
+  cards: {
+    primary: {
+      color: 'white',
+      bg: 'primary'
+    },
+    blue: {
+      color: 'white',
+      bg: 'blue',
+      p: 3,
+      borderRadius: 3
+    }
+  },
   colors: {
     'g-pink': '#F0DBBC',
     'g-red': '#FF6A56',

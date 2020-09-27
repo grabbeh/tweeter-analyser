@@ -24,7 +24,7 @@ const Hashtags = ({ hashTags }) => (
                   borderRadius: '10px',
                   p: 2,
                   mr: 3,
-                  my: 2,
+                  mb: 2,
                   bg: 'green'
                 }}
               >

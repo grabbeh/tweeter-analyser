@@ -5,6 +5,8 @@ import values from 'lodash/fp/values'
 import groupBy from 'lodash/fp/groupBy'
 import max from 'lodash/fp/max'
 import flow from 'lodash/fp/flow'
+import entries from 'lodash/fp/entries'
+import uniq from 'lodash/fp/entries'
 
 const convertToHour = twitterDate => {
   let date = new Date(twitterDate)
@@ -29,38 +31,49 @@ const supplementBase = tweets => {
 }
 
 const chartData = tweets => {
-  // add hour
-  let hour = supplementBase(tweets)
-  let timeRanges = _.groupBy(hour, 'hour')
-  let hours = [...Array(Number(24))]
-  let r = hours.map((v, i) => {
+  const supplemented = supplementBase(tweets)
+  const keys = flow(
+    map(i => i.date),
+    uniq
+  )(supplemented)
+
+  const timeRanges = flow(
+    groupBy('hour'),
+    entries,
+    map(([k, v]) => {
+      return Object.assign({ time: Number(k) }, ...convertDates(v))
+    })
+  )(supplemented)
+
+  const twentyFourHours = [...Array(Number(24))].map((v, i) => {
     return { time: i }
   })
-  let response = Object.entries(timeRanges).map(([k, v], i) => {
-    return Object.assign({ time: Number(k), indexValue: i }, ...convertDates(v))
-  })
-  let keys = _.uniq(hour.map(i => i.date))
-  let data = r.map(obj => response.find(o => o.time === obj.time) || obj)
+
+  const data = flow(
+    map(obj => timeRanges.find(o => o.time === obj.time) || obj)
+  )(twentyFourHours)
   return { data, keys }
 }
 
 const getMostActiveHour = tweets => {
   const supplemented = supplementBase(tweets)
-  let result = flow(
+  return flow(
     groupBy('date'),
     map(groupBy('hour')),
     map(values),
     map(i => i.length),
     max
   )(supplemented)
-  return result
 }
 
 const convertDates = arr => {
-  let g = _.groupBy(arr, 'date')
-  return Object.entries(g).map(([k, v]) => {
-    return { [k]: v.length }
-  })
+  return flow(
+    groupBy('date'),
+    entries,
+    map(([k, v]) => {
+      return { [k]: v.length }
+    })
+  )(arr)
 }
 
 export { chartData, getMostActiveHour }

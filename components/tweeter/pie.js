@@ -7,7 +7,7 @@ const Pie = ({ pieData }) => (
   <ScrollAnimation>
     <Box
       sx={{
-        p: 3,
+        p: [2, 3],
         borderRadius: '30px',
         bg: 'light-gray',
         mt: 4,

@@ -69,7 +69,7 @@ const GenericUsernameForm = props => {
       {props => {
         const { values, errors, touched, isSubmitting, handleChange } = props
         return (
-          <Box sx={{ mt: 2 }}>
+          <Box>
             <Form>
               <Input
                 style={{ boxSizing: 'border-box' }}

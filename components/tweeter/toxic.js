@@ -17,7 +17,7 @@ const Toxic = ({ toxic }) => (
                       borderRadius: '10px',
                       p: 2,
                       bg: 'red',
-                      my: 3
+                      mb: 3
                     }}
                     key={i}
                   >

@@ -1,25 +1,22 @@
 /** @jsx jsx */
-import { jsx, Box, Flex, Grid, Text } from 'theme-ui'
+import { jsx, Box, Flex, Grid, Text, Card } from 'theme-ui'
 import Rating from '../rating'
 
 const Summary = ({ totalTweets, averageTweetsPerDay, mostActionsPerHour }) => (
   <Grid gap={[3, 4]} sx={{ mt: 3 }} columns={[1, 2, 2]}>
-    <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
-      <Text sx={{ color: 'light-gray', fontSize: 5, fontWeight: 'bold' }}>
+    <Card variant='blue'>
+      <Text sx={{ color: 'light-gray', fontSize: 5 }}>
         Total tweets, retweets and replies
       </Text>
-      <Text sx={{ fontSize: 6, color: 'white', fontWeight: 'bold' }}>
-        {totalTweets}
-      </Text>
-    </Box>
-    <Box sx={{ borderRadius: 3, padding: 3, bg: 'blue' }}>
+      <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>{totalTweets}</Text>
+    </Card>
+    <Card variant='blue'>
       <Flex sx={{ flexWrap: 'wrap' }}>
         <Text
           sx={{
             width: '80%',
             color: 'light-gray',
-            fontSize: 4,
-            fontWeight: 'bold'
+            fontSize: 4
           }}
         >
           Average actions per day
@@ -28,7 +25,7 @@ const Summary = ({ totalTweets, averageTweetsPerDay, mostActionsPerHour }) => (
           <Rating rating={averageTweetsPerDay} />
         </Flex>
       </Flex>
-      <Text sx={{ fontSize: 5, color: 'white', fontWeight: 'bold' }}>
+      <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
         {averageTweetsPerDay}
       </Text>
       <Box sx={{ mt: 2 }}>
@@ -36,18 +33,17 @@ const Summary = ({ totalTweets, averageTweetsPerDay, mostActionsPerHour }) => (
           <Text
             sx={{
               color: 'light-gray',
-              fontSize: 4,
-              fontWeight: 'bold'
+              fontSize: 4
             }}
           >
             Most actions per hour
           </Text>
         </Flex>
-        <Text sx={{ fontSize: 5, color: 'white', fontWeight: 'bold' }}>
+        <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>
           {mostActionsPerHour}
         </Text>
       </Box>
-    </Box>
+    </Card>
   </Grid>
 )
 

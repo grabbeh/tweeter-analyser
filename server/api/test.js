@@ -27,18 +27,30 @@ const supplementBase = tweets => {
 }
 
 const chartData = tweets => {
-  // add hour
-  let hour = supplementBase(tweets)
-  let timeRanges = _.groupBy(hour, 'hour')
-  let hours = [...Array(Number(24))]
-  let r = hours.map((v, i) => {
+  let supplemented = supplementBase(tweets)
+  let keys = fp.flow(
+    fp.map(i => i.date),
+    fp.uniq
+  )(supplemented)
+
+  let timeRanges = fp.flow(
+    fp.groupBy('hour'),
+    fp.entries,
+    fp.map(([k, v], i) => {
+      return Object.assign(
+        { time: Number(k), indexValue: i },
+        ...convertDates(v)
+      )
+    })
+  )(supplemented)
+
+  let twentyFourHours = [...Array(Number(24))].map((v, i) => {
     return { time: i }
   })
-  let response = Object.entries(timeRanges).map(([k, v], i) => {
-    return Object.assign({ time: Number(k), indexValue: i }, ...convertDates(v))
-  })
-  let keys = _.uniq(hour.map(i => i.date))
-  let data = r.map(obj => response.find(o => o.time === obj.time) || obj)
+
+  let data = fp.flow(
+    fp.map(obj => timeRanges.find(o => o.time === obj.time) || obj)
+  )(twentyFourHours)
   return { data, keys }
 }
 
@@ -62,7 +74,7 @@ const convertDates = arr => {
   })
 }
 
-let r = getMostActiveHour(tweets)
-console.log(r)
+let r = chartData(tweets)
+console.log(r.keys)
 
 export { chartData, getMostActiveHour }

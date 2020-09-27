@@ -17,7 +17,7 @@ const Topics = ({ topics }) => (
                     borderRadius: '10px',
                     p: 2,
                     bg: 'purple',
-                    my: 2,
+                    mb: 2,
                     mr: 2
                   }}
                 >
