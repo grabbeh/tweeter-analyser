@@ -47,12 +47,14 @@ const GenericUsernameForm = props => {
               resetForm()
             },
             error => {
+              console.log(error)
               setErrors({
                 serverError: error
               })
             }
           )
           .catch(catchError => {
+            console.log(catchError)
             setErrors({
               serverError: catchError
             })

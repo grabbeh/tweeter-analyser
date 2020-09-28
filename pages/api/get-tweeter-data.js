@@ -18,11 +18,12 @@ export default async (req, res) => {
     } else {
       let results = await tweeter(user)
       let full = { ...results, ...user }
-      // await addSummary(user.id, full)
+      await addSummary(user.id, full)
       res.statusCode = 200
       res.json({ ...full })
     }
   } catch (e) {
+    console.log(e)
     let error = e[0] ? e[0].message : e.message
     res.statusCode = 500
     res.json({ errorMessage: error })

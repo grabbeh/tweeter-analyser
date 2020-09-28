@@ -135,10 +135,14 @@ const getBatch = async id => {
   }
 }
 
-const getUser = username => {
-  return client.get('users/show', {
-    screen_name: username
-  })
+const getUser = async username => {
+  try {
+    return client.get('users/show', {
+      screen_name: username
+    })
+  } catch (e) {
+    throw new Error(e)
+  }
 }
 
 const calculateAverage = tweets => {

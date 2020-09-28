@@ -3,6 +3,7 @@ import map from 'lodash/fp/map'
 import values from 'lodash/fp/values'
 import groupBy from 'lodash/fp/groupBy'
 import max from 'lodash/fp/max'
+import flatten from 'lodash/fp/flatten'
 import flow from 'lodash/fp/flow'
 import entries from 'lodash/fp/entries'
 import uniq from 'lodash/fp/uniq'
@@ -58,8 +59,10 @@ const getMostActiveHour = tweets => {
   const supplemented = supplementBase(tweets)
   return flow(
     groupBy('date'),
+    values,
     map(groupBy('hour')),
     map(values),
+    flatten,
     map(i => i.length),
     max
   )(supplemented)

@@ -39,6 +39,7 @@ const MainForm = props => {
       setData(result)
     }
     if (username) {
+      console.log('Username present')
       fetchData()
     }
   }, [username])

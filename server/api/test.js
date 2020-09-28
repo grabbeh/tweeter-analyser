@@ -100,8 +100,10 @@ const getMostActiveHour = tweets => {
   const supplemented = supplementBase(tweets)
   let result = fp.flow(
     fp.groupBy('date'),
+    fp.values,
     fp.map(fp.groupBy('hour')),
     fp.map(fp.values),
+    fp.flatten,
     fp.map(i => i.length),
     fp.max
   )(supplemented)
@@ -116,7 +118,7 @@ const convertDates = arr => {
   })
 }
 
-let r = likesToReplyTo(tweets)
+let r = getMostActiveHour(tweets)
 console.log(r)
 
 export { chartData, getMostActiveHour }
