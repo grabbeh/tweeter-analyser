@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box, Flex, Text } from 'theme-ui'
+import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import Toggle from 'components/toggle'
 import ScrollAnimation from 'components/animations/scrollanimation'
 
@@ -10,7 +10,7 @@ const Hashtags = ({ hashTags }) => (
         sx={{
           mt: 4,
           borderRadius: '20px',
-          bg: 'light-green',
+          bg: 'red',
           px: 3,
           pt: 3
         }}
@@ -18,25 +18,26 @@ const Hashtags = ({ hashTags }) => (
         <Toggle title='Hashtags'>
           <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
             {hashTags.map(f => (
-              <Box
-                key={f}
-                sx={{
-                  borderRadius: '10px',
-                  p: 2,
-                  mr: 3,
-                  mb: 2,
-                  bg: 'green'
-                }}
-              >
-                <Text
+              <Box key={f} sx={{ mr: 3, mb: 1 }}>
+                <Link
                   sx={{
-                    fontSize: 4,
-                    color: 'white',
-                    fontWeight: 'bold'
+                    '&:hover': {
+                      textDecoration: 'underline',
+                      color: 'white'
+                    }
                   }}
+                  target='_blank'
+                  href={`https://twitter.com/hashtag/${removeFirst(f)}`}
                 >
-                  {f}
-                </Text>
+                  <Text
+                    sx={{
+                      fontSize: 4,
+                      color: 'light-gray'
+                    }}
+                  >
+                    {f}
+                  </Text>
+                </Link>
               </Box>
             ))}
           </Flex>
@@ -47,3 +48,7 @@ const Hashtags = ({ hashTags }) => (
 )
 
 export default Hashtags
+
+const removeFirst = str => {
+  return str.substr(1)
+}

@@ -26,7 +26,6 @@ const InputForm = props => {
           .then(r => r.json())
           .then(json => {
             setData(json)
-
             setLoading(false)
             resetForm()
           })
@@ -46,13 +45,13 @@ const InputForm = props => {
       {props => {
         const { errors, touched, isSubmitting } = props
         return (
-          <Box sx={{ ml: 2 }}>
+          <Box>
             <Form>
               <Box>
                 {touched.username && <Error>{errors.serverError}</Error>}
               </Box>
               <Box>
-                <Flex justifyContent='flex-end'>
+                <Flex sx={{ justifyContent: 'flex-end' }}>
                   <Button
                     sx={{
                       cursor: 'pointer',
@@ -63,7 +62,7 @@ const InputForm = props => {
                     disabled={isSubmitting}
                     type='submit'
                   >
-                    <Text sx={{ fontWeight: 'bold', fontSize: 5 }}>
+                    <Text sx={{ fontWeight: 'bold', fontSize: 4 }}>
                       <MdRefresh />
                     </Text>
                   </Button>

@@ -44,11 +44,13 @@ const Echo = props => {
                 </Text>
               </Box>
               <Toxic toxic={data.toxicTweets} />
-              {data.tweets.map(tweet => (
-                <ScrollAnimation key={tweet.id}>
-                  <Tweet {...tweet} />
-                </ScrollAnimation>
-              ))}
+              <Box sx={{ mt: 3 }}>
+                {data.tweets.map(tweet => (
+                  <ScrollAnimation key={tweet.id}>
+                    <Tweet {...tweet} />
+                  </ScrollAnimation>
+                ))}
+              </Box>
             </Box>
           )}
         </Container>

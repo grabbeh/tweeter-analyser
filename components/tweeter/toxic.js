@@ -24,7 +24,6 @@ const Toxic = ({ toxic }) => (
                     <Text
                       sx={{
                         fontSize: 4,
-                        fontWeight: 'bold',
                         color: 'white'
                       }}
                     >

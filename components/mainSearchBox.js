@@ -1,12 +1,11 @@
 /** @jsx jsx */
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
 import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
 import { jsx, Box, Flex, Text, Container } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
-import { server } from 'config/index'
+
 import RefreshForm from 'components/RefreshForm'
 import Loading from 'components/LoadingSpinner'
 import IntroBar from 'components/introBar'
@@ -22,26 +21,10 @@ import {
 } from 'components/tweeter/'
 import User from 'components/user'
 
-const MainForm = props => {
-  const {
-    query: { username }
-  } = useRouter()
-
-  let [data, setData] = useState()
-  console.log(data)
+const MainSearchBox = props => {
+  console.log(props)
+  let [data, setData] = useState(props.data)
   let [loading, setLoading] = useState(false)
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch(`${server}/get-tweeter-data`, {
-        body: JSON.stringify({ username }),
-        method: 'POST'
-      }).then(r => r.json())
-      setData(result)
-    }
-    if (username) {
-      fetchData()
-    }
-  }, [username])
   return (
     <Layout>
       <Header />
@@ -70,11 +53,8 @@ const MainForm = props => {
                 <Box sx={{ mt: 2 }}>
                   <Text as='h2'>Overview</Text>
                   <Flex sx={{ flexWrap: 'wrap' }}>
-                    <Box sx={{ width: ['100%', '75%'] }}>
-                      <Text as='p'>{data.timePeriod}</Text>
-                    </Box>
-
-                    <Box sx={{ width: ['100%', '25%'] }}>
+                    <Text as='p'>{data.timePeriod}</Text>
+                    <Box>
                       {data.refreshAvailable && (
                         <Box>
                           <RefreshForm
@@ -112,4 +92,4 @@ const MainForm = props => {
   )
 }
 
-export default MainForm
+export default MainSearchBox

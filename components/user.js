@@ -21,11 +21,11 @@ const User = props => (
           </Link>
         </Text>
       </Box>
-      <Box>
+      <Flex sx={{ alignItems: 'center' }}>
         <Text as='p'>
           Joined {props.accountCreated}, {props.timeSinceCreation} ago
         </Text>
-      </Box>
+      </Flex>
     </Flex>
   </ScrollAnimation>
 )

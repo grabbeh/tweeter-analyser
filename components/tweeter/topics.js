@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box, Flex, Text } from 'theme-ui'
+import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import Toggle from 'components/toggle'
 import ScrollAnimation from 'components/animations/scrollanimation'
 
@@ -11,26 +11,33 @@ const Topics = ({ topics }) => (
           <Toggle title='Topics'>
             <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
               {topics.map((t, i) => (
-                <Box
-                  key={i}
+                <Link
                   sx={{
-                    borderRadius: '10px',
-                    p: 2,
-                    bg: 'purple',
-                    mb: 2,
-                    mr: 2
-                  }}
-                >
-                  <Text
-                    sx={{
-                      fontSize: 4,
-                      fontWeight: 'bold',
+                    '&:hover': {
+                      textDecoration: 'underline',
                       color: 'white'
+                    }
+                  }}
+                  target='_blank'
+                  href={`https://twitter.com/search?q=${t}`}
+                >
+                  <Box
+                    key={i}
+                    sx={{
+                      mr: 3,
+                      mb: 1
                     }}
                   >
-                    {t}
-                  </Text>
-                </Box>
+                    <Text
+                      sx={{
+                        fontSize: 4,
+                        color: 'white'
+                      }}
+                    >
+                      {t}
+                    </Text>
+                  </Box>
+                </Link>
               ))}
             </Flex>
           </Toggle>

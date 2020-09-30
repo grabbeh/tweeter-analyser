@@ -131,8 +131,7 @@ const theme = {
       textDecoration: 'none',
       '&:hover': {
         textDecoration: 'underline'
-      },
-      transition: 'all 0.3s'
+      }
     },
     div: {},
     p: {

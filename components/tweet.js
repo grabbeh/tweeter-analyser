@@ -5,11 +5,7 @@ import { jsx, Box, Flex, Text, Image, Link } from 'theme-ui'
 const Tweet = props => (
   <Box
     sx={{
-      border: '1px solid #ddd',
-      borderRadius: 3,
-      boxShadow: '0 1px 5px 0 rgba(0,0,0,.14)',
-      mb: 4,
-      p: 3
+      py: 3
     }}
   >
     <Flex sx={{ flexWrap: 'wrap' }}>
@@ -32,7 +28,7 @@ const Tweet = props => (
           </Link>
         </Text>
         <Box sx={{ mt: 2 }}>
-          <Text sx={{ fontSize: 3, color: 'black' }}>{props.text}</Text>
+          <Text sx={{ fontSize: 4, color: 'black' }}>{props.text}</Text>
           <Box sx={{ pt: 2 }}>
             <Text
               sx={{
