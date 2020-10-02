@@ -24,11 +24,10 @@ const SearchPage = () => {
   ] = useFetchData('/get-tweeter-data')
 
   useEffect(() => {
-    console.log(username)
     if (!loading && !data && username) {
       doFetch(username)
     }
-  })
+  }, [])
 
   return (
     <Layout>
@@ -47,10 +46,18 @@ const SearchPage = () => {
             doFetch={doFetch}
             setEndpoint={setEndpoint}
             error={error}
-            // setErrorHandler={setErrorHandler}
           />
           {loading && <Loading />}
-          {!loading && data && <Results data={data} />}
+          {!loading && data && (
+            <Results
+              doFetch={doFetch}
+              setLoading={setLoading}
+              setEndpoint={setEndpoint}
+              setData={setData}
+              data={data}
+              error={error}
+            />
+          )}
         </Container>
       </Flex>
     </Layout>

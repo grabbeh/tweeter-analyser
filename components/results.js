@@ -1,9 +1,7 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, Text } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
-
 import RefreshForm from 'components/RefreshForm'
-
 import {
   Summary,
   Toxic,
@@ -16,7 +14,15 @@ import {
 } from 'components/tweeter/'
 import User from 'components/user'
 
-const Results = ({ data, setData, setLoading }) => {
+const Results = ({
+  data,
+  setData,
+  setLoading,
+  doFetch,
+  error,
+  setEndpoint
+}) => {
+  console.log(data)
   return (
     <Box sx={{ mt: 3 }}>
       <User
@@ -38,8 +44,13 @@ const Results = ({ data, setData, setLoading }) => {
                 <Box>
                   <RefreshForm
                     setLoading={setLoading}
+                    error={error}
                     setData={setData}
+                    doFetch={doFetch}
                     username={data.screen_name}
+                    dataUrl='/refresh-tweeter'
+                    callbackUrl='/search'
+                    setEndpoint={setEndpoint}
                   />
                 </Box>
               )}
