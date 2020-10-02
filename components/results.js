@@ -22,7 +22,6 @@ const Results = ({
   error,
   setEndpoint
 }) => {
-  console.log(data)
   return (
     <Box sx={{ mt: 3 }}>
       <User

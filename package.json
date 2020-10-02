@@ -49,6 +49,7 @@
     "react-svg-spinner": "^1.0.4",
     "stopword": "^1.0.1",
     "styled-system": "^5.1.2",
+    "swr": "^0.3.5",
     "theme-ui": "^0.3.1",
     "twitter": "^1.7.1",
     "twitter-lite": "^0.14.0",

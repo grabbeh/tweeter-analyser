@@ -11,7 +11,7 @@ import {
 } from 'theme-ui'
 import Link from 'components/Link'
 import ScrollAnimation from 'components/animations/scrollanimation'
-import { server } from 'config/index'
+import { basicFetcher as fetcher } from 'utils/fetcher'
 import Header from 'components/Header'
 
 const Active = ({ data }) => {
@@ -84,8 +84,7 @@ const Active = ({ data }) => {
 
 export default Active
 
-Active.getInitialProps = async props => {
-  const res = await fetch(`${server}/get-most-active`)
-  const data = await res.json()
-  return { data }
+export async function getServerSideProps () {
+  const data = await fetcher('/get-most-active')
+  return { props: { data } }
 }
