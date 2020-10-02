@@ -12,6 +12,7 @@ const Topics = ({ topics }) => (
             <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
               {topics.map((t, i) => (
                 <Link
+                  key={i}
                   sx={{
                     '&:hover': {
                       textDecoration: 'underline',
@@ -22,7 +23,6 @@ const Topics = ({ topics }) => (
                   href={`https://twitter.com/search?q=${t}`}
                 >
                   <Box
-                    key={i}
                     sx={{
                       mr: 3,
                       mb: 1

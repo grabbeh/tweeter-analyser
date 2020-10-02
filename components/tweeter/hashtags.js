@@ -23,7 +23,7 @@ const Hashtags = ({ hashTags }) => (
                   sx={{
                     '&:hover': {
                       textDecoration: 'underline',
-                      color: 'white'
+                      color: 'black'
                     }
                   }}
                   target='_blank'
@@ -31,8 +31,7 @@ const Hashtags = ({ hashTags }) => (
                 >
                   <Text
                     sx={{
-                      fontSize: 4,
-                      color: 'light-gray'
+                      fontSize: 4
                     }}
                   >
                     {f}

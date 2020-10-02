@@ -1,47 +1,35 @@
 /** @jsx jsx */
-import { useState, useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 import GenericUsernameForm from 'components/GenericForm'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex, Text, Container } from 'theme-ui'
-import ScrollAnimation from 'components/animations/scrollanimation'
-import { server } from 'config/index'
-import RefreshForm from 'components/RefreshForm'
+import { jsx, Flex, Container } from 'theme-ui'
+import Results from 'components/results'
+import useFetchData from 'hooks/useFetchData'
 import Loading from 'components/LoadingSpinner'
 import IntroBar from 'components/introBar'
-import {
-  Summary,
-  Toxic,
-  Emojis,
-  Topics,
-  Hashtags,
-  Chart,
-  Pie,
-  Interactions
-} from 'components/tweeter/'
-import User from 'components/user'
+import { useEffect } from 'react'
 
-const MainForm = props => {
+const SearchPage = () => {
   const {
     query: { username }
   } = useRouter()
+  const [
+    { loading, error, data },
+    doFetch,
+    setLoading,
+    setData,
+    setEndpoint
+  ] = useFetchData('/get-tweeter-data')
 
-  let [data, setData] = useState()
-  console.log(data)
-  let [loading, setLoading] = useState(false)
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch(`${server}/get-tweeter-data`, {
-        body: JSON.stringify({ username }),
-        method: 'POST'
-      }).then(r => r.json())
-      setData(result)
+    console.log(username)
+    if (!loading && !data && username) {
+      doFetch(username)
     }
-    if (username) {
-      fetchData()
-    }
-  }, [username])
+  })
+
   return (
     <Layout>
       <Header />
@@ -56,60 +44,17 @@ const MainForm = props => {
             callbackUrl='/search'
             setLoading={setLoading}
             setData={setData}
+            doFetch={doFetch}
+            setEndpoint={setEndpoint}
+            error={error}
+            // setErrorHandler={setErrorHandler}
           />
           {loading && <Loading />}
-          {!loading && data && (
-            <Box sx={{ mt: 3 }}>
-              <User
-                screenName={data.screen_name}
-                profileImage={data.profile_image_url_https}
-                accountCreated={data.accountCreated}
-                timeSinceCreation={data.timeSinceCreation}
-              />
-              <ScrollAnimation>
-                <Box sx={{ mt: 2 }}>
-                  <Text as='h2'>Overview</Text>
-                  <Flex sx={{ flexWrap: 'wrap' }}>
-                    <Box sx={{ width: ['100%', '75%'] }}>
-                      <Text as='p'>{data.timePeriod}</Text>
-                    </Box>
-
-                    <Box sx={{ width: ['100%', '25%'] }}>
-                      {data.refreshAvailable && (
-                        <Box>
-                          <RefreshForm
-                            setLoading={setLoading}
-                            setData={setData}
-                            username={data.screen_name}
-                          />
-                        </Box>
-                      )}
-                    </Box>
-                  </Flex>
-                  <Summary
-                    averageTweetsPerDay={data.averageTweetsPerDay}
-                    totalTweets={data.totalTweets}
-                    mostActionsPerHour={data.mostTweetsPerHour}
-                  />
-                </Box>
-              </ScrollAnimation>
-              <Interactions
-                retweets={data.likesToRetweet}
-                repliesTo={data.likesToReplyTo}
-              />
-
-              {data.tweetSplit && <Pie pieData={data.tweetSplit} />}
-              <Chart chartData={data.chartData} />
-              <Hashtags hashTags={data.hashTags} />
-              <Toxic toxic={data.toxicTweets} />
-              <Emojis emojis={data.emojis} />
-              <Topics topics={data.topics} />
-            </Box>
-          )}
+          {!loading && data && <Results data={data} />}
         </Container>
       </Flex>
     </Layout>
   )
 }
 
-export default MainForm
+export default SearchPage

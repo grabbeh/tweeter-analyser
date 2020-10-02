@@ -5,20 +5,14 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
   const [data, setData] = useState(initialData)
   const [endpoint, setEndpoint] = useState(initialEndpoint)
   const [value, setValue] = useState(initialValue)
-  const [loading, setLoading] = useState(false)
-  const [setErrors, setErrorHander] = useState(false)
-  const [error, setError] = useState()
+  const [isLoading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       if (value) {
+        setError(false)
         setLoading(true)
-        // indicates separate error handler has been passed in
-        if (typeof setErrors === 'function') {
-          setErrors(false)
-        } else {
-          setError(error)
-        }
         fetch(`${server}${endpoint}`, {
           body: JSON.stringify({ username: value }),
           method: 'POST'
@@ -37,23 +31,15 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
               setLoading(false)
             },
             error => {
-              if (typeof setErrors === 'function') {
-                setErrors({
-                  serverError: error
-                })
-              } else {
-                setError(error)
-              }
+              setError({
+                serverError: error
+              })
             }
           )
           .catch(catchError => {
-            if (typeof setErrors === 'function') {
-              setErrors({
-                serverError: catchError
-              })
-            } else {
-              setError(error)
-            }
+            setError({
+              serverError: catchError
+            })
           })
           .finally(() => {
             setLoading(false)
@@ -65,12 +51,11 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
   }, [endpoint, value])
 
   return [
-    { data, loading, error },
+    { data, isLoading, error },
     setValue,
     setLoading,
     setData,
-    setEndpoint,
-    setErrorHander
+    setEndpoint
   ]
 }
 

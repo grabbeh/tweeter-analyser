@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
 import { jsx, Box, Flex } from 'theme-ui'
-import Results from 'components/results'
+import UrlResults from 'components/urlResults'
 
 const Holder = props => {
   const {
@@ -13,7 +13,7 @@ const Holder = props => {
     <Layout>
       <Header />
       <Flex sx={{ justifyContent: 'center' }}>
-        <Box>{username && <Results username={username} />}</Box>
+        <Box>{username && <UrlResults username={username} />}</Box>
       </Flex>
     </Layout>
   )

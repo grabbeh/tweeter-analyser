@@ -5,7 +5,7 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 
 const Toxic = ({ toxic }) => (
   <ScrollAnimation>
-    <Box sx={{ mt: 4 }}>
+    <Box>
       {toxic && toxic.length > 0 && (
         <Box sx={{ borderRadius: '20px', bg: 'light-red', px: 3, pt: 3 }}>
           <Toggle title='Toxic tweets'>

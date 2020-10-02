@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react'
 import Form from 'components/TweetForm'
 import Layout from 'components/Layout'
 import { Grid, Box, Flex, Text } from 'theme-ui'
-import { server } from '../config/index'
 
-const MainForm = props => {
+const TweetPage = props => {
   let { serverData } = props
   let [data, setData] = useState()
   let [loading, setLoading] = useState(false)
@@ -45,16 +44,4 @@ const MainForm = props => {
   )
 }
 
-export default MainForm
-
-MainForm.getInitialProps = async props => {
-  if (props.query.id) {
-    let { id } = props.query
-    const res = await fetch(`${server}/get-tweet-data`, {
-      body: JSON.stringify({ id }),
-      method: 'POST'
-    })
-    const data = await res.json()
-    return { serverData: data }
-  } else return {}
-}
+export default TweetPage
