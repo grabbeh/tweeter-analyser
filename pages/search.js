@@ -52,6 +52,7 @@ const SearchPage = () => {
             <Results
               doFetch={doFetch}
               setLoading={setLoading}
+              setEndpoint={setEndpoint}
               setData={setData}
               data={data}
               error={error}
