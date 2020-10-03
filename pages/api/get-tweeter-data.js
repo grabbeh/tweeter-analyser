@@ -3,7 +3,6 @@ import { addSummary, findSummary } from '../../server/api/dynamodb'
 import { differenceInHours, fromUnixTime } from 'date-fns'
 
 export default async (req, res) => {
-  console.log(req.body)
   let { username } = JSON.parse(req.body)
   try {
     let user = await getUser(username)

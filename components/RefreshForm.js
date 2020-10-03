@@ -6,7 +6,6 @@ import Error from './Error'
 import { MdRefresh } from 'react-icons/md'
 
 const InputForm = props => {
-  console.log(props)
   const {
     setLoading,
     setData,

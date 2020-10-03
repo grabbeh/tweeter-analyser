@@ -1,22 +1,24 @@
 /** @jsx jsx */
-import { useRouter } from 'next/router'
 import Header from 'components/Header'
 import Layout from 'components/Layout'
-import { jsx, Box, Flex } from 'theme-ui'
-import UrlResults from 'components/urlResults'
+import { jsx, Container, Flex } from 'theme-ui'
+import Results from 'components/results'
+import { fetcher } from 'utils/fetcher'
 
-const Holder = props => {
-  const {
-    query: { username }
-  } = useRouter()
-  return (
-    <Layout>
-      <Header />
-      <Flex sx={{ justifyContent: 'center' }}>
-        <Box>{username && <UrlResults username={username} />}</Box>
-      </Flex>
-    </Layout>
-  )
+const Tweeter = ({ data }) => (
+  <Layout>
+    <Header />
+    <Flex sx={{ justifyContent: 'center' }}>
+      <Container>
+        <Results data={data} />
+      </Container>
+    </Flex>
+  </Layout>
+)
+
+export default Tweeter
+
+export async function getServerSideProps (context) {
+  const data = await fetcher('/get-tweeter-data', context.query.username)
+  return { props: { data } }
 }
-
-export default Holder

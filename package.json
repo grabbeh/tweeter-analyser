@@ -20,6 +20,7 @@
     "@mdx-js/react": "1.6.16",
     "@next/mdx": "^9.5.3",
     "@nivo/bar": "^0.62.0",
+    "@nivo/core": "^0.62.0",
     "@nivo/pie": "^0.62.0",
     "@nivo/scatterplot": "^0.62.0",
     "@styled-system/prop-types": "^5.1.4",

@@ -23,7 +23,7 @@ const Home = () => (
               🕵🏼‍♀️ Last Seven Days
             </Text>
             <Box sx={{ my: 3 }}>
-              <Text sx={{ fontSize: [4, 5] }}>
+              <Text sx={{ fontSize: 5 }}>
                 Tools to help analyse and understand tweeters and echo chambers
               </Text>
             </Box>
@@ -32,7 +32,7 @@ const Home = () => (
             {links.map(l => (
               <Box sx={{ mb: 2 }} key={l.href}>
                 <Link href={l.href}>
-                  <Text sx={{ fontWeight: 'bold', fontSize: [4, 5] }}>
+                  <Text as='span' sx={{ fontWeight: 'bold', fontSize: 4 }}>
                     {l.text}
                   </Text>
                 </Link>

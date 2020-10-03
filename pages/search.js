@@ -27,7 +27,7 @@ const SearchPage = () => {
     if (!loading && !data && username) {
       doFetch(username)
     }
-  }, [])
+  })
 
   return (
     <Layout>
