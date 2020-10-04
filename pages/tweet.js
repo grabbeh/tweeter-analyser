@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import Form from 'components/TweetForm'
-import Layout from 'components/Layout'
+import Form from 'components/tweetForm'
+import Layout from 'components/layout'
 import { Grid, Box, Flex, Text } from 'theme-ui'
 
 const TweetPage = props => {

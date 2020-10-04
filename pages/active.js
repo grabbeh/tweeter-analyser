@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import Layout from 'components/Layout'
+import Layout from 'components/layout'
 import {
   jsx,
   Box,
@@ -9,10 +9,10 @@ import {
   Link as ThemeLink,
   Container
 } from 'theme-ui'
-import Link from 'components/Link'
+import Link from 'components/link'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { basicFetcher as fetcher } from 'utils/fetcher'
-import Header from 'components/Header'
+import Header from 'components/header'
 
 const Active = ({ data }) => {
   return (

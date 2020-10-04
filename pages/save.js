@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { useState } from 'react'
-import Form from 'components/GenericForm'
-import Layout from 'components/Layout'
-import Header from 'components/Header'
+import Form from 'components/genericForm'
+import Layout from 'components/layout'
+import Header from 'components/header'
 import { jsx, Box, Flex } from 'theme-ui'
 import Loading from 'components/LoadingSpinner'
 

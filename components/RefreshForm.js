@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Formik, Form } from 'formik'
 import { Box, Flex, Button, Text } from 'theme-ui'
-import Error from './Error'
+import Error from './error'
 import { MdRefresh } from 'react-icons/md'
 
 const InputForm = props => {

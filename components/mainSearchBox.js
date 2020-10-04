@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { useState } from 'react'
-import GenericUsernameForm from 'components/GenericForm'
-import Header from 'components/Header'
-import Layout from 'components/Layout'
+import GenericUsernameForm from 'components/genericForm'
+import Header from 'components/header'
+import Layout from 'components/layout'
 import { jsx, Box, Flex, Text, Container } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 
-import RefreshForm from 'components/RefreshForm'
+import RefreshForm from 'components/refreshForm'
 import Loading from 'components/LoadingSpinner'
 import IntroBar from 'components/introBar'
 import {

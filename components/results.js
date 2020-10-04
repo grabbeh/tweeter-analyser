@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, Text } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
-import RefreshForm from 'components/RefreshForm'
+import RefreshForm from 'components/refreshForm'
 import {
   Summary,
   Toxic,

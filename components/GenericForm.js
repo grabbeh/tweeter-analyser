@@ -3,9 +3,9 @@ import { Formik, Form } from 'formik'
 import { string, object } from 'yup'
 import { useRouter } from 'next/router'
 import { jsx, Box, Flex } from 'theme-ui'
-import Input from './Input'
-import Button from './Button'
-import Error from './Error'
+import Input from './input'
+import Button from './button'
+import Error from './error'
 
 const GenericUsernameForm = props => {
   const { callbackUrl, doFetch, error } = props

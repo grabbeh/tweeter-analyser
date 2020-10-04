@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Text, Box } from 'theme-ui'
-import Link from 'components/Link'
+import Link from 'components/link'
 
 const Header = () => (
   <Box sx={{ p: 3 }} as='header'>

@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import Header from 'components/Header'
-import Layout from 'components/Layout'
+import Header from 'components/header'
+import Layout from 'components/layout'
 import { jsx, Container, Flex } from 'theme-ui'
 import Results from 'components/results'
 import { fetcher } from 'utils/fetcher'

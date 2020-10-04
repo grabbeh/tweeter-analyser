@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react'
-import Form from 'components/GenericForm'
-import Layout from 'components/Layout'
-import Header from 'components/Header'
+import Form from 'components/genericForm'
+import Layout from 'components/layout'
+import Header from 'components/header'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { jsx, Box, Flex, Text, Container } from 'theme-ui'
 import Loading from 'components/LoadingSpinner'

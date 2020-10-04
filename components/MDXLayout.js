@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import Layout from 'components/Layout'
+import Layout from 'components/layout'
 import { jsx, Box, Flex, BaseStyles } from 'theme-ui'
-import Header from 'components/Header'
+import Header from 'components/header'
 
 const MDXLayout = ({ children }) => {
   return (
