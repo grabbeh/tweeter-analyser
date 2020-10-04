@@ -3,24 +3,17 @@ import { server } from 'config/index'
 
 const useDataApi = (initialEndpoint, initialValue, initialData) => {
   const [data, setData] = useState(initialData)
-  const [endpoint, setEndpoint] = useState(initialEndpoint)
-  const [value, setValue] = useState(initialValue)
+  const [values, setValue] = useState(initialValue)
   const [loading, setLoading] = useState(false)
-  const [setErrors, setErrorHander] = useState(false)
   const [error, setError] = useState()
 
   useEffect(() => {
     const fetchData = async () => {
-      if (value) {
+      if (values) {
         setLoading(true)
-        // indicates separate error handler has been passed in
-        if (typeof setErrors === 'function') {
-          setErrors(false)
-        } else {
-          setError(error)
-        }
-        fetch(`${server}${endpoint}`, {
-          body: JSON.stringify({ username: value }),
+        setError(error)
+        fetch(`${server}${initialEndpoint}`, {
+          body: JSON.stringify(values),
           method: 'POST'
         })
           .then(response => {
@@ -37,23 +30,11 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
               setLoading(false)
             },
             error => {
-              if (typeof setErrors === 'function') {
-                setErrors({
-                  serverError: error
-                })
-              } else {
-                setError(error)
-              }
+              setError(error)
             }
           )
           .catch(catchError => {
-            if (typeof setErrors === 'function') {
-              setErrors({
-                serverError: catchError
-              })
-            } else {
-              setError(error)
-            }
+            setError(error)
           })
           .finally(() => {
             setLoading(false)
@@ -62,16 +43,9 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
     }
 
     fetchData()
-  }, [endpoint, value])
+  }, [values])
 
-  return [
-    { data, loading, error },
-    setValue,
-    setLoading,
-    setData,
-    setEndpoint,
-    setErrorHander
-  ]
+  return [{ data, loading, error }, setValue]
 }
 
 export default useDataApi

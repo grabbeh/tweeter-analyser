@@ -6,7 +6,16 @@ import { RepliesTo, Retweets } from './index'
 
 const Interactions = ({ repliesTo, retweets }) => (
   <ScrollAnimation>
-    <Box sx={{ mt: 4, px: 3, pt: 3, borderRadius: '20px', bg: 'orange' }}>
+    <Box
+      sx={{
+        mt: 4,
+        px: 3,
+        pt: 3,
+        pb: [3, 0],
+        borderRadius: '20px',
+        bg: 'orange'
+      }}
+    >
       <Toggle title='Popular interactions'>
         <Box sx={{ pb: 3 }}>
           <Grid gap={[3, 4]} columns={[1, 2, 2]}>

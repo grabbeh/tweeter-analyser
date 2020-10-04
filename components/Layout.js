@@ -14,7 +14,7 @@ const Layout = props => {
       </Helmet>
       <ThemeProvider theme={theme}>
         <BaseStyles>
-           <Box>{props.children}</Box>
+          <Box>{props.children}</Box>
         </BaseStyles>
       </ThemeProvider>
     </div>

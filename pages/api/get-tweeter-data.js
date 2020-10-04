@@ -3,12 +3,12 @@ import { addSummary, findSummary } from '../../server/api/dynamodb'
 import { differenceInHours, fromUnixTime } from 'date-fns'
 
 export default async (req, res) => {
-  let { username } = JSON.parse(req.body)
+  let { username, refresh } = JSON.parse(req.body)
   try {
     let user = await getUser(username)
     let existingResults = await findSummary(user.id)
     let o = JSON.parse(existingResults.body)
-    if (o && o.Items.length > 0) {
+    if (o && o.Items.length > 0 && !refresh) {
       const item = o.Items[0]
       res.statusCode = 200
       res.json({

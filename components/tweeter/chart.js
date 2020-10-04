@@ -2,14 +2,14 @@
 import { jsx, Box, Text } from 'theme-ui'
 import { ResponsiveBar } from '@nivo/bar'
 import { ThemeProvider } from '@nivo/core'
-
 import ScrollAnimation from 'components/animations/scrollanimation'
 
 const Chart = ({ chartData }) => (
   <ScrollAnimation>
     <Box
       sx={{
-        p: [2, 3],
+        py: 3,
+        px: [2, 3],
         borderRadius: '30px',
         bg: 'light-gray',
         mt: 4,

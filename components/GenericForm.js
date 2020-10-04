@@ -8,15 +8,7 @@ import Button from './Button'
 import Error from './Error'
 
 const GenericUsernameForm = props => {
-  const {
-    dataUrl,
-    callbackUrl,
-    setLoading,
-    setData,
-    doFetch,
-    setEndpoint,
-    error
-  } = props
+  const { callbackUrl, doFetch, error } = props
 
   const router = useRouter()
   return (
@@ -30,15 +22,13 @@ const GenericUsernameForm = props => {
       })}
       onSubmit={(values, { setErrors, resetForm }) => {
         //setErrorHandler(() => error => setErrors(error))
-        setEndpoint(dataUrl)
-        setData(false)
-        setLoading(true)
+        // setEndpoint(dataUrl)
         setErrors({
           username: false,
           serverError: false
         })
         let { username } = values
-        doFetch(username)
+        doFetch({ username })
         if (error) {
           setErrors(error)
         }

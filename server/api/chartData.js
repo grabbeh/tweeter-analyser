@@ -40,8 +40,11 @@ const chartData = tweets => {
   let timeRanges = flow(
     groupBy('hour'),
     entries,
-    map(([k, v]) => {
-      return Object.assign({ time: Number(k) }, ...convertDates(v))
+    map(([k, v], i) => {
+      return Object.assign(
+        { time: Number(k), indexValue: i },
+        ...convertDates(v)
+      )
     })
   )(supplemented)
 

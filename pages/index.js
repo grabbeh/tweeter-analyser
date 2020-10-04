@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import Layout from 'components/Layout'
+import Layout from 'components/layout'
 import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
-import Header from 'components/Header'
+import Header from 'components/header'
 
 const links = [
   { href: '/search', text: 'Tweeter analysis', bg: 'light-yellow' },

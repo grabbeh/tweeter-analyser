@@ -6,28 +6,17 @@ import Error from './Error'
 import { MdRefresh } from 'react-icons/md'
 
 const InputForm = props => {
-  const {
-    setLoading,
-    setData,
-    username,
-    doFetch,
-    setEndpoint,
-    dataUrl,
-    error
-  } = props
+  const { username, doFetch, error } = props
   return (
     <Formik
       initialValues={{
         username: ''
       }}
       onSubmit={(values, { setErrors, resetForm }) => {
-        setEndpoint(dataUrl)
-        setData(null)
-        setLoading(true)
         setErrors({
           serverError: false
         })
-        doFetch(username)
+        doFetch({ username, refresh: true })
         if (error) {
           setErrors(error)
         }
