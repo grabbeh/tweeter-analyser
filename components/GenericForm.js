@@ -9,7 +9,6 @@ import Error from './error'
 
 const GenericUsernameForm = props => {
   const { callbackUrl, doFetch, error } = props
-
   const router = useRouter()
   return (
     <Formik

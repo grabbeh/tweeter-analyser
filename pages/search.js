@@ -1,7 +1,6 @@
 /** @jsx jsx */
-
 import { useRouter } from 'next/router'
-import GenericUsernameForm from 'components/genericForm'
+import Form from 'components/genericForm'
 import Header from 'components/header'
 import Layout from 'components/layout'
 import { jsx, Flex, Container } from 'theme-ui'
@@ -33,11 +32,7 @@ const SearchPage = () => {
             title='Search'
             subtitle="Get an overview of someone's activity on Twitter"
           />
-          <GenericUsernameForm
-            callbackUrl='/search'
-            doFetch={doFetch}
-            error={error}
-          />
+          <Form callbackUrl='/search' doFetch={doFetch} error={error} />
           {loading && <Loading />}
           {!loading && data && (
             <Results doFetch={doFetch} data={data} error={error} />

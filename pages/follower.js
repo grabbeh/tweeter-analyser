@@ -2,7 +2,7 @@
 import Layout from 'components/layout'
 import { jsx, Box, Flex, Container } from 'theme-ui'
 import { useState, useEffect } from 'react'
-import GenericUsernameForm from 'components/genericForm'
+import Form from 'components/genericForm'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { server } from 'config/index'
 import Loading from 'components/LoadingSpinner'
@@ -31,7 +31,7 @@ const Follower = props => {
             title='Followers'
             subtitle="View the date of creation of an account's followers. Accounts with multiple followers created on the same day may indicate presence in a bot network"
           />
-          <GenericUsernameForm
+          <Form
             dataUrl='/get-follower-data'
             callbackUrl='/follower'
             setLoading={setLoading}
