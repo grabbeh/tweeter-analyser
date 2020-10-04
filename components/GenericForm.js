@@ -7,7 +7,7 @@ import Input from './input'
 import Button from './button'
 import Error from './error'
 
-const GenericUsernameForm = props => {
+const GenericForm = props => {
   const { callbackUrl, doFetch, error } = props
   const router = useRouter()
   return (
@@ -70,4 +70,4 @@ const GenericUsernameForm = props => {
   )
 }
 
-export default GenericUsernameForm
+export default GenericForm

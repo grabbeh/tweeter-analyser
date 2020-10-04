@@ -4,7 +4,7 @@ import Form from 'components/genericForm'
 import Layout from 'components/layout'
 import Header from 'components/header'
 import { jsx, Box, Flex } from 'theme-ui'
-import Loading from 'components/LoadingSpinner'
+import Loading from 'components/loadingSpinner'
 
 const MainForm = props => {
   let [data, setData] = useState()

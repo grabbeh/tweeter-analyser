@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Box } from 'theme-ui'
-import Loading from 'components/LoadingSpinner'
+import Loading from 'components/loadingSpinner'
 import useFetchData from 'hooks/useFetchData'
 import Results from 'components/results'
 

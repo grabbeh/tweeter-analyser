@@ -7,7 +7,7 @@ import { jsx, Box, Flex, Text, Container } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 
 import RefreshForm from 'components/refreshForm'
-import Loading from 'components/LoadingSpinner'
+import Loading from 'components/loadingSpinner'
 import IntroBar from 'components/introBar'
 import {
   Summary,

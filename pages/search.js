@@ -6,7 +6,7 @@ import Layout from 'components/layout'
 import { jsx, Flex, Container } from 'theme-ui'
 import Results from 'components/results'
 import useFetchData from 'hooks/useFetchData'
-import Loading from 'components/LoadingSpinner'
+import Loading from 'components/loadingSpinner'
 import IntroBar from 'components/introBar'
 import { useEffect } from 'react'
 
