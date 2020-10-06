@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import Form from 'components/genericForm'
 import Layout from 'components/layout'
 import Header from 'components/header'
@@ -9,17 +9,22 @@ import Loading from 'components/loadingSpinner'
 import Tweet from 'components/tweet'
 import { Toxic } from 'components/tweeter/index'
 import IntroBar from 'components/introBar'
-import { server } from '../config/index'
+import useFetchData from 'hooks/useFetchData'
+import { useRouter } from 'next/router'
 
 const Echo = props => {
-  let { serverData } = props
-  let [data, setData] = useState()
-  let [loading, setLoading] = useState(false)
+  const {
+    query: { username }
+  } = useRouter()
+
+  const [{ loading, error, data }, doFetch] = useFetchData('/get-followed-view')
+
   useEffect(() => {
-    if (serverData) {
-      setData(serverData)
+    if (!loading && !data && username) {
+      doFetch({ username })
     }
   })
+
   return (
     <Layout>
       <Header />
@@ -29,12 +34,7 @@ const Echo = props => {
             title='Echo chamber'
             subtitle='See what other people see when they log onto Twitter, for better or worse'
           />
-          <Form
-            dataUrl='/get-followed-view'
-            callbackUrl='/echo'
-            setLoading={setLoading}
-            setData={setData}
-          />
+          <Form error={error} doFetch={doFetch} callbackUrl='/echo' />
           {loading && <Loading />}
           {!loading && data && (
             <Box>
@@ -60,15 +60,3 @@ const Echo = props => {
 }
 
 export default Echo
-
-Echo.getInitialProps = async props => {
-  if (props.query.username) {
-    let { username } = props.query
-    const res = await fetch(`${server}/get-followed-view`, {
-      body: JSON.stringify({ username }),
-      method: 'POST'
-    })
-    const data = await res.json()
-    return { serverData: data }
-  } else return {}
-}

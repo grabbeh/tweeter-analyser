@@ -2,43 +2,41 @@
 import { useState } from 'react'
 import { jsx, Box, Text, Flex } from 'theme-ui'
 import styled from '@emotion/styled'
-
-import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
+import AnimateHeight from 'react-animate-height'
+import { MdKeyboardArrowRight } from 'react-icons/md'
 
 const Toggle = ({ title, children }) => {
-  let [hide, setHide] = useState(true)
+  let [height, setHeight] = useState(0)
   return (
     <Box>
       <Flex
         sx={{ cursor: 'pointer' }}
         onClick={() => {
-          setHide(!hide)
+          setHeight(height === 0 ? 'auto' : 0)
         }}
       >
         <Box>
           <Text sx={{ fontSize: 5, fontWeight: 'bold' }}>{title}</Text>
         </Box>
         <Box>
-          <Box>
-            {hide ? (
-              <Text sx={{ fontSize: 6 }}>
-                <MdKeyboardArrowRight />
-              </Text>
-            ) : (
-              <Text sx={{ fontSize: 6 }}>
-                <MdKeyboardArrowDown />
-              </Text>
-            )}
-          </Box>
+          <Rotate height={height}>
+            <Text sx={{ fontSize: 6 }}>
+              <MdKeyboardArrowRight />
+            </Text>
+          </Rotate>
         </Box>
       </Flex>
-      <HideBox hide={hide}>{children}</HideBox>
+      <AnimateHeight duration={500} height={height}>
+        {children}
+      </AnimateHeight>
     </Box>
   )
 }
 
 export default Toggle
 
-const HideBox = styled('div')`
-  display: ${props => (props.hide ? 'none' : 'block')};
+const Rotate = styled('div')`
+  transform: ${props =>
+    props.height === 'auto' ? 'rotate(90deg)' : 'rotate(0deg'};
+  transition: all 0.2s linear;
 `

@@ -1,35 +1,34 @@
 /** @jsx jsx */
-import { jsx, Box, Text, Link } from 'theme-ui'
-import List from '../list'
-import ListItem from '../listItem'
+import { jsx, Box, Text, Link, Flex } from 'theme-ui'
 
 const RepliesTo = ({ repliesTo }) => (
   <Box>
     {repliesTo.length > 0 && (
       <Box>
         <Text sx={{ fontSize: 4, fontWeight: 'bold' }}>Replies to</Text>
-        <List>
-          {repliesTo.map((f, i) => (
-            <ListItem key={f.screen_name}>
-              <Text
-                sx={{
-                  fontSize: 3
-                }}
+        {repliesTo.map((f, i) => (
+          <Flex
+            key={i}
+            sx={{ pb: 1, justifyContent: 'space-between', flexWrap: 'wrap' }}
+          >
+            <Text
+              sx={{
+                fontSize: 3
+              }}
+            >
+              <Link
+                target='_blank'
+                href={`https://twitter.com/${f.screen_name}`}
               >
-                <Link
-                  target='_blank'
-                  href={`https://twitter.com/${f.screen_name}`}
-                >
-                  {f.screen_name}{' '}
-                </Link>
-                <Text as='span' sx={{ fontWeight: 'bold' }}>
-                  {' '}
-                  - {f.value}
-                </Text>
-              </Text>
-            </ListItem>
-          ))}
-        </List>
+                {f.screen_name}
+              </Link>
+            </Text>
+
+            <Text as='span' sx={{ fontSize: 3, fontWeight: 'bold' }}>
+              {f.value}
+            </Text>
+          </Flex>
+        ))}
       </Box>
     )}
   </Box>

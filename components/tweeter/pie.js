@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, Box, Text } from 'theme-ui'
 import { ResponsivePie } from '@nivo/pie'
-import { ThemeProvider } from '@nivo/core'
 import ScrollAnimation from 'components/animations/scrollanimation'
 
 const Pie = ({ pieData }) => (

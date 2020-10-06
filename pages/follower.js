@@ -11,17 +11,22 @@ import IntroBar from 'components/introBar'
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 import User from 'components/user'
 import { format } from 'date-fns'
+import useFetchData from 'hooks/useFetchData'
+import { useRouter } from 'next/router'
 
-const Follower = props => {
-  let { serverData } = props
-  let [data, setData] = useState()
-  console.log(data)
-  let [loading, setLoading] = useState(false)
+const Follower = () => {
+  const {
+    query: { username }
+  } = useRouter()
+
+  const [{ loading, error, data }, doFetch] = useFetchData('/get-follower-data')
+
   useEffect(() => {
-    if (serverData) {
-      setData(serverData)
+    if (!loading && !data && username) {
+      doFetch({ username })
     }
   })
+
   return (
     <Layout>
       <Header />
@@ -31,12 +36,7 @@ const Follower = props => {
             title='Followers'
             subtitle="View the date of creation of an account's followers. Accounts with multiple followers created on the same day may indicate presence in a bot network"
           />
-          <Form
-            dataUrl='/get-follower-data'
-            callbackUrl='/follower'
-            setLoading={setLoading}
-            setData={setData}
-          />
+          <Form doFetch={doFetch} error={error} callbackUrl='/follower' />
           {loading && <Loading />}
           {!loading && data && (
             <Box sx={{ mt: 3 }}>
@@ -82,15 +82,3 @@ const Follower = props => {
 }
 
 export default Follower
-
-Follower.getInitialProps = async props => {
-  if (props.query.username) {
-    let { username } = props.query
-    const res = await fetch(`${server}/get-follower-data`, {
-      body: JSON.stringify({ username }),
-      method: 'POST'
-    })
-    const data = await res.json()
-    return { serverData: data }
-  } else return {}
-}

@@ -5,7 +5,11 @@ import { jsx, Box, Flex, Text, Image, Link } from 'theme-ui'
 const Tweet = props => (
   <Box
     sx={{
-      py: 3
+      p: 3,
+      borderRadius: 3,
+      '&:hover': {
+        bg: 'light-gray'
+      }
     }}
   >
     <Flex sx={{ flexWrap: 'wrap' }}>
