@@ -9,7 +9,6 @@ export default async (req, res) => {
     let existingResults = await findSummary(user.id)
     let o = JSON.parse(existingResults.body)
     if (o && o.Items.length > 0 && !refresh) {
-      console.log('Existing')
       const item = o.Items[0]
       res.statusCode = 200
       res.json({

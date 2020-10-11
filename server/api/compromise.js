@@ -4,12 +4,12 @@ import uniq from 'lodash/uniq.js'
 import ngrams from 'compromise-ngrams'
 nlp.extend(ngrams)
 
-const process = fullTweets => {
-  let tweets
+const process = tweets => {
   // compromise seems to jam with excessive text
+  /*
   if (fullTweets.length > 3000) {
     tweets = fullTweets.slice(0, fullTweets.length / 2)
-  }
+  }*/
   let words = tweets.map(f => f.text).flat()
   let arrayOfWords = words.join(' ').split(' ')
   let removed = sw.removeStopwords(arrayOfWords).join(', ')
@@ -34,6 +34,9 @@ const process = fullTweets => {
     .ngrams()
     .filter(n => n.count > 2)
     .map(n => n.normal)
+  console.log(hashTags)
+  console.log(emojis)
+  console.log(topics)
 
   return { hashTags, emojis, topics }
 }
