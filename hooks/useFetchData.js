@@ -34,7 +34,7 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
             }
           )
           .catch(catchError => {
-            setError(error)
+            setError(catchError)
           })
           .finally(() => {
             setLoading(false)

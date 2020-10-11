@@ -30,14 +30,18 @@ const convertToxic = results => {
 }
 
 const predict = async tweets => {
-  let text = tweets
-    .map(f => f.text)
-    .flat()
-    .slice(0, 100)
-  model = await toxicity.load()
-  labels = model.model.outputNodes.map(d => d.split('/')[0])
-  const predictions = await classify(text)
-  return convertToxic(predictions)
+  if (tweets.length > 0) {
+    let text = tweets
+      .map(f => f.text)
+      .flat()
+      .slice(0, 100)
+    model = await toxicity.load()
+    labels = model.model.outputNodes.map(d => d.split('/')[0])
+    const predictions = await classify(text)
+    return convertToxic(predictions)
+  } else {
+    return new Error('Insufficient tweets')
+  }
 }
 
 export default predict

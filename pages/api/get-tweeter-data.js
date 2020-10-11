@@ -9,6 +9,7 @@ export default async (req, res) => {
     let existingResults = await findSummary(user.id)
     let o = JSON.parse(existingResults.body)
     if (o && o.Items.length > 0 && !refresh) {
+      console.log('Existing')
       const item = o.Items[0]
       res.statusCode = 200
       res.json({
@@ -23,7 +24,8 @@ export default async (req, res) => {
       res.json({ ...full })
     }
   } catch (e) {
-    let error = e[0] ? e[0].message : e.message
+    // error issue? Errors returned are just simply messages rather than objects
+    let error = e[0] ? e[0].message : e.message || e
     res.statusCode = 500
     res.json({ errorMessage: error })
   }

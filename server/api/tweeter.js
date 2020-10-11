@@ -31,10 +31,10 @@ const client = new Twitter({
 const tweeter = async user => {
   try {
     let tweets = await getSevenDaysTweets(user.id_str)
-    if (!tweets.length > 0 || !tweets) {
+    let filtered = filterSevenDays(tweets)
+    if (!filtered.length > 0 || !tweets) {
       throw new Error('No tweets in the last 7 days')
     }
-    let filtered = filterSevenDays(tweets)
     filtered = addCategories(filtered)
     let toxicTweets = await predict(filtered)
     let { hashTags, emojis, topics } = compromise(filtered)
