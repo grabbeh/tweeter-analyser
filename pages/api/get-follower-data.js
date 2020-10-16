@@ -48,7 +48,6 @@ export default async (req, res) => {
     res.statusCode = 200
     res.json({ user, graphData: [{ data: followers, id: 'Followers' }] })
   } catch (e) {
-    console.log(e)
     let error = e[0] ? e[0].message : e.message
     res.statusCode = 500
     res.json({ errorMessage: error })

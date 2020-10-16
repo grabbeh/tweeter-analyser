@@ -23,7 +23,6 @@ export default async (req, res) => {
       res.json({ ...full })
     }
   } catch (e) {
-    // error issue? Errors returned are just simply messages rather than objects
     let error = e[0] ? e[0].message : e.message || e
     res.statusCode = 500
     res.json({ errorMessage: error })

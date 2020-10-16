@@ -20,17 +20,11 @@ const GenericForm = props => {
         username: string().required('Please provide a username')
       })}
       onSubmit={(values, { setErrors, resetForm }) => {
-        //setErrorHandler(() => error => setErrors(error))
-        // setEndpoint(dataUrl)
         setErrors({
-          username: false,
-          serverError: false
+          username: false
         })
         let { username } = values
         doFetch({ username })
-        if (error) {
-          setErrors(error)
-        }
         resetForm()
         const href = `${callbackUrl}?username=${username}`
         const as = href
@@ -38,7 +32,7 @@ const GenericForm = props => {
       }}
     >
       {props => {
-        const { values, errors, touched, isSubmitting, handleChange } = props
+        const { values, errors, isSubmitting, handleChange } = props
         return (
           <Form>
             <Input
@@ -50,9 +44,12 @@ const GenericForm = props => {
               error={errors.username}
             />
             <Box sx={{ mt: 1 }}>
-              {touched.username && (
-                <Error>{errors.username || errors.serverError}</Error>
-              )}
+              {
+                <Box>
+                  <Error>{errors.username || errors.serverError}</Error>
+                  <Error>{error}</Error>
+                </Box>
+              }
             </Box>
             <Box sx={{ mt: 3 }}>
               <Flex sx={{ justifyContent: 'flex-end' }}>

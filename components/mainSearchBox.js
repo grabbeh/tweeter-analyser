@@ -22,7 +22,6 @@ import {
 import User from 'components/user'
 
 const MainSearchBox = props => {
-  console.log(props)
   let [data, setData] = useState(props.data)
   let [loading, setLoading] = useState(false)
   return (

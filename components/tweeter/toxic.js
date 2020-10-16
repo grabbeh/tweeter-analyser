@@ -16,15 +16,14 @@ const Toxic = ({ toxic }) => (
                     sx={{
                       borderRadius: '10px',
                       p: 2,
-                      bg: 'red',
+                      bg: 'white',
                       mb: 3
                     }}
                     key={i}
                   >
                     <Text
                       sx={{
-                        fontSize: 4,
-                        color: 'white'
+                        fontSize: 3
                       }}
                     >
                       {r.text}
