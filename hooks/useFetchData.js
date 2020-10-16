@@ -11,6 +11,7 @@ const useDataApi = (initialEndpoint, initialValue, initialData) => {
     const fetchData = async () => {
       if (values) {
         setLoading(true)
+        setError(false)
         fetch(`${server}${initialEndpoint}`, {
           body: JSON.stringify(values),
           method: 'POST'

@@ -32,7 +32,6 @@ const tweeter = async user => {
   try {
     let tweets = await getSevenDaysTweets(user.id_str)
     let filtered = filterSevenDays(tweets)
-    console.log(filtered.length)
     if (!filtered.length > 0 || !tweets) {
       throw new Error('No tweets in the last 7 days')
     }
