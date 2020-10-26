@@ -69,24 +69,24 @@ const Summary = ({
         </Box>
       </Card>
     </Grid>
-    <Box
-      sx={{
-        borderRadius: '20px',
-        mt: 4,
-        p: 3,
-        bg: 'dark-gray',
-        color: 'white'
-      }}
-    >
-      {longestStreak && longestStreak.length > 0 && (
+    {longestStreak && longestStreak.length > 0 && (
+      <Box
+        sx={{
+          borderRadius: '20px',
+          mt: 4,
+          p: 3,
+          bg: 'dark-gray',
+          color: 'white'
+        }}
+      >
         <Box sx={{ mt: 2 }}>
           <Text sx={{ fontSize: 3 }}>Longest streak</Text>
           <Text sx={{ fontSize: 4, fontWeight: 'bold' }}>
             {longestStreak.length} actions between {longestStreak.timePeriod}
           </Text>
         </Box>
-      )}
-    </Box>
+      </Box>
+    )}
   </Box>
 )
 
