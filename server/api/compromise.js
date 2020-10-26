@@ -34,9 +34,6 @@ const process = tweets => {
     .ngrams()
     .filter(n => n.count > 2)
     .map(n => n.normal)
-  console.log(hashTags)
-  console.log(emojis)
-  console.log(topics)
 
   return { hashTags, emojis, topics }
 }

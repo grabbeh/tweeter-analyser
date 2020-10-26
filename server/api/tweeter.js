@@ -19,7 +19,12 @@ import {
 } from 'date-fns'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
-import { chartData, getMostActiveHour } from './chartData.js'
+import {
+  chartData,
+  mostActiveHour,
+  mostActiveDay,
+  longestStreak
+} from './chartData.js'
 dotenv.config({ path: '../../.env' })
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -48,9 +53,11 @@ const tweeter = async user => {
       limitExceeded,
       likesToReplyTo: likesToReplyTo(filtered, user.screen_name),
       likesToRetweet: likesToRetweet(filtered, user.screen_name),
+      longestStreak: longestStreak(filtered),
       totalTweets: filtered.length,
       chartData: chartData(filtered),
-      mostTweetsPerHour: getMostActiveHour(filtered),
+      mostTweetsPerHour: mostActiveHour(filtered),
+      mostActiveDay: mostActiveDay(filtered),
       hashTags,
       toxicTweets,
       tweetSplit: tweetSplit(filtered),
@@ -70,8 +77,7 @@ const filterSevenDays = tweets => {
   })
 }
 
-const timePeriod = (oldestTweet, latestTweet) => {
-  let dateFormat = 'd MMMM yyyy'
+const timePeriod = (oldestTweet, latestTweet, dateFormat = 'd MMMM yyyy') => {
   let endDate = format(new Date(latestTweet.created_at), dateFormat)
   let startDate = format(new Date(oldestTweet.created_at), dateFormat)
   return `${startDate} - ${endDate}`
@@ -257,5 +263,6 @@ export {
   likesToReplyTo,
   likesToRetweet,
   accountCreated,
-  timeSinceCreation
+  timeSinceCreation,
+  timePeriod
 }

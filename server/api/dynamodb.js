@@ -203,7 +203,7 @@ const addSummary = async (id, content) => {
 const mostActive = async () => {
   var params = {
     IndexName: 'AverageTweetsPerDayIndex',
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv3',
     ExpressionAttributeNames: {
       '#pk': 'activeTweeterCount',
       '#sk': 'SK'

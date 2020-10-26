@@ -29,7 +29,6 @@ const Results = ({ data, doFetch, error }) => (
           <Box sx={{ width: ['100%', '75%'] }}>
             <Text as='p'>{data.timePeriod}</Text>
           </Box>
-
           <Box sx={{ width: ['100%', '25%'] }}>
             {data.refreshAvailable && (
               <Box>
@@ -46,6 +45,8 @@ const Results = ({ data, doFetch, error }) => (
           averageTweetsPerDay={data.averageTweetsPerDay}
           totalTweets={data.totalTweets}
           mostActionsPerHour={data.mostTweetsPerHour}
+          mostActiveDay={data.mostActiveDay}
+          longestStreak={data.longestStreak}
         />
       </Box>
     </ScrollAnimation>

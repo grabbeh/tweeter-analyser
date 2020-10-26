@@ -1,4 +1,5 @@
-import { format } from 'date-fns'
+import { format, differenceInMinutes } from 'date-fns'
+import { timePeriod } from './tweeter'
 import map from 'lodash/fp/map'
 import values from 'lodash/fp/values'
 import groupBy from 'lodash/fp/groupBy'
@@ -58,7 +59,7 @@ const chartData = tweets => {
   return { data, keys }
 }
 
-const getMostActiveHour = tweets => {
+const mostActiveHour = tweets => {
   const supplemented = supplementBase(tweets)
   return flow(
     groupBy('date'),
@@ -81,4 +82,49 @@ const convertDates = arr => {
   )(arr)
 }
 
-export { chartData, getMostActiveHour }
+const mostActiveDay = tweets => {
+  const supplemented = supplementBase(tweets)
+  return flow(
+    groupBy('date'),
+    values,
+    map(i => i.length),
+    max
+  )(supplemented)
+}
+
+const longestStreak = tweets => {
+  let formatted = tweets.map(t => {
+    return { ...t, createdAt: new Date(t.created_at) }
+  })
+
+  let arr = []
+  let counter = 0
+  arr[counter] = []
+  let arrs = formatted.map((t, i) => {
+    if (i < formatted.length - 1) {
+      let next = formatted[i + 1]
+      let diff = differenceInMinutes(t.createdAt, next.createdAt)
+      if (diff > 30) {
+        counter++
+        arr[counter] = []
+      } else {
+        arr[counter].push(t)
+      }
+
+      return arr
+    }
+  })
+  let flattened = flatten(arrs)
+
+  let sorted = flattened.sort((a, b) => {
+    return b.length - a.length
+  })
+  let longestStreak = sorted[0]
+  let longestStreakLength = sorted[0].length
+  let oldest = longestStreak.pop()
+  let earliest = longestStreak[0]
+  let longestStreakDuration = timePeriod(oldest, earliest, 'd MMMM yyyy H:mm')
+  return { length: longestStreakLength, timePeriod: longestStreakDuration }
+}
+
+export { chartData, mostActiveHour, mostActiveDay, longestStreak }

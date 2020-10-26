@@ -2,7 +2,7 @@ import fp from 'lodash/fp.js'
 import _ from 'lodash'
 import pkg from 'date-fns'
 import tweets from '../../tweets.json'
-const { format } = pkg
+const { format, differenceInMinutes } = pkg
 
 const convertToHour = twitterDate => {
   let date = new Date(twitterDate)
@@ -118,7 +118,40 @@ const convertDates = arr => {
   })
 }
 
-let r = getMostActiveHour(tweets)
-console.log(r)
+const longestStreak = tweets => {
+  let formatted = tweets.map(t => {
+    return { ...t, createdAt: new Date(t.created_at) }
+  })
+
+  let arr = []
+  let counter = 0
+  arr[counter] = []
+  return formatted.map((t, i) => {
+    if (i < formatted.length - 1) {
+      let next = formatted[i + 1]
+      let diff = differenceInMinutes(t.createdAt, next.createdAt)
+      if (diff > 15) {
+        counter++
+        arr[counter] = []
+      } else {
+        arr[counter].push(t)
+      }
+
+      return arr
+    }
+  })
+}
+
+let r = longestStreak(tweets)
+
+let flattened = _.flatten(r)
+
+let sorted = flattened.sort((a, b) => {
+  return b.length - a.length
+})
+
+sorted[0].map(i => {
+  console.log(i.created_at)
+})
 
 export { chartData, getMostActiveHour }
