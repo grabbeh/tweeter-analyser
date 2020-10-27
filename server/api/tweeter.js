@@ -15,7 +15,8 @@ import {
   sub,
   isAfter,
   differenceInDays,
-  formatDistanceToNow
+  formatDistanceToNow,
+  formatDistance
 } from 'date-fns'
 import predict from './tensorflow.js'
 import compromise from './compromise.js'
@@ -252,6 +253,12 @@ const timeSinceCreation = createdAt => {
   return formatDistanceToNow(new Date(createdAt))
 }
 
+const timePeriodBetweenTwo = (older, earlier) => {
+  let old = new Date(older)
+  let early = new Date(earlier)
+  return formatDistance(old, early)
+}
+
 export {
   tweeter,
   calculateAverage,
@@ -264,5 +271,6 @@ export {
   likesToRetweet,
   accountCreated,
   timeSinceCreation,
-  timePeriod
+  timePeriod,
+  timePeriodBetweenTwo
 }

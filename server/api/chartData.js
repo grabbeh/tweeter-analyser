@@ -1,5 +1,5 @@
 import { format, differenceInMinutes } from 'date-fns'
-import { timePeriod } from './tweeter'
+import { timePeriodBetweenTwo } from './tweeter'
 import map from 'lodash/fp/map'
 import values from 'lodash/fp/values'
 import groupBy from 'lodash/fp/groupBy'
@@ -123,7 +123,10 @@ const longestStreak = tweets => {
   let longestStreakLength = sorted[0].length
   let oldest = longestStreak.pop()
   let earliest = longestStreak[0]
-  let longestStreakDuration = timePeriod(oldest, earliest, 'd MMMM yyyy H:mm')
+  let longestStreakDuration = timePeriodBetweenTwo(
+    oldest.created_at,
+    earliest.created_at
+  )
   return { length: longestStreakLength, timePeriod: longestStreakDuration }
 }
 

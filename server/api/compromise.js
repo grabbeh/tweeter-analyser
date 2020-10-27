@@ -33,7 +33,6 @@ const process = tweets => {
   let topics = nlp(baseTopics)
     .ngrams()
     .filter(n => n.count > 2)
-    .map(n => n.normal)
 
   return { hashTags, emojis, topics }
 }

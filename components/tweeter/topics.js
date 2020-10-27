@@ -29,13 +29,26 @@ const Topics = ({ topics }) => (
                     }}
                   >
                     <Text
+                      as='span'
                       sx={{
                         fontSize: 4,
                         color: 'white'
                       }}
                     >
-                      {t}
+                      {t.normal || t}
                     </Text>
+                    <Box
+                      sx={{
+                        ml: 2
+                      }}
+                      as='span'
+                    >
+                      {t.count && (
+                        <Text sx={{ fontWeight: 'bold' }} as='span'>
+                          {t.count}
+                        </Text>
+                      )}
+                    </Box>
                   </Box>
                 </Link>
               ))}

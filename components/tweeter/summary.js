@@ -74,15 +74,16 @@ const Summary = ({
         sx={{
           borderRadius: '20px',
           mt: 4,
-          p: 3,
+          px: 3,
+          py: 2,
           bg: 'dark-gray',
           color: 'white'
         }}
       >
         <Box sx={{ mt: 2 }}>
-          <Text sx={{ fontSize: 3 }}>Longest streak</Text>
-          <Text sx={{ fontSize: 4, fontWeight: 'bold' }}>
-            {longestStreak.length} actions between {longestStreak.timePeriod}
+          <Text sx={{ fontSize: 3, color: 'gray' }}>Longest streak</Text>
+          <Text sx={{ fontSize: 4, fontWeight: 'bold', color: 'light-gray' }}>
+            {longestStreak.length} actions over {longestStreak.timePeriod}
           </Text>
         </Box>
       </Box>
