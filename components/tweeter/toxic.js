@@ -14,7 +14,7 @@ const Toxic = ({ toxic }) => (
                 return (
                   <Box
                     sx={{
-                      borderBottom: '4px solid black',
+                      borderBottom: '3px solid black',
                       mb: 3,
                       pb: 2
                     }}

@@ -20,7 +20,7 @@ const Topics = ({ topics }) => (
                     }
                   }}
                   target='_blank'
-                  href={`https://twitter.com/search?q=${t}`}
+                  href={`https://twitter.com/search?q=${t.normal}`}
                 >
                   <Box
                     sx={{
@@ -35,7 +35,7 @@ const Topics = ({ topics }) => (
                         color: 'white'
                       }}
                     >
-                      {t.normal || t}
+                      {t.normal}
                     </Text>
                     <Box
                       sx={{

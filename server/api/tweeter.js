@@ -1,9 +1,11 @@
 import dotenv from 'dotenv'
 import Twitter from 'twitter'
+import parse from 'parse-url'
 import map from 'lodash/fp/map'
 import entries from 'lodash/fp/entries'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import flatten from 'lodash/fp/flatten'
 import countBy from 'lodash/fp/countBy'
 import sortBy from 'lodash/fp/sortBy'
 import reverse from 'lodash/fp/reverse'
@@ -37,31 +39,32 @@ const client = new Twitter({
 const tweeter = async user => {
   try {
     let tweets = await getSevenDaysTweets(user.id_str)
-    let filtered = filterSevenDays(tweets)
-    if (!filtered.length > 0 || !tweets) {
+    let f = filterSevenDays(tweets)
+    if (!f.length > 0 || !tweets) {
       throw new Error('No tweets in the last 7 days')
     }
-    filtered = addCategories(filtered)
-    let toxicTweets = await predict(filtered)
-    let { hashTags, emojis, topics } = compromise(filtered)
-    let { average, limitExceeded } = calculateAverage(filtered)
-    let latestTweet = filtered[0]
-    let oldestTweet = filtered.pop()
+    f = addCategories(f)
+    let toxicTweets = await predict(f)
+    let { hashTags, emojis, topics } = compromise(f)
+    let { average, limitExceeded } = calculateAverage(f)
+    let latestTweet = f[0]
+    let oldestTweet = f.pop()
     return {
+      urls: listUrls(f),
       accountCreated: accountCreated(user.created_at),
       timeSinceCreation: timeSinceCreation(user.created_at),
       averageTweetsPerDay: average,
       limitExceeded,
-      likesToReplyTo: likesToReplyTo(filtered, user.screen_name),
-      likesToRetweet: likesToRetweet(filtered, user.screen_name),
-      longestStreak: longestStreak(filtered),
-      totalTweets: filtered.length,
-      chartData: chartData(filtered),
-      mostTweetsPerHour: mostActiveHour(filtered),
-      mostActiveDay: mostActiveDay(filtered),
+      likesToReplyTo: likesToReplyTo(f, user.screen_name),
+      likesToRetweet: likesToRetweet(f, user.screen_name),
+      longestStreak: longestStreak(f),
+      totalTweets: f.length,
+      chartData: chartData(f),
+      mostTweetsPerHour: mostActiveHour(f),
+      mostActiveDay: mostActiveDay(f),
       hashTags,
       toxicTweets,
-      tweetSplit: tweetSplit(filtered),
+      tweetSplit: tweetSplit(f),
       toxicPercentage: Math.round((toxicTweets.length / 100) * 100),
       emojis,
       topics,
@@ -258,6 +261,22 @@ const timePeriodBetweenTwo = (older, earlier) => {
   let early = new Date(earlier)
   return formatDistance(old, early)
 }
+
+const listUrls = (tweets) => {
+  return flow(
+   map(r => r.entities.urls),
+   filter(r => r.length > 0),
+   flatten,
+   map(r => r.expanded_url),
+   map(r => parse(r)),
+   map(r => r.resource),
+   filter(r => r !== 'twitter.com'),
+   countBy(r => r)
+  )(tweets)
+}
+
+const iter = value => console.log(value)
+
 
 export {
   tweeter,

@@ -1,7 +1,14 @@
 import fp from 'lodash/fp.js'
+import parse from 'url-parse'
 import _ from 'lodash'
 import pkg from 'date-fns'
 import tweets from '../../tweets.json'
+import map from 'lodash/fp/map.js'
+import filter from 'lodash/fp/filter.js'
+import flow from 'lodash/fp/flow.js'
+import flatten from 'lodash/fp/flatten.js'
+import countBy from 'lodash/fp/countBy.js'
+
 const { format, differenceInMinutes } = pkg
 
 const convertToHour = twitterDate => {
@@ -142,16 +149,36 @@ const longestStreak = tweets => {
   })
 }
 
-let r = longestStreak(tweets)
+/*
 
-let flattened = _.flatten(r)
+const urls = (tweets) => {
+  return fp.flow(
+   fp.map(r => r.entities.urls),
+   fp.filter(r => r.length > 0),
+   fp.flatten,
+   fp.map(r => r.expanded_url),
+   fp.map(r => parse(r)),
+   fp.map(r => r.host),
+   fp.filter(r => r !== 'twitter.com'),
+   fp.countBy(r=>r)
+  )(tweets)
+}
+*/
 
-let sorted = flattened.sort((a, b) => {
-  return b.length - a.length
-})
+const urls = (tweets) => {
+  return flow(
+   map(r => r.entities.urls),
+   filter(r => r.length > 0),
+   flatten,
+   map(r => r.expanded_url),
+   map(r => parse(r)),
+   map(r => r.host),
+   filter(r => r !== 'twitter.com'),
+   countBy(r => r)
+  )(tweets)
+}
 
-sorted[0].map(i => {
-  console.log(i.created_at)
-})
+let r = urls(tweets)
+console.log(r)
 
 export { chartData, getMostActiveHour }

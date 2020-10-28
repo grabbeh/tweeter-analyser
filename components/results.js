@@ -10,6 +10,7 @@ import {
   Hashtags,
   Chart,
   Pie,
+  Urls,
   Interactions
 } from 'components/tweeter/'
 import User from 'components/user'
@@ -63,6 +64,7 @@ const Results = ({ data, doFetch, error }) => (
     </Box>
     <Emojis emojis={data.emojis} />
     <Topics topics={data.topics} />
+    <Urls urls={data.urls}/>
   </Box>
 )
 

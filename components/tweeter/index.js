@@ -8,6 +8,7 @@ import Chart from './chart'
 import RepliesTo from './repliesTo'
 import Interactions from './interactions'
 import Retweets from './retweets'
+import Urls from './urls'
 
 export {
   Hashtags,
@@ -19,5 +20,6 @@ export {
   Toxic,
   Emojis,
   Chart,
-  Interactions
+  Interactions,
+  Urls
 }
