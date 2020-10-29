@@ -1,5 +1,5 @@
 import fp from 'lodash/fp.js'
-import parse from 'url-parse'
+import parse from 'parse-url'
 import _ from 'lodash'
 import pkg from 'date-fns'
 import tweets from '../../tweets.json'
@@ -8,6 +8,10 @@ import filter from 'lodash/fp/filter.js'
 import flow from 'lodash/fp/flow.js'
 import flatten from 'lodash/fp/flatten.js'
 import countBy from 'lodash/fp/countBy.js'
+import sortBy from 'lodash/fp/sortBy.js'
+import entries from 'lodash/fp/entries.js'
+import reverse from 'lodash/fp/reverse.js'
+
 
 const { format, differenceInMinutes } = pkg
 
@@ -167,14 +171,17 @@ const urls = (tweets) => {
 
 const urls = (tweets) => {
   return flow(
-   map(r => r.entities.urls),
-   filter(r => r.length > 0),
-   flatten,
-   map(r => r.expanded_url),
-   map(r => parse(r)),
-   map(r => r.host),
-   filter(r => r !== 'twitter.com'),
-   countBy(r => r)
+    map(r => r.entities.urls),
+    filter(r => r.length > 0),
+    flatten,
+    map(r => r.expanded_url),
+    map(r => parse(r)),
+    map(r => r.resource),
+    filter(r => r !== 'twitter.com'),
+    countBy(r => r),
+    entries,
+    sortBy(1),
+    reverse
   )(tweets)
 }
 

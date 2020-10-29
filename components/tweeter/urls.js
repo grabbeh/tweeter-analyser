@@ -17,7 +17,7 @@ const Urls = ({ urls }) => (
       >
         <Toggle title='Urls'>
           <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
-            {Object.entries(urls).map(([url, frequency]) => (
+            {urls.map(([url, frequency]) => (
               <Box key={url} sx={{ mr: 3, mb: 1 }}>
                 <Link
                   sx={{

@@ -271,12 +271,14 @@ const listUrls = (tweets) => {
    map(r => parse(r)),
    map(r => r.resource),
    filter(r => r !== 'twitter.com'),
-   countBy(r => r)
+   countBy(r => r),
+   entries,
+   sortBy(1),
+   reverse
   )(tweets)
 }
 
-const iter = value => console.log(value)
-
+//const iter = value => console.log(value)
 
 export {
   tweeter,
