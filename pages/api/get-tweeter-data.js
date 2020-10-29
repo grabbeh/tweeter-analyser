@@ -18,7 +18,7 @@ export default async (req, res) => {
     } else {
       let results = await tweeter(user)
       let full = { ...results, ...user }
-     // await addSummary(user.id, full)
+      await addSummary(user.id, full)
       res.statusCode = 200
       res.json({ ...full })
     }
