@@ -14,7 +14,6 @@ const SearchPage = () => {
   const {
     query: { username }
   } = useRouter()
-
   const [{ loading, error, data }, doFetch] = useFetchData('/get-tweeter-data')
   useEffect(() => {
     if (!loading && !error && !data && username) {
