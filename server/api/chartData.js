@@ -124,8 +124,6 @@ const longestStreak = tweets => {
     let longestStreakLength = sorted[0].length
     let oldest = longestStreak.pop()
     let earliest = longestStreak[0]
-    console.log(longestStreak)
-    console.log(earliest)
     let longestStreakDuration = timePeriodBetweenTwo(
       oldest.created_at,
       earliest.created_at

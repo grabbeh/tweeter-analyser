@@ -43,11 +43,9 @@ const Topics = ({ topics }) => (
                       }}
                       as='span'
                     >
-                      {t.count && (
-                        <Text sx={{ fontWeight: 'bold', fontSize: 4 }} as='span'>
-                          {t.count}
-                        </Text>
-                      )}
+                      <Text sx={{ fontWeight: 'bold', fontSize: 4 }} as='span'>
+                        {t.count}
+                      </Text>
                     </Box>
                   </Box>
                 </Link>

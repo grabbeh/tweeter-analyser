@@ -10,10 +10,7 @@ import Loading from 'components/loadingSpinner'
 import IntroBar from 'components/introBar'
 import { useEffect } from 'react'
 
-const SearchPage = () => {
-  const {
-    query: { username }
-  } = useRouter()
+const SearchPage = ({ username }) => {
   const [{ loading, error, data }, doFetch] = useFetchData('/get-tweeter-data')
   useEffect(() => {
     if (!loading && !error && !data && username) {
@@ -39,6 +36,10 @@ const SearchPage = () => {
       </Flex>
     </Layout>
   )
+}
+
+SearchPage.getInitialProps = async ({ query }) => {
+  return { username: query.username }
 }
 
 export default SearchPage

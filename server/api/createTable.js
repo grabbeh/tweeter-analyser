@@ -69,7 +69,7 @@ var params = {
     ReadCapacityUnits: 1,
     WriteCapacityUnits: 1
   },
-  TableName: 'TWEETERSv4'
+  TableName: 'TWEETERSv5'
 }
 
 // Call DynamoDB to create the table
