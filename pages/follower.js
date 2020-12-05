@@ -1,10 +1,9 @@
 /** @jsx jsx */
 import Layout from 'components/layout'
 import { jsx, Box, Flex, Container } from 'theme-ui'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import Form from 'components/genericForm'
 import ScrollAnimation from 'components/animations/scrollanimation'
-import { server } from 'config/index'
 import Loading from 'components/loadingSpinner'
 import Header from 'components/header'
 import IntroBar from 'components/introBar'

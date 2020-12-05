@@ -10,7 +10,6 @@ import flow from 'lodash/fp/flow'
 import map from 'lodash/fp/map'
 import filter from 'lodash/fp/filter'
 import flatten from 'lodash/fp/flatten'
-import entries from 'lodash/fp/entries'
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,

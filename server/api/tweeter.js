@@ -77,7 +77,7 @@ const tweeter = async user => {
 
 const filterSevenDays = tweets => {
   return tweets.filter(t => {
-    return checkIfWithinSevenDays(t)
+    return checkIfWithinTimePeriod(t, sevenDaysAgo)
   })
 }
 
@@ -89,8 +89,8 @@ const timePeriod = (oldestTweet, latestTweet, dateFormat = 'd MMMM yyyy') => {
 
 const sevenDaysAgo = sub(new Date(), { days: 7 })
 
-const checkIfWithinSevenDays = tweet => {
-  return isAfter(new Date(tweet.created_at), sevenDaysAgo)
+const checkIfWithinTimePeriod = (tweet, startTime) => {
+  return isAfter(new Date(tweet.created_at), startTime)
 }
 
 const getSevenDaysTweets = async (id, maximumId) => {
@@ -101,7 +101,7 @@ const getSevenDaysTweets = async (id, maximumId) => {
       fragment &&
       fragment.nextId &&
       earliestTweet &&
-      checkIfWithinSevenDays(earliestTweet)
+      checkIfWithinTimePeriod(earliestTweet, sevenDaysAgo)
     ) {
       return fragment.data.concat(await getSevenDaysTweets(id, fragment.nextId))
     } else {
@@ -262,19 +262,19 @@ const timePeriodBetweenTwo = (older, earlier) => {
   return formatDistance(old, early)
 }
 
-const listUrls = (tweets) => {
+const listUrls = tweets => {
   return flow(
-   map(r => r.entities.urls),
-   filter(r => r.length > 0),
-   flatten,
-   map(r => r.expanded_url),
-   map(r => parse(r)),
-   map(r => r.resource),
-   filter(r => r !== 'twitter.com'),
-   countBy(r => r),
-   entries,
-   sortBy(1),
-   reverse
+    map(r => r.entities.urls),
+    filter(r => r.length > 0),
+    flatten,
+    map(r => r.expanded_url),
+    map(r => parse(r)),
+    map(r => r.resource),
+    filter(r => r !== 'twitter.com'),
+    countBy(r => r),
+    entries,
+    sortBy(1),
+    reverse
   )(tweets)
 }
 
@@ -293,5 +293,6 @@ export {
   accountCreated,
   timeSinceCreation,
   timePeriod,
-  timePeriodBetweenTwo
+  timePeriodBetweenTwo,
+  checkIfWithinTimePeriod
 }
