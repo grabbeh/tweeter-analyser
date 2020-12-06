@@ -54,10 +54,24 @@ const getAllTweets = async (id, maximumId) => {
 }
 
 const getSingleBatch = async screen_name => {
-  let data = await client.get('statuses/user_timeline', {
+  return client.get('statuses/user_timeline', {
     screen_name,
     count: 200
   })
-  return data
 }
-export { newTweet, getSingleBatch, getMentions, getTweet, getAllTweets }
+
+const getSearchResults = async query => {
+  let data = await client.get('search/tweets.json', {
+    q: query
+  })
+  return data.statuses
+}
+
+export {
+  newTweet,
+  getSearchResults,
+  getSingleBatch,
+  getMentions,
+  getTweet,
+  getAllTweets
+}

@@ -1,7 +1,7 @@
 import cron from 'node-cron'
-import tweetUser from './tweetUser.js'
+import tweetSearchResults from './tweetSearchResults.js'
 
 // schedule tasks to be run on the server
 cron.schedule('* * * * *', function () {
-  tweetUser()
+  tweetSearchResults()
 })
