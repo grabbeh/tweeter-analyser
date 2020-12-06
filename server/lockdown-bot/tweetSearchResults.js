@@ -1,5 +1,6 @@
-import { getSingleBatch, getSearchResults, newTweet } from './tweet.js'
+import { getSearchResults, newTweet } from './tweet.js'
 import { sub, isAfter } from 'date-fns'
+import _ from 'lodash'
 import dotenv from 'dotenv'
 dotenv.config({ path: '../../.env' })
 
@@ -9,10 +10,41 @@ const withinTimePeriod = (tweet, startTime) => {
 
 const oneMinuteAgo = sub(new Date(), { minutes: 1 })
 
+const searchTerms = [
+  process.env.SCREEN_NAME,
+  "Even Conservative MPs are speaking out against Boris Johnson's tyrannical Covid restrictions",
+  'The arbitrary coronavirus restrictions will achieve nothing, they will make us poorer',
+  'The new normal (in which Boris J dictates how many humans you can interact with) is dystopian. Our country has become a police state.',
+  'None of these individuals were fined. Why should the public continue to follow the dystopian rules?',
+  'Boris Johnson seems to be determined to destroy the economy. Sweden never imposed a national lockdown/mask wearing.'
+]
+
+const getAllSearchResults = searchTerms => {
+  let promises = searchTerms.map(async query => {
+    let tweets = await getSearchResults(query)
+    return tweets
+  })
+  return Promise.all(
+    promises.map(p =>
+      p.catch(e => {
+        return e
+      })
+    )
+  )
+}
+
 const tweetSearchResults = async () => {
-  let batch = await getSearchResults(process.env.SCREEN_NAME)
-  let lastMinute = batch.filter(t => withinTimePeriod(t, oneMinuteAgo))
-  await checkTweets(lastMinute)
+  let batch = await getAllSearchResults(searchTerms)
+  let flat = _.flatten(batch)
+  let lastMinute = flat.filter(t => withinTimePeriod(t, oneMinuteAgo))
+  let withoutBot = lastMinute.filter(
+    t => t.user.screen_name !== process.env.BOT_NAME
+  )
+  let withoutMain = withoutBot.filter(
+    t => t.user.screen_name !== process.env.SCREEN_NAME
+  )
+  console.log(withoutMain)
+  await checkTweets(withoutMain)
 }
 
 const checkTweets = async tweets => {
