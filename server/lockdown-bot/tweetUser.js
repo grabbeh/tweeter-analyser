@@ -14,6 +14,7 @@ const tweetUser = async () => {
   let lastMinute = batch.filter(t => {
     return checkIfWithinTimePeriod(t, oneMinuteAgo)
   })
+  console.log(lastMinute)
   let lastTwenty = batch.filter(t => {
     return checkIfWithinTimePeriod(t, twentyMinutesAgo)
   })
