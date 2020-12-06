@@ -3,7 +3,7 @@ import { sub, isAfter } from 'date-fns'
 import dotenv from 'dotenv'
 dotenv.config({ path: '../../.env' })
 
-const checkIfWithinTimePeriod = (tweet, startTime) => {
+const withinTimePeriod = (tweet, startTime) => {
   return isAfter(new Date(tweet.created_at), startTime)
 }
 
@@ -11,12 +11,9 @@ const tweetUser = async () => {
   let batch = await getSingleBatch(process.env.SCREEN_NAME)
   let oneMinuteAgo = sub(new Date(), { minutes: 1 })
   let twentyMinutesAgo = sub(new Date(), { minutes: 20 })
-  let lastMinute = batch.filter(t => {
-    return checkIfWithinTimePeriod(t, oneMinuteAgo)
-  })
-  let lastTwenty = batch.filter(t => {
-    return checkIfWithinTimePeriod(t, twentyMinutesAgo)
-  })
+  let lastMinute = batch.filter(t => withinTimePeriod(t, oneMinuteAgo))
+  console.log(lastMinute)
+  let lastTwenty = batch.filter(t => withinTimePeriod(t, twentyMinutesAgo))
   await checkTweets(lastMinute, lastTwenty.length)
 }
 
