@@ -32,7 +32,7 @@ const checkTweets = async (tweets, lastTwentyLength) => {
 
 const replyToTweet = async (tweet, lastTwentyLength) => {
   let { id_str } = tweet
-  let status = `@${process.env.SCREEN_NAME} Bloody hell @${process.env.SCREEN_NAME}, you've tweeted ${lastTwentyLength} times in the last twenty minutes! Give it a rest!`
+  let status = `@${process.env.SCREEN_NAME} Bloody hell @${process.env.SCREEN_NAME}, you've tweeted ${lastTwentyLength} times in the last twenty minutes! Give it a rest! Lighten up on the algorithm!`
   let content = { status, in_reply_to_status_id: id_str }
   try {
     await newTweet(content)
