@@ -31,7 +31,7 @@ const checkTweets = async tweets => {
 
 const replyToTweet = async tweet => {
   let { id_str, user } = tweet
-  let status = `@${user.screen_name} Hey there, sadly @${process.env.SCREEN_NAME} is a bot that spams out the same tweets multiple times during the course of the day! He needs to work on his algorithms. Please ignore.`
+  let status = `@${user.screen_name} Hey there, sadly ${process.env.SCREEN_NAME} is a bot that spams out the same tweets multiple times during the course of the day! He needs to work on his algorithms. Please ignore.`
   let content = { status, in_reply_to_status_id: id_str }
   try {
     await newTweet(content)
