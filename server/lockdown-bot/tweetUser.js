@@ -11,9 +11,8 @@ const tweetUser = async () => {
   let batch = await getSingleBatch(process.env.SCREEN_NAME)
   let oneMinuteAgo = sub(new Date(), { minutes: 1 })
   let twentyMinutesAgo = sub(new Date(), { minutes: 20 })
-  let lastMinute = batch.filter(t => withinTimePeriod(t, oneMinuteAgo))
-  console.log(lastMinute)
   let lastTwenty = batch.filter(t => withinTimePeriod(t, twentyMinutesAgo))
+  let lastMinute = lastTwenty.filter(t => withinTimePeriod(t, oneMinuteAgo))
   await checkTweets(lastMinute, lastTwenty.length)
 }
 
