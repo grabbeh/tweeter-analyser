@@ -44,7 +44,6 @@ const tweetSearchResults = async () => {
     filter(t => t.user.screen_name !== process.env.SCREEN_NAME),
     filter(t => withinTimePeriod(t, oneMinuteAgo))
   )(batch)
-  console.log(tweets)
   await checkTweets(tweets)
 }
 
@@ -77,7 +76,7 @@ const replyToTweet = async tweet => {
   let status = templateReplies(user.screen_name, process.env.SCREEN_NAME)
   let content = { status, in_reply_to_status_id: id_str }
   try {
-    // await newTweet(content)
+    await newTweet(content)
   } catch (e) {
     console.log(e)
   }
