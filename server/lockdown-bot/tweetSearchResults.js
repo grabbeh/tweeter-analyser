@@ -2,13 +2,16 @@ import { getSearchResults, newTweet } from './tweet.js'
 import { sub, isAfter } from 'date-fns'
 import _ from 'lodash'
 import dotenv from 'dotenv'
+import filter from 'lodash/fp/filter.js'
+import flow from 'lodash/fp/flow.js'
+import flatten from 'lodash/fp/flatten.js'
 dotenv.config({ path: '../../.env' })
 
 const withinTimePeriod = (tweet, startTime) => {
   return isAfter(new Date(tweet.created_at), startTime)
 }
 
-const oneMinuteAgo = sub(new Date(), { minutes: 1 })
+const oneMinuteAgo = sub(new Date(), { minutes: 20 })
 
 const searchTerms = [
   process.env.SCREEN_NAME,
@@ -35,16 +38,14 @@ const getAllSearchResults = searchTerms => {
 
 const tweetSearchResults = async () => {
   let batch = await getAllSearchResults(searchTerms)
-  let flat = _.flatten(batch)
-  let lastMinute = flat.filter(t => withinTimePeriod(t, oneMinuteAgo))
-  let withoutBot = lastMinute.filter(
-    t => t.user.screen_name !== process.env.BOT_NAME
-  )
-  let withoutMain = withoutBot.filter(
-    t => t.user.screen_name !== process.env.SCREEN_NAME
-  )
-  console.log(withoutMain)
-  await checkTweets(withoutMain)
+  let tweets = flow(
+    flatten,
+    filter(t => t.user.screen_name !== process.env.BOT_NAME),
+    filter(t => t.user.screen_name !== process.env.SCREEN_NAME),
+    filter(t => withinTimePeriod(t, oneMinuteAgo))
+  )(batch)
+  console.log(tweets)
+  await checkTweets(tweets)
 }
 
 const checkTweets = async tweets => {
@@ -61,12 +62,22 @@ const checkTweets = async tweets => {
   }
 }
 
+const templateReplies = (replyTo, screenName) => {
+  const options = [
+    `@${replyTo} @${screenName} tweets the same old tweets in response to being using certain keywords in their tweets. He doesn't much care about the context. I'd ignore him.`,
+    `@${replyTo} Hey there, sadly @${screenName} spams out the same tweets multiple times during the course of the day! Please ignore.`,
+    `@${replyTo} Strongly advise you to just ignore whatever @${screenName} is saying. The account just pumps out the same series of tweets on an epic scale that no human could or would want to do without automating it.`
+  ]
+  let random = options[Math.floor(Math.random() * options.length)]
+  return random
+}
+
 const replyToTweet = async tweet => {
   let { id_str, user } = tweet
-  let status = `@${user.screen_name} Hey there, sadly @${process.env.SCREEN_NAME} is a bot that spams out the same tweets multiple times during the course of the day! He needs to work on his algorithms. Please ignore.`
+  let status = templateReplies(user.screen_name, process.env.SCREEN_NAME)
   let content = { status, in_reply_to_status_id: id_str }
   try {
-    await newTweet(content)
+    // await newTweet(content)
   } catch (e) {
     console.log(e)
   }
