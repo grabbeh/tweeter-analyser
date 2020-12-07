@@ -68,3 +68,16 @@ Make a production build (optimized for speed etc)
 Start the production server - it uses `Forever` to main uptime in a rudimentary way
 
 `npm run start-next`
+
+# BOT
+
+You'll also find a code for a Twitter bot in ```/server/bot```.
+
+### Steps to engage with a relentless spammer
+
+1. Reply to every tweet they post advising people they're a bot
+2. Get block
+3. Search for references to their username on Twitter and reply to all those tweets with the same message
+4. Get account temporarily suspended
+5. Update to select different template replies for variety
+6. Consider time limiting API calls for sending tweets so less obvious account spamming
