@@ -10,10 +10,11 @@ AWS.config.update({
 // Create the DynamoDB service object
 var docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' })
 
+/*
 const getPeriodicSaves = async () => {
   var params = {
     IndexName: 'PeriodicSaveIndex',
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     ExpressionAttributeNames: {
       '#pk': 'PK'
     },
@@ -32,11 +33,11 @@ const getPeriodicSaves = async () => {
       error: `Could not fetch: ${error.stack}`
     }
   }
-}
+}*/
 
 const findMetadata = async id => {
   const params = {
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     // give nicknames to the partition and sort keys
     ExpressionAttributeNames: {
       '#pk': 'PK',
@@ -65,7 +66,7 @@ const findMetadata = async id => {
 const findSummary = async id => {
   // sort params to return the latest item
   const params = {
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     // give nicknames to the partition and sort keys
     ExpressionAttributeNames: {
       '#pk': 'PK',
@@ -91,30 +92,11 @@ const findSummary = async id => {
   }
 }
 
-const addPeriodicallySavedUser = async id => {
-  let params = {
-    TableName: 'TWEETERSv4',
-    Item: {
-      PK: id,
-      SK: `PERIODICSAVE`
-    }
-  }
-  try {
-    const data = await docClient.put(params).promise()
-    return { statusCode: 200, body: JSON.stringify(data) }
-  } catch (error) {
-    return {
-      statusCode: 400,
-      error: `Could not fetch: ${error.stack}`
-    }
-  }
-}
-
 const addTweets = async tweets => {
   let userId = tweets[0].user.id
   tweets.forEach(async tweet => {
     let params = {
-      TableName: 'TWEETERSv4',
+      TableName: 'TWEETERSv5',
       Item: {
         PK: userId,
         SK: `TWEET#${tweet.id}`,
@@ -159,7 +141,7 @@ const addSummary = async (id, content) => {
   } else latestVersion = 'v_1'
 
   let addParams = {
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     Item: {
       PK: id,
       SK: latestVersion,
@@ -169,7 +151,7 @@ const addSummary = async (id, content) => {
   }
   // replace item with sort key 'latest' with latest item
   let latestParams = {
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     Item: {
       PK: id,
       SK: 'LATEST',
@@ -179,7 +161,7 @@ const addSummary = async (id, content) => {
   }
 
   let metaParams = {
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     Item: {
       PK: id,
       SK: 'meta',
@@ -203,7 +185,7 @@ const addSummary = async (id, content) => {
 const mostActive = async () => {
   var params = {
     IndexName: 'AverageTweetsPerDayIndex',
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     ExpressionAttributeNames: {
       '#pk': 'activeTweeterCount',
       '#sk': 'SK'
@@ -230,7 +212,7 @@ const mostActive = async () => {
 const mostToxic = async () => {
   var params = {
     IndexName: 'ToxicityPercentageIndex',
-    TableName: 'TWEETERSv4',
+    TableName: 'TWEETERSv5',
     ExpressionAttributeNames: {
       '#pk': 'toxicTweeterCount',
       '#sk': 'SK'
@@ -253,12 +235,4 @@ const mostToxic = async () => {
   }
 }
 
-export {
-  addSummary,
-  addPeriodicallySavedUser,
-  getPeriodicSaves,
-  findSummary,
-  addTweets,
-  mostActive,
-  mostToxic
-}
+export { addSummary, findSummary, addTweets, mostActive, mostToxic }

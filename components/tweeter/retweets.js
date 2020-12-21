@@ -7,29 +7,32 @@ const RepliesTo = ({ retweets }) => (
       <Box>
         <Text sx={{ fontSize: 4, fontWeight: 'bold' }}>Retweets</Text>
 
-        {retweets.map((f, i) => (
-          <Flex
-            key={i}
-            sx={{ pb: 1, justifyContent: 'space-between', flexWrap: 'wrap' }}
-          >
-            <Text
-              sx={{
-                fontSize: 3
-              }}
+        {retweets.map((f, i) => {
+          let twitterHandle = f.screen_name.substr(1)
+          return (
+            <Flex
+              key={i}
+              sx={{ pb: 1, justifyContent: 'space-between', flexWrap: 'wrap' }}
             >
-              <Link
-                target='_blank'
-                href={`https://twitter.com/${f.screen_name}`}
+              <Text
+                sx={{
+                  fontSize: 3
+                }}
               >
-                {f.screen_name}
-              </Link>
-            </Text>
+                <Link
+                  target='_blank'
+                  href={`https://twitter.com/${twitterHandle}`}
+                >
+                  {f.screen_name}
+                </Link>
+              </Text>
 
-            <Text as='span' sx={{ fontSize: 3, fontWeight: 'bold' }}>
-              {f.value}
-            </Text>
-          </Flex>
-        ))}
+              <Text as='span' sx={{ fontSize: 3, fontWeight: 'bold' }}>
+                {f.value}
+              </Text>
+            </Flex>
+          )
+        })}
       </Box>
     )}
   </Box>

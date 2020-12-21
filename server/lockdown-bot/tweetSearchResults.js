@@ -82,4 +82,5 @@ const replyToTweet = async tweet => {
   }
 }
 
+tweetSearchResults()
 export default tweetSearchResults
