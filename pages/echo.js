@@ -7,7 +7,7 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 import { jsx, Box, Flex, Text, Container } from 'theme-ui'
 import Loading from 'components/loadingSpinner'
 import Tweet from 'components/tweet'
-import { Toxic } from 'components/tweeter/index'
+//import { Toxic } from 'components/tweeter/index'
 import IntroBar from 'components/introBar'
 import useFetchData from 'hooks/useFetchData'
 import { useRouter } from 'next/router'
@@ -43,7 +43,6 @@ const Echo = props => {
                   {data.username}'s timeline
                 </Text>
               </Box>
-              <Toxic toxic={data.toxicTweets} />
               <Box sx={{ mt: 3 }}>
                 {data.tweets.map(tweet => (
                   <ScrollAnimation key={tweet.id}>

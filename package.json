@@ -25,11 +25,7 @@
     "@nivo/scatterplot": "^0.63.1",
     "@nivo/tooltip": "^0.63.0",
     "@styled-system/prop-types": "^5.1.4",
-    "@tensorflow-models/toxicity": "^1.2.2",
-    "@tensorflow/tfjs": "^2.7.0",
-    "@tensorflow/tfjs-backend-cpu": "^2.3.0",
-    "@tensorflow/tfjs-core": "^2.7.0",
-    "@tensorflow/tfjs-node": "^2.7.0",
+
     "aws-sdk": "^2.734.0",
     "axios": "^0.19.2",
     "compromise": "^13.3.2",

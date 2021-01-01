@@ -1,5 +1,5 @@
 import Twitter from 'twitter'
-import predict from '../../server/api/tensorflow'
+//import predict from '../../server/api/tensorflow'
 import flow from 'lodash/fp/flow'
 import sortBy from 'lodash/fp/sortBy'
 import reverse from 'lodash/fp/reverse'
@@ -22,9 +22,9 @@ export default async (req, res) => {
         sortBy(o => new Date(o.created_at)),
         reverse
       )(unsorted)
-      let toxicTweets = await predict(tweets)
+      //  let toxicTweets = await predict(tweets)
       res.statusCode = 200
-      res.json({ tweets, toxicTweets, username })
+      res.json({ tweets, username })
     } else {
       res.statusCode = 500
       res.json({ errorMessage: 'Rate limit exceeded' })
