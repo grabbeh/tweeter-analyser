@@ -23,6 +23,7 @@ export default async (req, res) => {
       res.json({ ...full })
     }
   } catch (e) {
+    console.log(e)
     let error = e[0] ? e[0].message : e.message || e
     res.statusCode = 500
     res.json({ errorMessage: error })

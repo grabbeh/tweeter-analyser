@@ -122,10 +122,10 @@ const addSummary = async (id, content) => {
   let parsed = JSON.parse(metadata.body)
   let parsedMetadata = parsed.Items
   let dbContent = { ...content }
-
+  /*
   if (content.toxicPercentage > 2) {
     dbContent = { ...dbContent, toxicTweeterCount: 'TOXIC' }
-  }
+  }*/
   if (content.averageTweetsPerDay >= 100) {
     dbContent = {
       ...dbContent,

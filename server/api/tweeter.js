@@ -20,7 +20,7 @@ import {
   formatDistanceToNow,
   formatDistance
 } from 'date-fns'
-import predict from './tensorflow.js'
+//import predict from './tensorflow.js'
 import compromise from './compromise.js'
 import {
   chartData,
@@ -43,8 +43,9 @@ const tweeter = async user => {
     let f = filterSevenDays(tweets)
     if (!f.length > 0) throw new Error('No tweets in the last 7 days')
     f = addCategories(f)
-    let toxicTweets = await predict(f)
-    let { hashTags, emojis, topics } = compromise(f)
+    //let toxicTweets = await predict(f)
+    //let { hashTags, emojis, topics } = compromise(f)
+    // let { topics } = compromise(f)
     let { average, limitExceeded } = calculateAverage(f)
     let latestTweet = f[0]
     let oldestTweet = f.pop()
@@ -61,12 +62,12 @@ const tweeter = async user => {
       chartData: chartData(f),
       mostTweetsPerHour: mostActiveHour(f),
       mostActiveDay: mostActiveDay(f),
-      hashTags,
-      toxicTweets,
+      // hashTags,
+      //toxicTweets,
       tweetSplit: tweetSplit(f),
-      toxicPercentage: Math.round((toxicTweets.length / 100) * 100),
-      emojis,
-      topics,
+      // toxicPercentage: Math.round((toxicTweets.length / 100) * 100),
+      // emojis,
+      // topics,
       timePeriod: timePeriod(oldestTweet, latestTweet)
     }
   } catch (e) {
@@ -107,6 +108,7 @@ const getSevenDaysTweets = async (id, maximumId) => {
       return fragment.data
     }
   } catch (e) {
+    console.log(e)
     throw e
   }
 }
@@ -129,6 +131,7 @@ const getTweetsBatch = async (id, maximumId) => {
       return { data: data.filter(d => d) }
     }
   } catch (e) {
+    console.log(e)
     throw new Error(e)
   }
 }

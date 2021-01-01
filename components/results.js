@@ -4,10 +4,10 @@ import ScrollAnimation from 'components/animations/scrollanimation'
 import RefreshForm from 'components/refreshForm'
 import {
   Summary,
-  Toxic,
-  Emojis,
-  Topics,
-  Hashtags,
+  // Toxic,
+  //  Emojis,
+  //  Topics,
+  // Hashtags,
   Chart,
   Pie,
   Urls,
@@ -58,14 +58,16 @@ const Results = ({ data, doFetch, error }) => (
 
     {data.tweetSplit && <Pie pieData={data.tweetSplit} />}
     <Chart chartData={data.chartData} />
-    <Hashtags hashTags={data.hashTags} />
+  </Box>
+)
+
+export default Results
+
+/*
+ <Hashtags hashTags={data.hashTags} />
     <Box sx={{ mt: 4 }}>
       <Toxic toxic={data.toxicTweets} />
     </Box>
     <Emojis emojis={data.emojis} />
     <Topics topics={data.topics} />
-    <Urls urls={data.urls}/>
-  </Box>
-)
-
-export default Results
+    <Urls urls={data.urls} />*/
