@@ -1,4 +1,4 @@
-import { mostToxic } from '../../server/api/dynamodb'
+import { getToxic } from '../../server/api/dynamodb'
 import orderBy from 'lodash/orderBy'
 
 export default async (req, res) => {

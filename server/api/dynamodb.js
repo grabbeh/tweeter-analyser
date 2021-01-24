@@ -5,6 +5,10 @@ const getKSUIDstring = async () => {
   return KSUID.random()
 }
 
+const getToxic = async () => {
+  return 'Hello world'
+}
+
 const getActive = async () => {
   let active = await TweeterTable.query('#TWEETER', {
     index: 'GSI1',
@@ -64,4 +68,4 @@ const addSummary = async (id, summary) => {
   })
 }
 
-export { addSummary, getLatestSummary, getActive, getRecent }
+export { addSummary, getToxic, getLatestSummary, getActive, getRecent }
