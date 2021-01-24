@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import Toggle from 'components/toggle'
@@ -27,14 +28,14 @@ const Hashtags = ({ hashTags }) => (
                     }
                   }}
                   target='_blank'
-                  href={`https://twitter.com/hashtag/${removeFirst(f)}`}
+                  href={`https://twitter.com/hashtag/${f}`}
                 >
                   <Text
                     sx={{
                       fontSize: 4
                     }}
                   >
-                    {f}
+                    #{f}
                   </Text>
                 </Link>
               </Box>

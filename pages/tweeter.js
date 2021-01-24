@@ -1,3 +1,5 @@
+/** @jsxRuntime classic /
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import Header from 'components/header'
 import Layout from 'components/layout'

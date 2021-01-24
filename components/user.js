@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Text, Image, Flex, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'

@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Text } from 'theme-ui'
 import {
@@ -51,7 +52,7 @@ const Input = props => {
     <Box>
       {label && (
         <Box mb={2}>
-          <Text sx={{ fontFamily:'sansSerif',fontWeight: 'bold', fontSize: 4 }}>
+          <Text sx={{ fontWeight: 'bold', fontSize: 4 }}>
             <label htmlFor={value}>{label}</label>
           </Text>
         </Box>

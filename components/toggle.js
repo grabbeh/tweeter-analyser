@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { useState } from 'react'
 import { jsx, Box, Text, Flex } from 'theme-ui'

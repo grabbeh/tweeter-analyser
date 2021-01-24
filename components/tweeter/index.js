@@ -9,6 +9,7 @@ import RepliesTo from './repliesTo'
 import Interactions from './interactions'
 import Retweets from './retweets'
 import Urls from './urls'
+import Media from './media'
 
 export {
   Hashtags,
@@ -21,5 +22,6 @@ export {
   Emojis,
   Chart,
   Interactions,
-  Urls
+  Urls,
+  Media
 }

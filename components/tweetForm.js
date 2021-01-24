@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Flex } from 'theme-ui'
 import { Formik, Form } from 'formik'

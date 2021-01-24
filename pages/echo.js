@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { useEffect } from 'react'
 import Form from 'components/genericForm'

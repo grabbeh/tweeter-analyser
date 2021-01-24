@@ -4,10 +4,6 @@ body {
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-}
 input,
 textarea {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -21,8 +17,6 @@ button {
 }
 
 .gradient {
-  overflow: hidden;
-  height: 100vh;
   background: rgb(255, 126, 95);
   background: linear-gradient(
     90deg,

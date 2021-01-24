@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import Form from 'components/genericForm'
 import Header from 'components/header'
@@ -11,8 +12,6 @@ import { useEffect } from 'react'
 
 const SearchPage = ({ username }) => {
   const [{ loading, error, data }, doFetch] = useFetchData('/get-tweeter-data')
-  console.log(data)
-  console.log(error)
   useEffect(() => {
     if (!loading && !error && !data && username) {
       doFetch({ username })

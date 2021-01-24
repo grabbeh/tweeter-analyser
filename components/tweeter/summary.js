@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Flex, Grid, Text, Card } from 'theme-ui'
 import Rating from '../rating'
@@ -15,7 +16,9 @@ const Summary = ({
         <Text sx={{ color: 'light-gray', fontSize: 5 }}>
           Total tweets, retweets and replies
         </Text>
-        <Text sx={{ fontSize: 6, fontWeight: 'bold' }}>{totalTweets}</Text>
+        <Text as='div' sx={{ fontSize: 6, fontWeight: 'bold' }}>
+          {totalTweets}
+        </Text>
       </Card>
       <Card variant='blue'>
         <Flex sx={{ flexWrap: 'wrap' }}>

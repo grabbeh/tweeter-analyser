@@ -1,7 +1,8 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Text, Link, Flex } from 'theme-ui'
 
-const RepliesTo = ({ repliesTo }) => (
+const RepliesTo = ({ repliesTo, screenname }) => (
   <Box>
     {repliesTo.length > 0 && (
       <Box>
@@ -20,7 +21,8 @@ const RepliesTo = ({ repliesTo }) => (
               >
                 <Link
                   target='_blank'
-                  href={`https://twitter.com/${twitterHandle}`}
+                  href={`
+                  https://mobile.twitter.com/search?q=from%3A${screenname}%20to%3A${twitterHandle}&src=typed_query&f=live`}
                 >
                   {f.screen_name}
                 </Link>

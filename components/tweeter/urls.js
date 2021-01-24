@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import Toggle from 'components/toggle'
@@ -35,11 +36,13 @@ const Urls = ({ urls }) => (
                       fontSize: 4
                     }}
                   >
-                    {url} 
+                    {url}
                   </Text>
                 </Link>
-                <Box  sx={{ml:2}}as='span'>
-                  <Text sx={{fontSize:4, fontWeight:'bold'}}as='span'>{frequency}</Text>
+                <Box sx={{ ml: 2 }} as='span'>
+                  <Text sx={{ fontSize: 4, fontWeight: 'bold' }} as='span'>
+                    {frequency}
+                  </Text>
                 </Box>
               </Box>
             ))}

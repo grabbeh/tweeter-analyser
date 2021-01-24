@@ -1,19 +1,17 @@
 import { tweeter, getUser } from '../../server/api/tweeter'
-import { addSummary, findSummary } from '../../server/api/dynamodb'
+import { addSummary, getLatestSummary } from '../../server/api/dynamodb'
 import { differenceInHours, fromUnixTime } from 'date-fns'
 
 export default async (req, res) => {
   let { username, refresh } = JSON.parse(req.body)
   try {
     let user = await getUser(username)
-    let existingResults = await findSummary(user.id)
-    let o = JSON.parse(existingResults.body)
-    if (o && o.Items.length > 0 && !refresh) {
-      const item = o.Items[0]
+    let existing = await getLatestSummary(user.id)
+    if (Object.keys(existing).length !== 0 && !refresh) {
       res.statusCode = 200
       res.json({
-        ...item,
-        refreshAvailable: checkRefresh(item.SUMMARY_CREATED_AT)
+        ...existing.Item.summary,
+        refreshAvailable: checkRefresh(existing.created)
       })
     } else {
       let results = await tweeter(user)

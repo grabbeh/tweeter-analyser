@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Text as BasicText } from 'theme-ui'
 
@@ -5,7 +6,7 @@ const Error = props => {
   const { children, innerRef } = props
   return (
     <div ref={innerRef}>
-      <BasicText sx={{color:'red', fontWeight:'bold'}}>
+      <BasicText sx={{ color: 'red', fontWeight: 'bold' }}>
         {children}
       </BasicText>
     </div>

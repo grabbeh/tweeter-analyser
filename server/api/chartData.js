@@ -96,41 +96,43 @@ const longestStreak = tweets => {
   let formatted = tweets.map(t => {
     return { ...t, createdAt: new Date(t.created_at) }
   })
-
-  let arr = []
-  let counter = 0
-  arr[counter] = []
-  formatted = formatted.filter(i => i)
-  let arrs = formatted.map((t, i) => {
-    if (i < formatted.length - 2) {
-      let next = formatted[i + 1]
-      let diff = differenceInMinutes(t.createdAt, next.createdAt)
-      if (diff > 30) {
-        counter++
-        arr[counter] = []
-      } else {
-        arr[counter].push(t)
+  if (!formatted.length > 5) {
+    return
+  } else {
+    let arr = []
+    let counter = 0
+    arr[counter] = []
+    formatted = formatted.filter(i => i)
+    let arrs = formatted.map((t, i) => {
+      if (i < formatted.length - 2) {
+        let next = formatted[i + 1]
+        let diff = differenceInMinutes(t.createdAt, next.createdAt)
+        if (diff > 30) {
+          counter++
+          arr[counter] = []
+        } else {
+          arr[counter].push(t)
+        }
+        return arr
       }
-      return arr
-    }
-  })
-  let flattened = flatten(arrs)
-  let sorted = flattened.sort((a, b) => {
-    return b.length - a.length
-  })
-  let longestStreak = sorted[0]
-  // if no streak then nothing to return
-  if (longestStreak.length > 1) {
-    let longestStreakLength = sorted[0].length
-    let oldest = longestStreak.pop()
-    let earliest = longestStreak[0]
-    let longestStreakDuration = timePeriodBetweenTwo(
-      oldest.created_at,
-      earliest.created_at
-    )
-    return { length: longestStreakLength, timePeriod: longestStreakDuration }
+    })
+    let flattened = flatten(arrs)
+    let sorted = flattened.sort((a, b) => {
+      return b.length - a.length
+    })
+    let longestStreak = sorted[0]
+    // if no streak then nothing to return
+    if (longestStreak?.length > 1) {
+      let longestStreakLength = sorted[0].length
+      let oldest = longestStreak.pop()
+      let earliest = longestStreak[0]
+      let longestStreakDuration = timePeriodBetweenTwo(
+        oldest.created_at,
+        earliest.created_at
+      )
+      return { length: longestStreakLength, timePeriod: longestStreakDuration }
+    } else return { length: false, timePeriod: false }
   }
-  else return {length: false, timePeriod: false}
 }
 
 export { chartData, mostActiveHour, mostActiveDay, longestStreak }

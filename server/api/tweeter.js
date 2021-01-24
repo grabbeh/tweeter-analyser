@@ -6,6 +6,7 @@ import entries from 'lodash/fp/entries'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
 import flatten from 'lodash/fp/flatten'
+import uniq from 'lodash/fp/uniq'
 import countBy from 'lodash/fp/countBy'
 import sortBy from 'lodash/fp/sortBy'
 import reverse from 'lodash/fp/reverse'
@@ -39,6 +40,7 @@ const client = new Twitter({
 const tweeter = async user => {
   try {
     let tweets = await getSevenDaysTweets(user.id_str)
+
     if (!tweets) throw new Error('No tweets in the last 7 days')
     let f = filterSevenDays(tweets)
     if (!f.length > 0) throw new Error('No tweets in the last 7 days')
@@ -51,6 +53,7 @@ const tweeter = async user => {
     let oldestTweet = f.pop()
     return {
       urls: listUrls(f),
+      media: media(f),
       accountCreated: accountCreated(user.created_at),
       timeSinceCreation: timeSinceCreation(user.created_at),
       averageTweetsPerDay: average,
@@ -62,7 +65,7 @@ const tweeter = async user => {
       chartData: chartData(f),
       mostTweetsPerHour: mostActiveHour(f),
       mostActiveDay: mostActiveDay(f),
-      // hashTags,
+      hashTags: hashTags(f),
       //toxicTweets,
       tweetSplit: tweetSplit(f),
       // toxicPercentage: Math.round((toxicTweets.length / 100) * 100),
@@ -280,7 +283,33 @@ const listUrls = tweets => {
   )(tweets)
 }
 
-//const iter = value => console.log(value)
+const hashTags = tweets => {
+  return flow(
+    map(r => r.entities.hashtags),
+    filter(r => r.length > 0),
+    flatten,
+    map(r => r.text),
+    uniq
+  )(tweets)
+}
+
+const media = tweets => {
+  return flow(
+    filter(r => r.extended_entities),
+    map(r => r.extended_entities.media),
+    flatten,
+    map(r => {
+      return {
+        width: r.sizes.medium.w,
+        height: r.sizes.medium.h,
+        imgUrl: r.media_url_https,
+        tweetUrl: r.expanded_url
+      }
+    })
+  )(tweets)
+}
+
+const iter = value => console.log(value)
 
 export {
   tweeter,

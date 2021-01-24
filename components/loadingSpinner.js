@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Flex, Box } from 'theme-ui'
 import Spinner from 'react-svg-spinner'

@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { useState } from 'react'
 import GenericUsernameForm from 'components/genericForm'

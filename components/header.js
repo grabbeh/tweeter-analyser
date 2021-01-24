@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Text, Box } from 'theme-ui'
 import Link from 'components/link'

@@ -1,3 +1,5 @@
+/** @jsxRuntime classic /
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { format } from 'date-fns'
 import { jsx, Box, Flex, Text, Image, Link } from 'theme-ui'

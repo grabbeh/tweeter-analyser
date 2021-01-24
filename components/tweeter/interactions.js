@@ -1,10 +1,11 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Grid, Box } from 'theme-ui'
 import Toggle from 'components/toggle'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import { RepliesTo, Retweets } from './index'
 
-const Interactions = ({ repliesTo, retweets }) => (
+const Interactions = ({ repliesTo, retweets, screenname }) => (
   <ScrollAnimation>
     <Box
       sx={{
@@ -19,7 +20,9 @@ const Interactions = ({ repliesTo, retweets }) => (
       <Toggle title='Popular interactions'>
         <Box sx={{ pb: 3 }}>
           <Grid gap={[3, 4]} columns={[1, 2, 2]}>
-            {repliesTo && <RepliesTo repliesTo={repliesTo} />}
+            {repliesTo && (
+              <RepliesTo screenname={screenname} repliesTo={repliesTo} />
+            )}
             {retweets && <Retweets retweets={retweets} />}
           </Grid>
         </Box>

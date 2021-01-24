@@ -34,7 +34,7 @@ Button.defaultProps = {
   width: '100px',
   fontWeight: 'bold',
   disabled: false,
-  bg: 'green',
+  bg: '#19a974',
   color: 'white',
   borderRadius: 2
 }

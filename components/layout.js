@@ -1,7 +1,8 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, BaseStyles } from 'theme-ui'
 import { Helmet } from 'react-helmet'
-import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider } from 'theme-ui'
 import theme from '../theme-ui/theme'
 
 const Layout = props => {
@@ -14,7 +15,9 @@ const Layout = props => {
       </Helmet>
       <ThemeProvider theme={theme}>
         <BaseStyles>
-          <Box>{props.children}</Box>
+          <Box sx={{ bg: 'white', fontFamily: 'sansSerif' }}>
+            {props.children}
+          </Box>
         </BaseStyles>
       </ThemeProvider>
     </div>

@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import { jsx, Box, Flex, Text, Link } from 'theme-ui'
 import Toggle from 'components/toggle'

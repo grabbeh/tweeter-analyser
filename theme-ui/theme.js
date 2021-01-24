@@ -134,6 +134,9 @@ const theme = {
       }
     },
     div: {},
+    root: {
+      background: 'white'
+    },
     p: {
       fontFamily: 'sansSerif',
       fontSize: 3,

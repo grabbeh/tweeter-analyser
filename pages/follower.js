@@ -1,3 +1,4 @@
+/** @jsxRuntime classic /
 /** @jsx jsx */
 import Layout from 'components/layout'
 import { jsx, Box, Flex, Container } from 'theme-ui'
