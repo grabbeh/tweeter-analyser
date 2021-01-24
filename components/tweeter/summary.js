@@ -84,7 +84,11 @@ const Summary = ({
         }}
       >
         <Box sx={{ mt: 2 }}>
-          <Text sx={{ fontSize: 3, color: 'gray' }}>Longest streak</Text>
+          <Box sx={{ mr: 2 }}>
+            <Text sx={{ fontWeight: 'bold', fontSize: 3, color: 'gray' }}>
+              Longest streak
+            </Text>
+          </Box>
           <Text sx={{ fontSize: 4, fontWeight: 'bold', color: 'light-gray' }}>
             {longestStreak.length} actions over {longestStreak.timePeriod}
           </Text>

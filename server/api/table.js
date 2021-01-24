@@ -30,7 +30,7 @@ const Tweeter = new Entity({
     id: { partitionKey: true, prefix: '#TWEETER' },
     sk: { sortKey: true },
     summary: { type: 'map' },
-    averageTweetsPerDay: { type: 'string' },
+    averageTweetsPerDay: { type: 'number' },
     GSI1pk: { type: 'string' },
     GSI1sk: { type: 'string' }
   },

@@ -11,11 +11,11 @@ const getToxic = async () => {
 
 const getActive = async () => {
   let active = await TweeterTable.query('#TWEETER', {
-    index: 'GSI1',
-    reverse: true,
-    filters: { attr: 'averageTweetsPerDay', gt: 100 }
+    index: 'GSI1'
   })
-  return active.Items
+  return active.Items.map(i => {
+    return i.summary
+  })
 }
 
 const getRecent = async () => {
