@@ -295,6 +295,7 @@ const hashTags = tweets => {
 
 const media = tweets => {
   return flow(
+    filter(r => r.category == 'TWEET'),
     filter(r => r.extended_entities),
     map(r => r.extended_entities.media),
     flatten,
