@@ -300,8 +300,8 @@ const media = tweets => {
     flatten,
     map(r => {
       return {
-        width: r.sizes.medium.w,
-        height: r.sizes.medium.h,
+        width: r.sizes.thumb.w,
+        height: r.sizes.thumb.h,
         imgUrl: r.media_url_https,
         tweetUrl: r.expanded_url
       }

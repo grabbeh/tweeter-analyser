@@ -32,7 +32,9 @@ const Tweeter = new Entity({
     summary: { type: 'map' },
     averageTweetsPerDay: { type: 'number' },
     GSI1pk: { type: 'string' },
-    GSI1sk: { type: 'string' }
+    GSI1sk: { type: 'string' },
+    GSI2pk: { type: 'string' },
+    GSI2sk: { type: 'string' }
   },
   table: TweeterTable
 })

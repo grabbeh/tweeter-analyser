@@ -12,11 +12,13 @@ const Media = ({ media }) => {
         {media.length > 0 && (
           <Box sx={{ borderRadius: '20px', bg: 'light-purple', px: 3, pt: 3 }}>
             <Toggle title='Media'>
-              <Flex sx={{ pb: 3, flexWrap: 'wrap' }}>
+              <Flex sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 {media.map((m, i) => (
-                  <Link target='noblank' key={i} href={m.tweetUrl}>
-                    <Image height={m.height} width={m.width} src={m.imgUrl} />
-                  </Link>
+                  <Box sx={{ p: 2 }}>
+                    <Link target='noblank' key={i} href={m.tweetUrl}>
+                      <Image height={m.height} width={m.width} src={m.imgUrl} />
+                    </Link>
+                  </Box>
                 ))}
               </Flex>
             </Toggle>

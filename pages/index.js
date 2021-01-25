@@ -3,7 +3,8 @@
 /** @jsx jsx */
 import Layout from 'components/layout'
 import RecentSearches from 'components/recentSearches'
-import { jsx, Box, Flex, Text, Link } from 'theme-ui'
+import ActiveBox from 'components/activeBox'
+import { jsx, Box, Flex, Grid, Text, Link } from 'theme-ui'
 import ScrollAnimation from 'components/animations/scrollanimation'
 import Header from 'components/header'
 import { basicFetcher as fetcher } from 'utils/fetcher'
@@ -16,8 +17,7 @@ const links = [
   { href: '/follower', text: 'Followers', bg: 'light-blue' }
 ]
 
-const Home = ({ data: { recentSearches } }) => {
-  console.log(recentSearches)
+const Home = ({ data: { recentSearches, active } }) => {
   return (
     <Layout>
       <Box className='gradient'>
@@ -45,7 +45,10 @@ const Home = ({ data: { recentSearches } }) => {
                   </Link>
                 </Box>
               ))}
-              <RecentSearches recent={recentSearches} />
+              <Grid gap={[3, 4]} columns={[1, 2, 2]}>
+                <RecentSearches recent={recentSearches} />
+                <ActiveBox active={active} />
+              </Grid>
             </ScrollAnimation>
           </Box>
         </Flex>
@@ -57,6 +60,6 @@ const Home = ({ data: { recentSearches } }) => {
 export default Home
 
 export async function getServerSideProps () {
-  const data = await fetcher('/get-recent-searches')
+  const data = await fetcher('/get-homepage-data')
   return { props: { data } }
 }
