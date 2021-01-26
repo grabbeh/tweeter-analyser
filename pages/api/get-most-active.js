@@ -1,12 +1,10 @@
 import { getActive } from '../../server/api/dynamodb'
-import orderBy from 'lodash/orderBy'
 
 export default async (req, res) => {
   try {
-    let summaries = await getActive()
-    let activeTweeters = orderBy(summaries, ['averageTweetsPerDay'], ['desc'])
+    let active = await getActive()
     res.status = 200
-    res.json({ active: activeTweeters })
+    res.json({ active })
   } catch (e) {
     let error = e[0] ? e[0].message : e.message
     res.statusCode = 500
