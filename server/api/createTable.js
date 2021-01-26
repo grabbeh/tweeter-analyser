@@ -23,9 +23,7 @@ var params = {
     { AttributeName: 'GSI1pk', AttributeType: 'S' },
     { AttributeName: 'GSI1sk', AttributeType: 'S' },
     { AttributeName: 'GSI2pk', AttributeType: 'S' },
-    { AttributeName: 'GSI2sk', AttributeType: 'S' },
-    { AttributeName: 'GSI3pk', AttributeType: 'S' },
-    { AttributeName: 'GSI3sk', AttributeType: 'S' }
+    { AttributeName: 'GSI2sk', AttributeType: 'N' }
   ],
   KeySchema: [
     {
