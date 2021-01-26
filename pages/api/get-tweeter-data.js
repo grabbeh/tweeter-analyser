@@ -1,6 +1,6 @@
 import { tweeter, getUser } from '../../server/api/tweeter'
 import { addSummary, getLatestSummary } from '../../server/api/dynamodb'
-import { differenceInHours, fromUnixTime } from 'date-fns'
+import { differenceInHours } from 'date-fns'
 
 export default async (req, res) => {
   let { username, refresh } = JSON.parse(req.body)
@@ -11,7 +11,7 @@ export default async (req, res) => {
       res.statusCode = 200
       res.json({
         ...existing.Item.summary,
-        refreshAvailable: checkRefresh(existing.created)
+        refreshAvailable: checkRefresh(existing.Item.created)
       })
     } else {
       let results = await tweeter(user)
@@ -28,13 +28,7 @@ export default async (req, res) => {
   }
 }
 
-const checkRefresh = createdAt => {
-  let created = fromUnixTime(createdAt / 1000)
-  let now = new Date()
-  let difference = differenceInHours(now, created)
-  let refreshAvailable = false
-  if (difference > 12) {
-    refreshAvailable = true
-  }
-  return refreshAvailable
+const checkRefresh = created => {
+  let difference = differenceInHours(new Date(), new Date(created))
+  return difference > 12 ? true : false
 }
