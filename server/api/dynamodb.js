@@ -10,7 +10,7 @@ const getToxic = async () => {
 }
 
 const getActive = async amount => {
-  let options = { index: 'GSI2' }
+  let options = { index: 'GSI2', reverse: true }
   if (amount) options = { ...options, limit: amount }
   let active = await TweeterTable.query('#ACTIVE', options)
   return active.Items.map(i => {
