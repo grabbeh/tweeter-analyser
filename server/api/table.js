@@ -34,7 +34,7 @@ const Tweeter = new Entity({
     GSI1pk: { type: 'string' },
     GSI1sk: { type: 'string' },
     GSI2pk: { type: 'string' },
-    GSI2sk: { type: 'string' }
+    GSI2sk: { type: 'number' }
   },
   table: TweeterTable
 })
