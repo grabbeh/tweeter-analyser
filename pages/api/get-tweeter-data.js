@@ -1,4 +1,4 @@
-import { tweeter, getUser } from '../../server/api/tweeter'
+import { summarise, getUser } from '../../server/api/summarise'
 import { addSummary, getLatestSummary } from '../../server/api/dynamodb'
 import { differenceInHours } from 'date-fns'
 
@@ -14,7 +14,7 @@ export default async (req, res) => {
         refreshAvailable: checkRefresh(existing.Item.created)
       })
     } else {
-      let results = await tweeter(user)
+      let results = await summarise(user)
       let full = { ...results, ...user }
       await addSummary(user.id, full)
       res.statusCode = 200

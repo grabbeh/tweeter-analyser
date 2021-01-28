@@ -2,7 +2,7 @@ import {
   getSevenDaysTweets,
   filterSevenDays,
   getTweets
-} from '../api/tweeter.js'
+} from '../api/summarise.js'
 
 const getUser = async mention => {
   let parentUsername = mention.in_reply_to_screen_name

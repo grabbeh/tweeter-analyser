@@ -1,5 +1,5 @@
 import { format, differenceInMinutes } from 'date-fns'
-import { timePeriodBetweenTwo } from './tweeter'
+import { timePeriodBetweenTwo } from './summarise'
 import map from 'lodash/fp/map'
 import values from 'lodash/fp/values'
 import groupBy from 'lodash/fp/groupBy'

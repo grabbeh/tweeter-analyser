@@ -3,7 +3,7 @@ import {
   getUser,
   accountCreated,
   timeSinceCreation
-} from '../../server/api/tweeter'
+} from '../../server/api/summarise'
 import { format } from 'date-fns'
 import sortBy from 'lodash/fp/sortBy'
 import flow from 'lodash/fp/flow'

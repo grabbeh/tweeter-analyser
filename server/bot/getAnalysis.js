@@ -1,5 +1,5 @@
 import getUser from './getUser.js'
-import { calculateAverage } from '../api/tweeter.js'
+import { calculateAverage } from '../api/summarise.js'
 
 // Takes mention and return analysis of parent tweeter
 const getAnalysis = async mention => {
