@@ -1,8 +1,4 @@
-import {
-  getSevenDaysTweets,
-  filterSevenDays,
-  getTweets
-} from '../api/summarise.js'
+import { getSevenDaysTweets, filterSevenDays } from '../api/summarise.js'
 
 const getUser = async mention => {
   let parentUsername = mention.in_reply_to_screen_name
