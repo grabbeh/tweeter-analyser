@@ -37,7 +37,7 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_SECRET
 })
 
-const tweeter = async user => {
+const summarise = async user => {
   try {
     let tweets = await getSevenDaysTweets(user.id_str)
 
@@ -313,7 +313,7 @@ const media = tweets => {
 const iter = value => console.log(value)
 
 export {
-  tweeter,
+  summarise,
   calculateAverage,
   getSevenDaysTweets,
   getBatch,
