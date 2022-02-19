@@ -53,7 +53,7 @@
     "theme-ui": "^0.6.0-alpha.6",
     "twitter": "^1.7.1",
     "twitter-lite": "^0.14.0",
-    "url-parse": "^1.4.7",
+    "url-parse": "^1.5.6",
     "validator": "^11.1.0",
     "yup": "^0.27.0"
   }
