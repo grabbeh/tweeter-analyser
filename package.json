@@ -1,6 +1,9 @@
 {
 	"name": "tweeter-analyser",
 	"version": "0.1.0",
+	"engines": {
+		"node": ">=16"
+	},
 	"private": true,
 	"scripts": {
 		"dev": "NODE_ENV=development next dev -p 5000",
@@ -52,7 +55,6 @@
 		"stopword": "^1.0.1",
 		"theme-ui": "^0.6.0-alpha.6",
 		"twitter": "^1.7.1",
-		"twitter-api-v2": "^1.12.3",
 		"twitter-lite": "^0.14.0",
 		"url-parse": "^1.4.7",
 		"validator": "^11.1.0",
