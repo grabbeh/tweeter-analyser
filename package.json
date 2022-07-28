@@ -28,7 +28,7 @@
 		"@nivo/scatterplot": "^0.67.0",
 		"@nivo/tooltip": "^0.67.0",
 		"@styled-system/prop-types": "^5.1.4",
-		"aws-sdk": "^2.734.0",
+		"aws-sdk": "^2.814.0",
 		"axios": "^0.21.1",
 		"compromise": "^13.3.2",
 		"compromise-ngrams": "0.0.5",
