@@ -63,8 +63,8 @@ const summarise = async (user) => {
 			timeSinceCreation: timeSinceCreation(user.created_at),
 			averageTweetsPerDay: average,
 			limitExceeded,
-			likesToReplyTo: likesToReplyTo(f, user.screen_name),
-			likesToRetweet: likesToRetweet(f, user.screen_name),
+			likesToReplyTo: likesToReplyTo(f, user.username),
+			likesToRetweet: likesToRetweet(f, user.username),
 			longestStreak: longestStreak(f),
 			totalTweets: f.length,
 			chartData: chartData(f),
@@ -240,7 +240,7 @@ const likesToReplyTo = (tweets, screenName) => {
 	let replies = groupBy('category')(tweets).REPLY
 	if (replies) {
 		return flow(
-			map((r) => r.in_reply_to_screen_name),
+			map((r) => r.in_reply_to_user_id),
 			filter((i) => i !== screenName),
 			countBy(identity),
 			entries,
