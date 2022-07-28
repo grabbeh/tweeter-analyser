@@ -56,6 +56,7 @@
 		"theme-ui": "^0.6.0-alpha.6",
 		"twitter": "^1.7.1",
 		"twitter-lite": "^0.14.0",
+		"twitter-api-v2": "1.12.3",
 		"url-parse": "^1.4.7",
 		"validator": "^11.1.0",
 		"yup": "^0.27.0"
