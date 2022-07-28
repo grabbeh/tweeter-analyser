@@ -26,7 +26,7 @@
 		"@nivo/tooltip": "^0.67.0",
 		"@styled-system/prop-types": "^5.1.4",
 		"aws-sdk": "^2.734.0",
-		"axios": "^0.21.1",
+		"axios": "^0.21.2",
 		"compromise": "^13.3.2",
 		"compromise-ngrams": "0.0.5",
 		"date-fns": "^2.16.1",
