@@ -180,6 +180,16 @@ const getBatch = async (id) => {
 	}
 }
 
+const getUserById = async (id) => {
+	try {
+		return roClient.v2.userById(id, {
+			'user.fields': ['created_at', 'profile_image_url']
+		})
+	} catch (e) {
+		throw new Error(e)
+	}
+}
+
 const getUser = async (username) => {
 	try {
 		return roClient.v2.userByUsername(username, {
@@ -350,6 +360,7 @@ export {
 	getBatch,
 	filterSevenDays,
 	getUser,
+	getUserById,
 	tweetSplit,
 	likesToReplyTo,
 	likesToRetweet,

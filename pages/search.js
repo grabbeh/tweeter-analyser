@@ -11,11 +11,11 @@ import Loading from 'components/loadingSpinner'
 import IntroBar from 'components/introBar'
 import { useEffect } from 'react'
 
-const SearchPage = ({ username }) => {
+const SearchPage = ({ id }) => {
 	const [{ loading, error, data }, doFetch] = useFetchData('/get-tweeter-data')
 	useEffect(() => {
-		if (!loading && !error && !data && username) {
-			doFetch({ username })
+		if (!loading && !error && !data && id) {
+			doFetch({ id })
 		}
 	}, [])
 	console.log(data)
@@ -41,7 +41,7 @@ const SearchPage = ({ username }) => {
 }
 
 SearchPage.getInitialProps = async ({ query }) => {
-	return { username: query.username }
+	return { id: query.id }
 }
 
 export default SearchPage

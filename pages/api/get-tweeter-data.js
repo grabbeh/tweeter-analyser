@@ -7,6 +7,7 @@ export default async (req, res) => {
 	try {
 		let result = await getUser(username)
 		let user = result.data
+		if (!user) throw new Error('Cannot find user - maybe suspended?')
 		let existing = await getLatestSummary(user.id)
 		if (Object.keys(existing).length !== 0 && !refresh) {
 			res.statusCode = 200

@@ -4,7 +4,7 @@ import { jsx, Box, Text, Image, Flex, Link } from 'theme-ui'
 import React from 'react'
 
 const User = (props) => (
-	<Box sx={{ flexWrap: 'wrap' }}>
+	<Flex sx={{ flexWrap: 'wrap' }}>
 		<Box sx={{ mr: 3 }}>
 			<Image
 				sx={{ width: '50px', borderRadius: '999px' }}
@@ -23,7 +23,7 @@ const User = (props) => (
 				Joined {props.accountCreated}, {props.timeSinceCreation} ago
 			</Box>
 		</Box>
-	</Box>
+	</Flex>
 )
 
 export default User
