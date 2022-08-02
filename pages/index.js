@@ -18,6 +18,7 @@ const links = [
 ]
 
 const Home = ({ data: { recentSearches, active } }) => {
+	console.log(recentSearches)
 	return (
 		<Layout>
 			<Box className='gradient'>

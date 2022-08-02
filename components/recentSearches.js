@@ -14,9 +14,7 @@ const RecentSearches = ({ recent }) => (
 		<List>
 			{recent.map((r, i) => (
 				<ListItem key={i}>
-					<Link href={`/search?username=${r.screen_name}`}>
-						{r.screen_name}
-					</Link>
+					<Link href={`/search?username=${r.username}`}>{r.username}</Link>
 				</ListItem>
 			))}
 		</List>

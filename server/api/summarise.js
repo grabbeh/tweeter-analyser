@@ -121,8 +121,7 @@ const getTweetsV2 = async (id) => {
 			'text'
 		]
 	})
-	// TODO: create time ID 7 days ago
-	let full = await userTimeline.fetchLast()
+	let full = await userTimeline.fetchLast(1000)
 	return full.tweets
 }
 
@@ -240,6 +239,7 @@ const likesToReplyTo = (tweets, screenName) => {
 	let replies = groupBy('category')(tweets).REPLY
 	if (replies) {
 		return flow(
+			// previously was user name but now ID
 			map((r) => r.in_reply_to_user_id),
 			filter((i) => i !== screenName),
 			countBy(identity),

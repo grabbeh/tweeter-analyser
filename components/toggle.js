@@ -10,28 +10,28 @@ import { MdKeyboardArrowRight } from 'react-icons/md'
 const Toggle = ({ title, children }) => {
 	let [height, setHeight] = useState(0)
 	return (
-		<div>
-			<div
+		<Box>
+			<Box
 				sx={{ cursor: 'pointer' }}
 				onClick={() => {
 					setHeight(height === 0 ? 'auto' : 0)
 				}}
 			>
-				<div>
-					<div sx={{ fontSize: 5, fontWeight: 'bold' }}>{title}</div>
-				</div>
-				<div>
+				<Box>
+					<Box sx={{ fontSize: 5, fontWeight: 'bold' }}>{title}</Box>
+				</Box>
+				<Box>
 					<Rotate height={height}>
 						<div sx={{ fontSize: 6 }}>
 							<MdKeyboardArrowRight />
 						</div>
 					</Rotate>
-				</div>
-			</div>
+				</Box>
+			</Box>
 			<AnimateHeight duration={500} height={height}>
 				{children}
 			</AnimateHeight>
-		</div>
+		</Box>
 	)
 }
 
